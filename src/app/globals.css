@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #f4ece1;
+  --foreground: #5d3a1a;
+  
+  --retro-cream: #f4ece1;
+  --retro-brown: #5d3a1a;
+  --retro-beige: #e3d5c1;
+  --retro-white: #ffffff;
+}
+
+@theme inline {
+  --color-retro-cream: var(--retro-cream);
+  --color-retro-brown: var(--retro-brown);
+  --color-retro-beige: var(--retro-beige);
+  --color-retro-white: var(--retro-white);
+
+  --font-outfit: 'Outfit', sans-serif;
+  --font-syne: 'Syne', sans-serif;
+  --font-fraunces: 'Fraunces', serif;
+}
+
+body {
+  background-color: var(--retro-cream);
+  color: var(--retro-brown);
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom Retro Utilities */
+
+/* 3D outlined title matching PROCOMM '26 logo */
+.retro-text-3d {
+  font-family: 'Syne', sans-serif;
+  color: var(--retro-white);
+  -webkit-text-stroke: 2.5px var(--retro-brown);
+  text-shadow: 
+    1px 1px 0px var(--retro-brown),
+    2px 2px 0px var(--retro-brown),
+    3px 3px 0px var(--retro-brown),
+    4px 4px 0px var(--retro-brown),
+    5px 5px 0px var(--retro-brown),
+    6px 6px 0px var(--retro-brown);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+/* Secondary 3D text (e.g. for CALL FOR HOST) */
+.retro-text-3d-secondary {
+  font-family: 'Syne', sans-serif;
+  color: var(--retro-white);
+  -webkit-text-stroke: 1.5px var(--retro-brown);
+  text-shadow: 
+    1px 1px 0px var(--retro-brown),
+    2px 2px 0px var(--retro-brown),
+    3px 3px 0px var(--retro-brown),
+    4px 4px 0px var(--retro-brown);
+  font-weight: 700;
+}
+
+/* Double bordered container mimicking the CTA and poster sections */
+.retro-card-double-border {
+  border: 3px solid var(--retro-brown);
+  outline: 1.5px solid var(--retro-brown);
+  outline-offset: 4px;
+  background-color: var(--retro-cream);
+}
+
+.retro-button-shadow {
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border: 2px solid var(--retro-brown);
+  box-shadow: 4px 4px 0px var(--retro-brown);
+}
+
+.retro-button-shadow:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--retro-brown);
+}
+
+.retro-button-shadow:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px var(--retro-brown);
+}
+
+/* Fine-line grid pattern overlay for retro background */
+.retro-grid-bg {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(93, 58, 26, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(93, 58, 26, 0.04) 1px, transparent 1px);
+}
+
+/* Outline double borders for fields */
+.retro-input {
+  background-color: var(--retro-white);
+  border: 2px solid var(--retro-brown);
+  color: var(--retro-brown);
+  font-family: 'Outfit', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.retro-input:focus {
+  outline: none;
+  border-color: var(--retro-brown);
+  box-shadow: 3px 3px 0px var(--retro-brown);
+}
