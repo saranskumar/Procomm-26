@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Facebook, Instagram, Linkedin, Twitter, Globe } from "lucide-react";
 
 export default function Footer() {
@@ -79,11 +80,11 @@ export default function Footer() {
             All Rights Reserved.
           </p>
           <div className="mt-4 flex gap-3 text-[9px] font-bold tracking-widest text-retro-cream/70 uppercase">
-            <a href="#about" className="hover:underline">About</a>
+            <Link href="/about" className="hover:underline">About</Link>
             <span>•</span>
-            <a href="#tracks" className="hover:underline">Tracks</a>
+            <Link href="/about#tracks" className="hover:underline">Tracks</Link>
             <span>•</span>
-            <a href="#host" className="hover:underline">Host</a>
+            <Link href="/host" className="hover:underline">Host</Link>
           </div>
         </div>
 

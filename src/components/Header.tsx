@@ -1,8 +1,14 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 
 export default function Header() {
+  const pathname = usePathname();
+
+  const isActive = (path: string) => pathname === path;
+
   return (
     <header className="sticky top-0 z-40 w-full bg-retro-cream border-b-[3px] border-retro-brown shadow-sm select-none">
       {/* Top Branding Bar */}
@@ -35,30 +41,48 @@ export default function Header() {
 
       {/* Navigation Bar */}
       <div className="w-full max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-        <a href="#" className="font-syne text-base md:text-lg font-extrabold tracking-widest text-retro-brown">
+        <Link href="/" className="font-syne text-base md:text-lg font-extrabold tracking-widest text-retro-brown">
           PROCOMM &apos;26
-        </a>
+        </Link>
 
         <nav className="flex items-center gap-4 sm:gap-8">
-          <a href="#about" className="font-outfit text-xs md:text-sm font-semibold text-retro-brown hover:underline tracking-wider uppercase transition-all">
+          <Link 
+            href="/about" 
+            className={`font-outfit text-xs md:text-sm font-semibold tracking-wider uppercase transition-all hover:underline ${
+              isActive("/about") ? "text-retro-brown underline decoration-[2px] underline-offset-4" : "text-retro-brown/80"
+            }`}
+          >
             About
-          </a>
-          <a href="#tracks" className="font-outfit text-xs md:text-sm font-semibold text-retro-brown hover:underline tracking-wider uppercase transition-all">
+          </Link>
+          <Link 
+            href="/about#tracks" 
+            className="font-outfit text-xs md:text-sm font-semibold text-retro-brown/80 hover:underline tracking-wider uppercase transition-all"
+          >
             Tracks
-          </a>
-          <a href="#host" className="font-outfit text-xs md:text-sm font-semibold text-retro-brown hover:underline tracking-wider uppercase transition-all">
+          </Link>
+          <Link 
+            href="/host" 
+            className={`font-outfit text-xs md:text-sm font-semibold tracking-wider uppercase transition-all hover:underline ${
+              isActive("/host") ? "text-retro-brown underline decoration-[2px] underline-offset-4" : "text-retro-brown/80"
+            }`}
+          >
             Host Guidelines
-          </a>
-          <a href="#contact" className="font-outfit text-xs md:text-sm font-semibold text-retro-brown hover:underline tracking-wider uppercase transition-all">
+          </Link>
+          <Link 
+            href="/contact" 
+            className={`font-outfit text-xs md:text-sm font-semibold tracking-wider uppercase transition-all hover:underline ${
+              isActive("/contact") ? "text-retro-brown underline decoration-[2px] underline-offset-4" : "text-retro-brown/80"
+            }`}
+          >
             Inquiry
-          </a>
+          </Link>
           
-          <a 
-            href="#host" 
+          <Link 
+            href="/host" 
             className="hidden sm:inline-block px-4 py-1.5 bg-retro-brown text-retro-cream font-syne text-[11px] font-extrabold tracking-widest rounded-full uppercase retro-button-shadow"
           >
             Apply Now
-          </a>
+          </Link>
         </nav>
       </div>
     </header>
