@@ -84,7 +84,7 @@ export default function Footer() {
             <span>•</span>
             <Link href="/about#tracks" className="hover:underline">Tracks</Link>
             <span>•</span>
-            <Link href="/host" className="hover:underline">Host</Link>
+            <Link href="/venue" className="hover:underline">Venue</Link>
           </div>
         </div>
 

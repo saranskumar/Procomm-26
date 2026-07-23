@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 
 export default function Hero() {
@@ -168,7 +169,7 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="font-fraunces italic text-lg sm:text-2xl text-retro-brown/90 mt-2 max-w-xl font-medium"
         >
-          &ldquo;The line is open. Is your campus ready?&rdquo;
+          &ldquo;Venue Finalised: Saintgits College of Engineering (Autonomous), Kottayam&rdquo;
         </motion.p>
 
         {/* CTA buttons */}
@@ -178,18 +179,18 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.7 }}
           className="mt-8 flex flex-wrap gap-4"
         >
-          <a 
-            href="#host" 
+          <Link 
+            href="/venue" 
             className="px-6 py-3 bg-retro-brown text-retro-cream font-syne text-xs sm:text-sm font-extrabold tracking-widest rounded uppercase shadow-[4px_4px_0px_#e3d5c1] hover:shadow-[2px_2px_0px_#e3d5c1] hover:translate-x-0.5 hover:translate-y-0.5 transition-all cursor-pointer"
           >
-            Call for Host
-          </a>
-          <a 
-            href="#about" 
+            Venue Details
+          </Link>
+          <Link 
+            href="/about" 
             className="px-6 py-3 border-[2.5px] border-retro-brown bg-retro-white text-retro-brown font-syne text-xs sm:text-sm font-extrabold tracking-widest rounded uppercase hover:bg-retro-cream transition-colors cursor-pointer"
           >
             Learn More
-          </a>
+          </Link>
         </motion.div>
 
       </div>

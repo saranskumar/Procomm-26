@@ -61,12 +61,12 @@ export default function Header() {
             Tracks
           </Link>
           <Link 
-            href="/host" 
+            href="/venue" 
             className={`font-outfit text-xs md:text-sm font-semibold tracking-wider uppercase transition-all hover:underline ${
-              isActive("/host") ? "text-retro-brown underline decoration-[2px] underline-offset-4" : "text-retro-brown/80"
+              isActive("/venue") ? "text-retro-brown underline decoration-[2px] underline-offset-4" : "text-retro-brown/80"
             }`}
           >
-            Host Guidelines
+            Venue
           </Link>
           <Link 
             href="/contact" 
@@ -75,13 +75,6 @@ export default function Header() {
             }`}
           >
             Inquiry
-          </Link>
-          
-          <Link 
-            href="/host" 
-            className="hidden sm:inline-block px-4 py-1.5 bg-retro-brown text-retro-cream font-syne text-[11px] font-extrabold tracking-widest rounded-full uppercase retro-button-shadow"
-          >
-            Apply Now
           </Link>
         </nav>
       </div>

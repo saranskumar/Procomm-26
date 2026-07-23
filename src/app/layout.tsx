@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "PROCOMM '26 | IEEE Communications Project Competition",
-  description: "Call for Host is open. Is your campus ready for PROCOMM '26, the premier communications project competition organized by IEEE ComSoc Kerala Chapter and IEEE Kerala Section?",
+  description: "Saintgits College of Engineering (Autonomous), Kottayam is the official host venue for PROCOMM '26, the premier communications project competition organized by IEEE ComSoc Kerala Chapter and IEEE Kerala Section.",
   keywords: [
     "IEEE",
     "IEEE ComSoc",
@@ -13,7 +13,8 @@ export const metadata: Metadata = {
     "PROCOMM 2026",
     "Communications Project Competition",
     "Engineering Student Competition",
-    "Call for Host"
+    "Saintgits College of Engineering",
+    "Saintgits Kottayam"
   ],
   authors: [{ name: "IEEE ComSoc Kerala Chapter" }],
   icons: {

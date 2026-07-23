@@ -33,11 +33,11 @@ export default function Home() {
       actionText: "Read Overview",
     },
     {
-      title: "Call for Host",
-      description: "Is your campus ready to host? Review eligibility rules, timelines, host benefits, and submit your official application form.",
-      href: "/host",
+      title: "Venue & Host",
+      description: "Saintgits College of Engineering (Autonomous), Kottayam, Kerala has been finalized as the host venue for PROCOMM '26. View maps, facilities, and team guides.",
+      href: "/venue",
       icon: MapPin,
-      actionText: "Host Guidelines",
+      actionText: "Venue Details",
     },
     {
       title: "Inquiries & Contact",
