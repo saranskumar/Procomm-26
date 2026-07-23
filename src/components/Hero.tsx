@@ -1,9 +1,39 @@
 "use client";
 
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function Hero() {
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  useEffect(() => {
+    // Set final registration deadline to October 15, 2026
+    const targetDate = new Date("2026-10-15T23:59:59").getTime();
+
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+
+      if (difference <= 0) {
+        clearInterval(interval);
+      } else {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        setTimeLeft({ days, hours, minutes, seconds });
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="relative w-full overflow-hidden bg-retro-cream py-16 md:py-24 px-6 border-b-[3px] border-retro-brown retro-grid-bg select-none">
       
@@ -16,19 +46,12 @@ export default function Hero() {
           stroke="currentColor" 
           strokeWidth="1.2"
         >
-          {/* Architectural Guidelines */}
           <line x1="50" y1="580" x2="750" y2="580" strokeDasharray="4 4" />
           <line x1="100" y1="50" x2="100" y2="580" strokeDasharray="4 4" />
           <line x1="700" y1="50" x2="700" y2="580" strokeDasharray="4 4" />
-
-          {/* Main Building Frame */}
           <rect x="250" y="200" width="450" height="380" />
-          
-          {/* Left Wing */}
           <rect x="150" y="300" width="100" height="280" />
           <path d="M 150 300 L 200 250 L 250 300 Z" />
-
-          {/* Columns & Verticals (Main Wing) */}
           <line x1="310" y1="200" x2="310" y2="580" />
           <line x1="370" y1="200" x2="370" y2="580" />
           <line x1="430" y1="200" x2="430" y2="580" />
@@ -36,15 +59,10 @@ export default function Hero() {
           <line x1="550" y1="200" x2="550" y2="580" />
           <line x1="610" y1="200" x2="610" y2="580" />
           <line x1="670" y1="200" x2="670" y2="580" />
-
-          {/* Floors (Horizontals) */}
           <line x1="250" y1="280" x2="700" y2="280" />
           <line x1="250" y1="360" x2="700" y2="360" />
           <line x1="250" y1="440" x2="700" y2="440" />
           <line x1="250" y1="520" x2="700" y2="520" />
-
-          {/* Windows Detail (Main Wing Grid) */}
-          {/* Floor 1 */}
           <rect x="270" y="220" width="20" height="40" />
           <rect x="330" y="220" width="20" height="40" />
           <rect x="390" y="220" width="20" height="40" />
@@ -52,8 +70,6 @@ export default function Hero() {
           <rect x="510" y="220" width="20" height="40" />
           <rect x="570" y="220" width="20" height="40" />
           <rect x="630" y="220" width="20" height="40" />
-
-          {/* Floor 2 */}
           <rect x="270" y="300" width="20" height="40" />
           <rect x="330" y="300" width="20" height="40" />
           <rect x="390" y="300" width="20" height="40" />
@@ -61,8 +77,6 @@ export default function Hero() {
           <rect x="510" y="300" width="20" height="40" />
           <rect x="570" y="300" width="20" height="40" />
           <rect x="630" y="300" width="20" height="40" />
-
-          {/* Floor 3 */}
           <rect x="270" y="380" width="20" height="40" />
           <rect x="330" y="380" width="20" height="40" />
           <rect x="390" y="380" width="20" height="40" />
@@ -70,8 +84,6 @@ export default function Hero() {
           <rect x="510" y="380" width="20" height="40" />
           <rect x="570" y="380" width="20" height="40" />
           <rect x="630" y="380" width="20" height="40" />
-
-          {/* Floor 4 */}
           <rect x="270" y="460" width="20" height="40" />
           <rect x="330" y="460" width="20" height="40" />
           <rect x="390" y="460" width="20" height="40" />
@@ -79,36 +91,23 @@ export default function Hero() {
           <rect x="510" y="460" width="20" height="40" />
           <rect x="570" y="460" width="20" height="40" />
           <rect x="630" y="460" width="20" height="40" />
-
-          {/* Left Wing Windows */}
           <rect x="170" y="320" width="20" height="40" />
           <rect x="210" y="320" width="20" height="40" />
           <rect x="170" y="380" width="20" height="40" />
           <rect x="210" y="380" width="20" height="40" />
           <rect x="170" y="440" width="20" height="40" />
           <rect x="210" y="440" width="20" height="40" />
-
-          {/* Entrance Awning / Portico */}
           <polygon points="410,580 410,500 530,500 530,580" fill="none" />
           <polygon points="390,500 470,450 550,500" fill="none" />
           <line x1="470" y1="450" x2="470" y2="500" />
-          
-          {/* Steps */}
           <line x1="390" y1="580" x2="550" y2="580" />
           <line x1="400" y1="570" x2="540" y2="570" />
           <line x1="410" y1="560" x2="530" y2="560" />
-
-          {/* Sketchy Scribble Trees */}
-          {/* Tree 1 (Left) */}
           <path d="M 80 580 Q 75 510 80 440 Q 50 420 70 380 Q 110 390 100 440 Q 120 490 85 580" fill="none" />
           <path d="M 80 440 Q 90 410 80 395 Q 60 405 80 440" fill="none" />
-          {/* Tree 2 (Right) */}
           <path d="M 730 580 Q 740 500 730 420 Q 700 400 725 350 Q 770 370 755 430 Q 775 490 735 580" fill="none" />
-          
-          {/* Roof Details */}
           <line x1="250" y1="200" x2="475" y2="100" />
           <line x1="700" y1="200" x2="475" y2="100" />
-          {/* Rafter Lines */}
           <line x1="290" y1="180" x2="290" y2="200" />
           <line x1="340" y1="160" x2="340" y2="200" />
           <line x1="390" y1="140" x2="390" y2="200" />
@@ -120,7 +119,7 @@ export default function Hero() {
         </svg>
       </div>
 
-      <div className="relative max-w-7xl mx-auto z-10 flex flex-col items-start justify-center min-h-[450px]">
+      <div className="relative max-w-7xl mx-auto z-10 flex flex-col items-start justify-center min-h-[500px]">
         
         {/* Presenter Text */}
         <motion.div 
@@ -154,23 +153,40 @@ export default function Hero() {
           IEEE COMMUNICATIONS PROJECT COMPETITION
         </motion.p>
 
-        {/* Separation Line */}
+        {/* Event Theme Box */}
         <motion.div 
-          initial={{ width: 0 }}
-          animate={{ width: "120px" }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="h-1 bg-retro-brown mt-6 mb-6"
-        />
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="mt-4 border-2 border-retro-brown bg-retro-white rounded-xl p-4 max-w-xl shadow-[3px_3px_0px_#5d3a1a]"
+        >
+          <div className="font-mono text-[9px] font-bold text-retro-brown/60 uppercase tracking-widest">[ Event Theme ]</div>
+          <p className="font-outfit text-xs sm:text-sm font-semibold text-retro-brown mt-1">
+            Next-Gen Telecommunications: Engineering Scalable Wireless Protocols, IoT Systems, & Secure Network Architectures.
+          </p>
+        </motion.div>
 
-        {/* Tagline */}
-        <motion.p 
+        {/* Dynamic Countdown Timer */}
+        <motion.div 
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="font-fraunces italic text-lg sm:text-2xl text-retro-brown/90 mt-2 max-w-xl font-medium"
+          className="mt-6 flex gap-4 select-text"
         >
-          &ldquo;Venue Finalised: Saintgits College of Engineering (Autonomous), Kottayam&rdquo;
-        </motion.p>
+          {[
+            { label: "Days", val: timeLeft.days },
+            { label: "Hours", val: timeLeft.hours },
+            { label: "Mins", val: timeLeft.minutes },
+            { label: "Secs", val: timeLeft.seconds },
+          ].map((item, idx) => (
+            <div key={idx} className="flex flex-col items-center">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-retro-white border-2 border-retro-brown rounded-xl flex items-center justify-center font-syne text-lg sm:text-xl font-black text-retro-brown shadow-[2px_2px_0px_#5d3a1a]">
+                {String(item.val).padStart(2, "0")}
+              </div>
+              <span className="font-mono text-[9px] font-bold uppercase tracking-widest text-retro-brown/70 mt-1">{item.label}</span>
+            </div>
+          ))}
+        </motion.div>
 
         {/* CTA buttons */}
         <motion.div 
@@ -180,16 +196,16 @@ export default function Hero() {
           className="mt-8 flex flex-wrap gap-4"
         >
           <Link 
-            href="/venue" 
-            className="px-6 py-3 bg-retro-brown text-retro-cream font-syne text-xs sm:text-sm font-extrabold tracking-widest rounded uppercase shadow-[4px_4px_0px_#e3d5c1] hover:shadow-[2px_2px_0px_#e3d5c1] hover:translate-x-0.5 hover:translate-y-0.5 transition-all cursor-pointer"
+            href="/register" 
+            className="px-6 py-3 bg-retro-brown hover:bg-retro-brown/95 text-retro-white font-syne text-xs sm:text-sm font-extrabold tracking-widest rounded uppercase shadow-[4px_4px_0px_#e3d5c1] hover:shadow-[2px_2px_0px_#e3d5c1] hover:translate-x-0.5 hover:translate-y-0.5 transition-all cursor-pointer"
           >
-            Venue Details
+            Register Now
           </Link>
           <Link 
-            href="/about" 
+            href="/competition" 
             className="px-6 py-3 border-[2.5px] border-retro-brown bg-retro-white text-retro-brown font-syne text-xs sm:text-sm font-extrabold tracking-widest rounded uppercase hover:bg-retro-cream transition-colors cursor-pointer"
           >
-            Learn More
+            Competition Rules
           </Link>
         </motion.div>
 

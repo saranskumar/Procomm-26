@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
 
 export default function Header() {
   const pathname = usePathname();
@@ -32,7 +31,6 @@ export default function Header() {
         {/* IEEE Global Logo representation */}
         <div className="flex items-center gap-1">
           <svg className="w-6 h-6 text-retro-brown fill-current" viewBox="0 0 24 24">
-            {/* Simple representation of the IEEE diamond */}
             <path d="M12 2L4 12h5v8h6v-8h5L12 2z M9 14h6v2H9v-2z" />
           </svg>
           <span className="font-syne text-sm md:text-base font-extrabold tracking-tighter text-retro-brown">IEEE</span>
@@ -45,36 +43,45 @@ export default function Header() {
           PROCOMM &apos;26
         </Link>
 
-        <nav className="flex items-center gap-4 sm:gap-8">
+        <nav className="flex items-center gap-3 sm:gap-6">
+          <Link 
+            href="/" 
+            className={`font-outfit text-xs md:text-sm font-semibold tracking-wider uppercase transition-all hover:underline ${
+              isActive("/") ? "text-retro-brown underline decoration-[2px] underline-offset-4 font-bold" : "text-retro-brown/80"
+            }`}
+          >
+            Home
+          </Link>
           <Link 
             href="/about" 
             className={`font-outfit text-xs md:text-sm font-semibold tracking-wider uppercase transition-all hover:underline ${
-              isActive("/about") ? "text-retro-brown underline decoration-[2px] underline-offset-4" : "text-retro-brown/80"
+              isActive("/about") ? "text-retro-brown underline decoration-[2px] underline-offset-4 font-bold" : "text-retro-brown/80"
             }`}
           >
             About
           </Link>
           <Link 
-            href="/about#tracks" 
-            className="font-outfit text-xs md:text-sm font-semibold text-retro-brown/80 hover:underline tracking-wider uppercase transition-all"
-          >
-            Tracks
-          </Link>
-          <Link 
-            href="/venue" 
+            href="/competition" 
             className={`font-outfit text-xs md:text-sm font-semibold tracking-wider uppercase transition-all hover:underline ${
-              isActive("/venue") ? "text-retro-brown underline decoration-[2px] underline-offset-4" : "text-retro-brown/80"
+              isActive("/competition") ? "text-retro-brown underline decoration-[2px] underline-offset-4 font-bold" : "text-retro-brown/80"
             }`}
           >
-            Venue
+            Competition
           </Link>
           <Link 
-            href="/contact" 
+            href="/register" 
             className={`font-outfit text-xs md:text-sm font-semibold tracking-wider uppercase transition-all hover:underline ${
-              isActive("/contact") ? "text-retro-brown underline decoration-[2px] underline-offset-4" : "text-retro-brown/80"
+              isActive("/register") ? "text-retro-brown underline decoration-[2px] underline-offset-4 font-bold" : "text-retro-brown/80"
             }`}
           >
-            Inquiry
+            Register
+          </Link>
+          
+          <Link 
+            href="/register" 
+            className="hidden md:inline-block px-4 py-1.5 bg-retro-brown text-retro-cream font-syne text-[11px] font-extrabold tracking-widest rounded-full uppercase retro-button-shadow"
+          >
+            Register Now
           </Link>
         </nav>
       </div>
