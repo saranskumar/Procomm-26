@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, useMotionValue, animate } from "framer-motion";
 import Link from "next/link";
 import { Calendar, MapPin, Trophy } from "lucide-react";
@@ -31,6 +31,96 @@ export default function Hero() {
     animate(rightPlanetX, 0, springConfig);
     animate(rightPlanetY, 0, springConfig);
   };
+
+  // ── Gyroscope / accelerometer parallax for mobile ──
+  useEffect(() => {
+    // Only activate on touch devices
+    if (!("ontouchstart" in window)) return;
+
+    // Sensitivity multipliers per element (different depths = different speeds)
+    const SATELLITE_SENSITIVITY = { x: 18, y: 14 };
+    const LEFT_PLANET_SENSITIVITY = { x: 10, y: 8 };
+    const RIGHT_PLANET_SENSITIVITY = { x: 13, y: 10 };
+
+    // Smoothing factor (0 = instant, 1 = no movement)
+    const SMOOTH = 0.08;
+
+    // Calibration baseline (captured on first orientation event)
+    let baseGamma: number | null = null;
+    let baseBeta: number | null = null;
+
+    // Current target values (updated by gyro, smoothed toward by rAF)
+    let targetSatX = 0, targetSatY = 0;
+    let targetLPX = 0, targetLPY = 0;
+    let targetRPX = 0, targetRPY = 0;
+    let rafId: number;
+
+    const onOrientation = (e: DeviceOrientationEvent) => {
+      const gamma = e.gamma ?? 0; // left/right tilt, -90 to 90
+      const beta  = e.beta  ?? 0; // front/back tilt, -180 to 180
+
+      // Calibrate on first event
+      if (baseGamma === null) baseGamma = gamma;
+      if (baseBeta  === null) baseBeta  = beta;
+
+      const dx = gamma - baseGamma; // relative left-right tilt
+      const dy = beta  - baseBeta;  // relative forward-back tilt
+
+      // Clamp to ±30 degrees so extreme tilts don't push elements off screen
+      const clampedDx = Math.max(-30, Math.min(30, dx));
+      const clampedDy = Math.max(-30, Math.min(30, dy));
+
+      targetSatX = clampedDx * SATELLITE_SENSITIVITY.x;
+      targetSatY = clampedDy * SATELLITE_SENSITIVITY.y;
+      targetLPX  = clampedDx * LEFT_PLANET_SENSITIVITY.x;
+      targetLPY  = clampedDy * LEFT_PLANET_SENSITIVITY.y;
+      targetRPX  = clampedDx * RIGHT_PLANET_SENSITIVITY.x;
+      targetRPY  = clampedDy * RIGHT_PLANET_SENSITIVITY.y;
+    };
+
+    // Smooth interpolation loop
+    const tick = () => {
+      satelliteX.set(satelliteX.get() + (targetSatX - satelliteX.get()) * SMOOTH);
+      satelliteY.set(satelliteY.get() + (targetSatY - satelliteY.get()) * SMOOTH);
+      leftPlanetX.set(leftPlanetX.get() + (targetLPX - leftPlanetX.get()) * SMOOTH);
+      leftPlanetY.set(leftPlanetY.get() + (targetLPY - leftPlanetY.get()) * SMOOTH);
+      rightPlanetX.set(rightPlanetX.get() + (targetRPX - rightPlanetX.get()) * SMOOTH);
+      rightPlanetY.set(rightPlanetY.get() + (targetRPY - rightPlanetY.get()) * SMOOTH);
+      rafId = requestAnimationFrame(tick);
+    };
+    rafId = requestAnimationFrame(tick);
+
+    const startListening = () => {
+      window.addEventListener("deviceorientation", onOrientation, true);
+    };
+
+    // iOS 13+ requires explicit permission
+    if (
+      typeof DeviceOrientationEvent !== "undefined" &&
+      typeof (DeviceOrientationEvent as unknown as { requestPermission?: () => Promise<string> }).requestPermission === "function"
+    ) {
+      // On iOS we can't auto-request — attach to a user gesture instead
+      const requestOnTouch = () => {
+        (DeviceOrientationEvent as unknown as { requestPermission: () => Promise<string> })
+          .requestPermission()
+          .then((state: string) => {
+            if (state === "granted") startListening();
+          })
+          .catch(() => {/* silently ignore */});
+        document.removeEventListener("touchstart", requestOnTouch);
+      };
+      document.addEventListener("touchstart", requestOnTouch, { once: true });
+    } else {
+      // Android / non-gated browsers — start immediately
+      startListening();
+    }
+
+    return () => {
+      window.removeEventListener("deviceorientation", onOrientation, true);
+      cancelAnimationFrame(rafId);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <section
