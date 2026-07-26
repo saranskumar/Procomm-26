@@ -37,13 +37,13 @@ export default function Hero() {
     // Only activate on touch devices
     if (!("ontouchstart" in window)) return;
 
-    // Sensitivity multipliers per element (small damped movement)
-    const SATELLITE_SENSITIVITY = { x: 4, y: 3 };
-    const LEFT_PLANET_SENSITIVITY = { x: 2.5, y: 2 };
-    const RIGHT_PLANET_SENSITIVITY = { x: 3, y: 2.5 };
+    // Sensitivity multipliers per element (minimal ambient drift)
+    const SATELLITE_SENSITIVITY = { x: 0.8, y: 0.6 };
+    const LEFT_PLANET_SENSITIVITY = { x: 0.5, y: 0.4 };
+    const RIGHT_PLANET_SENSITIVITY = { x: 0.8, y: 0.7 };
 
-    // Smoothing factor — lower = more lag/damping (feels heavier)
-    const SMOOTH = 0.04;
+    // Smoothing factor — very heavy lag for floaty feel
+    const SMOOTH = 0.03;
 
     // Calibration baseline (captured on first orientation event)
     let baseGamma: number | null = null;

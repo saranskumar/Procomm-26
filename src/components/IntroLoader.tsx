@@ -261,16 +261,6 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
                 Sept 5th &amp; 6th, 2026
               </span>
             </div>
-            <div className="flex-shrink-0 flex justify-center mx-4">
-              <Image
-                src="/logo/ieee-saint.png"
-                alt="Saintgits IEEE Student Branch"
-                width={90}
-                height={28}
-                className="object-contain"
-                style={{ opacity: 0.3, height: "auto", width: "auto" }}
-              />
-            </div>
             <div className="flex-1 flex justify-end">
               <span className="font-mono-editorial text-[9px] tracking-wider" style={{ color: "rgba(245,240,232,0.18)" }}>
                 Saintgits, Kottayam
