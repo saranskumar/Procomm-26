@@ -20,42 +20,39 @@ export default function OrganizersList() {
           </h2>
         </Reveal>
 
-        <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-16">
+        <div className="flex flex-wrap items-center justify-center gap-12 sm:gap-24">
           {[
             { 
               name: "IEEE ComSoc", 
               sub: "Kerala Chapter", 
               logo: (
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true">
-                  <circle cx="12" cy="12" r="10" />
-                  <circle cx="12" cy="12" r="6" strokeDasharray="2 2" />
-                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                  <path d="M2 12h20" />
-                </svg>
+                <img
+                  src="/logo/Comsoc Logo New Blue.png"
+                  alt="IEEE ComSoc Kerala Chapter Logo"
+                  className="w-12 h-12 object-contain"
+                />
               )
             },
             { 
               name: "IEEE Kerala", 
               sub: "Section", 
               logo: (
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true">
-                  <rect x="4" y="4" width="16" height="16" rx="2" />
-                  <path d="m9 12 2 2 4-4" />
-                  <line x1="4" y1="9" x2="20" y2="9" strokeDasharray="1 1" />
-                  <line x1="4" y1="15" x2="20" y2="15" strokeDasharray="1 1" />
-                </svg>
+                <img
+                  src="/logo/IEEE Kerala Section Logo.png"
+                  alt="IEEE Kerala Section Logo"
+                  className="w-12 h-12 object-contain"
+                />
               )
             },
             { 
               name: "Saintgits", 
               sub: "College of Engineering", 
               logo: (
-                <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true">
-                  <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                  <path d="M2 17l10 5 10-5" />
-                  <path d="M2 12l10 5 10-5" />
-                  <path d="M12 12v10" strokeDasharray="3 3" />
-                </svg>
+                <img
+                  src="/logo/saint-logo .png"
+                  alt="Saintgits College of Engineering Logo"
+                  className="w-11 h-11 object-contain"
+                />
               )
             },
           ].map((org, i) => (

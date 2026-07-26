@@ -9,18 +9,23 @@ import { motion, AnimatePresence } from "framer-motion";
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/competition", label: "Problem Statements" },
+  { href: "/competition", label: "Problems" },
   { href: "/venue", label: "Venue" },
-  { href: "/register", label: "Register" },
 ];
 
 export default function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [darkText, setDarkText] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => {
+      // Show header only after scrolling past 60px
+      setScrolled(window.scrollY > 60);
+      // Switch to dark text when floating over light background sections (past 580px)
+      setDarkText(window.scrollY > 580);
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -31,169 +36,151 @@ export default function Header() {
   }, [pathname]);
 
   const isActive = (href: string) => pathname === href;
-
   const isHome = pathname === "/";
-  const showNavbar = !isHome || scrolled;
+  
+  // Show header only while scrolling
+  const showNavbar = scrolled;
+  
+  // Determine dark vs light text contrast
+  const isDarkTheme = !isHome || darkText;
 
   return (
     <>
       <header
-        className="fixed left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] sm:w-[calc(100%-3rem)] max-w-7xl rounded-2xl backdrop-blur-lg"
+        className="fixed top-0 left-0 right-0 z-40 w-full select-none"
         style={{
-          top: scrolled ? "0.6rem" : "1.2rem",
-          padding: scrolled ? "0.55rem 1.5rem" : "0.9rem 2rem",
-          backgroundColor: scrolled
-            ? "rgba(250, 247, 230, 0.85)"
-            : "rgba(11, 26, 48, 0.22)",
-          borderColor: scrolled
-            ? "rgba(11, 26, 48, 0.08)"
-            : "rgba(250, 247, 230, 0.12)",
-          borderWidth: "1px",
-          boxShadow: scrolled
-            ? "0 8px 32px 0 rgba(11, 26, 48, 0.06)"
-            : "inset 0 1px 0 0 rgba(250, 247, 230, 0.08)",
-          /* Hide on home page until scrolled, otherwise always show */
-          transform: showNavbar ? "translateX(-50%) translateY(0)" : "translateX(-50%) translateY(-120%)",
+          transform: showNavbar ? "translateY(0)" : "translateY(-100%)",
           opacity: showNavbar ? 1 : 0,
-          transition: "transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.45s ease, padding 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease, top 0.4s ease",
+          pointerEvents: showNavbar ? "auto" : "none",
+          transition: "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease",
         }}
       >
-        <div className="w-full flex items-center justify-between">
-
-          {/* ── Wordmark / Logo ── */}
-          <Link href="/" className="flex items-center gap-3 group">
-            {/* PROCOMM brand logo */}
+        {/* Transparent floating wrapper aligned with page grid */}
+        <div className="max-w-7xl mx-auto w-full px-6 py-5 flex items-center justify-between">
+          
+          {/* Logo / Wordmark */}
+          <Link href="/" className="flex items-center group flex-shrink-0">
             <Image
               src="/logo/procomm-logo.png"
               alt="PROCOMM '26"
-              width={160}
-              height={42}
-              className="flex-shrink-0 object-contain transition-all duration-300"
+              width={112}
+              height={28}
+              className="object-contain opacity-92 transition-all duration-300"
               style={{
-                filter: scrolled
-                  ? "brightness(0)"          /* dark navy on cream bg */
-                  : "none",                  /* white on dark bg */
-                opacity: scrolled ? 0.85 : 0.92,
-                maxHeight: scrolled ? 34 : 40,
+                filter: isDarkTheme ? "brightness(0)" : "none",
+                maxHeight: 25,
                 width: "auto",
               }}
               priority
             />
           </Link>
- 
-          {/* ── Desktop Navigation ── */}
-          <nav className="hidden md:flex items-center gap-8" aria-label="Primary navigation">
-            {NAV_LINKS.slice(0, 4).map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`${
-                  scrolled ? "nav-link" : "nav-link-light"
-                } ${isActive(link.href) ? "active" : ""}`}
-                style={{ transition: "color 0.4s ease" }}
-              >
-                {link.label}
-              </Link>
-            ))}
+
+          {/* Desktop Nav Links (pure floating text) */}
+          <nav className="hidden md:flex items-center gap-8 relative" aria-label="Primary navigation">
+            {NAV_LINKS.map((link) => {
+              const active = isActive(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="relative py-1 font-mono-editorial text-[0.62rem] tracking-widest uppercase font-medium transition-colors duration-300"
+                  style={{
+                    color: active
+                      ? "var(--ochre)"
+                      : isDarkTheme
+                        ? "var(--ink-deep)"
+                        : "var(--ivory)",
+                  }}
+                >
+                  {link.label}
+                  {/* Subtle underline for active item */}
+                  {active && (
+                    <motion.div
+                      layoutId="activeUnderline"
+                      className="absolute left-0 right-0 bottom-0 h-[1px] bg-amber-500"
+                      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    />
+                  )}
+                </Link>
+              );
+            })}
           </nav>
- 
-          {/* ── Desktop CTA ── */}
-          <div className="hidden md:flex items-center gap-4">
-            <Link href="/register" className="btn-ochre" style={{ padding: "0.52rem 1.2rem", fontSize: "0.68rem" }}>
-              Register Now
+
+          {/* Desktop CTA */}
+          <div className="hidden md:flex items-center flex-shrink-0">
+            <Link
+              href="/register"
+              className="btn-ochre hover-lift rounded-full text-[0.6rem] tracking-widest uppercase font-semibold"
+              style={{
+                padding: "0.45rem 1.1rem",
+                boxShadow: "0 4px 12px -2px rgba(200, 146, 58, 0.25)",
+              }}
+            >
+              Register
             </Link>
           </div>
- 
-          {/* ── Mobile Menu Toggle ── */}
-          <button
-            className="md:hidden flex flex-col gap-[5px] p-2 cursor-pointer"
-            onClick={() => setMenuOpen((p) => !p)}
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={menuOpen}
-          >
-            <motion.span
-              className="block w-6 h-[1.5px] rounded-full origin-center"
-              style={{ backgroundColor: scrolled ? "var(--ink-deep)" : "var(--ivory)" }}
-              animate={menuOpen ? { rotate: 45, y: 6.5 } : { rotate: 0, y: 0 }}
-              transition={{ duration: 0.3 }}
-            />
-            <motion.span
-              className="block w-6 h-[1.5px] rounded-full"
-              style={{ backgroundColor: scrolled ? "var(--ink-deep)" : "var(--ivory)" }}
-              animate={menuOpen ? { opacity: 0, x: -8 } : { opacity: 1, x: 0 }}
-              transition={{ duration: 0.2 }}
-            />
-            <motion.span
-              className="block w-6 h-[1.5px] rounded-full origin-center"
-              style={{ backgroundColor: scrolled ? "var(--ink-deep)" : "var(--ivory)" }}
-              animate={menuOpen ? { rotate: -45, y: -6.5 } : { rotate: 0, y: 0 }}
-              transition={{ duration: 0.3 }}
-            />
-          </button>
+
+          {/* Mobile Menu Trigger */}
+          <div className="md:hidden flex items-center flex-shrink-0">
+            <button
+              className="flex flex-col gap-[5px] p-2 cursor-pointer"
+              onClick={() => setMenuOpen((p) => !p)}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+            >
+              <motion.span
+                className="block w-5.5 h-[1.5px] rounded-full origin-center"
+                style={{ backgroundColor: isDarkTheme ? "var(--ink-deep)" : "var(--ivory)" }}
+                animate={menuOpen ? { rotate: 45, y: 6.5 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.25 }}
+              />
+              <motion.span
+                className="block w-5.5 h-[1.5px] rounded-full"
+                style={{ backgroundColor: isDarkTheme ? "var(--ink-deep)" : "var(--ivory)" }}
+                animate={menuOpen ? { opacity: 0, x: -6 } : { opacity: 1, x: 0 }}
+                transition={{ duration: 0.2 }}
+              />
+              <motion.span
+                className="block w-5.5 h-[1.5px] rounded-full origin-center"
+                style={{ backgroundColor: isDarkTheme ? "var(--ink-deep)" : "var(--ivory)" }}
+                animate={menuOpen ? { rotate: -45, y: -6.5 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.25 }}
+              />
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* ── Mobile Drawer ── */}
+      {/* Mobile Menu Drawer */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="fixed inset-0 z-30 md:hidden flex flex-col pt-24 px-8 pb-10 paper-bg"
-            style={{ backgroundColor: "var(--ivory)" }}
+            initial={{ opacity: 0, y: -15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            className="fixed inset-x-4 top-20 z-30 md:hidden flex flex-col p-6 rounded-3xl border backdrop-blur-2xl shadow-paper-lg bg-[#122022]/95 border-white/10"
           >
-            {/* Decorative moon */}
-            <svg
-              className="absolute top-8 right-8 opacity-15 pointer-events-none"
-              width="80"
-              height="80"
-              viewBox="0 0 80 80"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path
-                d="M 40 8 A 32 32 0 1 1 40 72 A 20 20 0 1 0 40 8"
-                fill="var(--ochre)"
-              />
-            </svg>
-
-            <nav className="flex flex-col gap-6">
-              {NAV_LINKS.map((link, i) => (
-                <motion.div
+            <nav className="flex flex-col gap-4">
+              {NAV_LINKS.map((link) => (
+                <Link
                   key={link.href}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06, duration: 0.35 }}
+                  href={link.href}
+                  className="font-display font-bold block text-xl py-1 px-2 rounded-xl text-white transition-all duration-300"
+                  style={{
+                    color: isActive(link.href) ? "var(--ochre)" : "var(--ivory)",
+                    fontStyle: "italic",
+                  }}
                 >
-                  <Link
-                    href={link.href}
-                    className="font-display font-bold block transition-opacity hover:opacity-60"
-                    style={{
-                      fontSize: "clamp(2rem, 8vw, 3rem)",
-                      fontStyle: "italic",
-                      color: isActive(link.href) ? "var(--ochre)" : "var(--ink-deep)",
-                      lineHeight: 1.1,
-                    }}
-                  >
-                    {link.label}
-                  </Link>
-                </motion.div>
+                  {link.label}
+                </Link>
               ))}
+              <div className="pt-4 border-t mt-2 border-white/10">
+                <Link href="/register" className="btn-ochre w-full text-center py-3 rounded-full flex justify-center text-xs font-semibold tracking-wider uppercase">
+                  Register Now
+                </Link>
+              </div>
             </nav>
-
-            <div className="mt-auto pt-8 border-t" style={{ borderColor: "var(--paper-dark)" }}>
-              <Link href="/register" className="btn-primary w-full text-center" style={{ justifyContent: "center" }}>
-                Register Now
-              </Link>
-              <p
-                className="font-mono-editorial text-center mt-4 tracking-widest uppercase"
-                style={{ fontSize: "0.6rem", color: "var(--ink-soft)" }}
-              >
-                IEEE ComSoc Kerala Chapter · comsoc.ieeekerala.org
-              </p>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>

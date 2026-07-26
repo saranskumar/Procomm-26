@@ -21,7 +21,7 @@ export default function Highlights() {
                 color: "var(--ochre)",
               },
               {
-                icon: MapPin,
+                logo: "/logo/saint-logo .png",
                 label: "Venue",
                 value: "Saintgits",
                 sub: "Autonomous",
@@ -49,7 +49,10 @@ export default function Highlights() {
                 color: "var(--ochre)",
               },
               {
-                icon: Users,
+                logos: [
+                  "/logo/Comsoc Logo New Blue.png",
+                  "/logo/IEEE Kerala Section Logo.png",
+                ],
                 label: "Organizers",
                 value: "IEEE ComSoc",
                 sub: "Kerala Section",
@@ -65,9 +68,30 @@ export default function Highlights() {
                     borderRadius: `${1.5 + (i % 3) * 0.5}rem ${1 + (i % 2) * 0.8}rem ${2 + (i % 4) * 0.3}rem ${0.8 + (i % 3) * 0.6}rem`,
                   }}
                 >
-                  <div style={{ color: item.color }} className="flex-shrink-0">
-                    <item.icon className="w-5 h-5 stroke-[1.4]" />
-                  </div>
+                  {item.logos ? (
+                    <div className="flex items-center justify-center gap-2 h-7 flex-shrink-0 my-0.5">
+                      {item.logos.map((logoSrc, idx) => (
+                        <img
+                          key={idx}
+                          src={logoSrc}
+                          alt="Organizer Logo"
+                          className="h-6 w-auto max-w-[42px] object-contain"
+                        />
+                      ))}
+                    </div>
+                  ) : item.logo ? (
+                    <div className="flex items-center justify-center h-7 flex-shrink-0 my-0.5">
+                      <img
+                        src={item.logo}
+                        alt="Venue Logo"
+                        className="h-6 w-auto max-w-[42px] object-contain"
+                      />
+                    </div>
+                  ) : item.icon ? (
+                    <div style={{ color: item.color }} className="flex-shrink-0 h-7 flex items-center justify-center">
+                      <item.icon className="w-5 h-5 stroke-[1.4]" />
+                    </div>
+                  ) : null}
                   <div>
                     <div
                       className="font-display font-bold"
