@@ -1,200 +1,341 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Users, BarChart3, Image as ImageIcon, Milestone, BookOpen, Target, Sparkles } from "lucide-react";
+import IllustrationLayer from "@/components/IllustrationLayer";
+import AboutBanner from "@/components/AboutBanner";
+import WaveDivider from "@/components/WaveDivider";
+import { Award, Network, MapPin } from "lucide-react";
+
+export const metadata = {
+  title: "About | PROCOMM '26",
+  description: "Learn about the organization, history, and objectives of PROCOMM '26 — the flagship IEEE Communications Project Competition.",
+};
+
+const objectives = [
+  "Foster a culture of hands-on systems design and validation among engineering students.",
+  "Introduce students to standard specifications and protocols (IEEE 802.11, 3GPP, IETF RFCs).",
+  "Identify high-potential prototypes and guide them towards commercial incubation or academic publication.",
+  "Cultivate academic excellence and networking by engaging IEEE student branches across the region.",
+];
+
+const committee = {
+  advisors: [
+    { name: "Dr. Elizabeth Varghese", role: "Chairperson, IEEE ComSoc Kerala Chapter" },
+    { name: "Prof. Manoj Kumar P.", role: "Vice-Chair, IEEE Kerala Section" },
+    { name: "Dr. Mathew J. Joseph", role: "Principal Advisor, Saintgits College of Engineering (Autonomous)" },
+  ],
+  core: [
+    { name: "Ms. Anjana Harikrishnan", role: "General Program Chair, PROCOMM '26" },
+    { name: "Mr. Ranjith R. Nair", role: "Technical Program Chair" },
+    { name: "Ms. Parvathy S. Kumar", role: "Finance Chair" },
+    { name: "Mr. Sidharth G. Nair", role: "Operations Coordinator" },
+  ],
+  volunteers: [
+    "Anoop S. (Saintgits SB)",
+    "Riya Mathews (KIT SB)",
+    "Rahul R. (GEC SB)",
+    "Sandra K. (TKM SB)",
+    "George K. (MEC SB)",
+  ],
+};
+
+const historyEditions = [
+  { year: "2022", host: "Govt. Engineering College, Barton Hill", milestone: "Inaugural edition with 40+ project teams in wireless communications." },
+  { year: "2023", host: "TKM College of Engineering, Kollam", milestone: "Expanded to include IoT & smart city grids, drawing 75+ registrations." },
+  { year: "2024", host: "Model Engineering College, Thrikkakara", milestone: "Focused on AI/ML in networking and protocol optimization." },
+  { year: "2025", host: "Government Engineering College, Thrissur", milestone: "Hosted cybersecurity audits and threat intelligence showcases." },
+];
+
+const stats = [
+  { value: "400+", label: "Participants" },
+  { value: "45+", label: "Colleges" },
+  { value: "180+", label: "Projects Submitted" },
+  { value: "25+", label: "Industry Judges" },
+  { value: "12+", label: "Sponsors & Partners" },
+];
 
 export default function AboutPage() {
-  const objectives = [
-    "Foster a culture of hands-on systems design and validation among engineering students.",
-    "Introduce students to standard specifications and protocols (IEEE 802.11, 3GPP, IETF RFCs).",
-    "Identify high-potential prototypes and guide them towards commercial incubation or academic publication.",
-    "Cultivate academic excellence and networking by engaging IEEE student branches across the region.",
-  ];
-
-  const committee = {
-    advisors: [
-      { name: "Dr. Elizabeth Varghese", role: "Chairperson, IEEE ComSoc Kerala Chapter" },
-      { name: "Prof. Manoj Kumar P.", role: "Vice-Chair, IEEE Kerala Section" },
-      { name: "Dr. Mathew J. Joseph", role: "Principal Advisor, Saintgits College" },
-    ],
-    core: [
-      { name: "Ms. Anjana Harikrishnan", role: "General Program Chair, PROCOMM '26" },
-      { name: "Mr. Ranjith R. Nair", role: "Technical Program Chair" },
-      { name: "Ms. Parvathy S. Kumar", role: "Finance Chair" },
-      { name: "Mr. Sidharth G. Nair", role: "Operations Coordinator" },
-    ],
-    volunteers: [
-      "Anoop S. (Saintgits SB)", "Riya Mathews (KIT SB)", "Rahul R. (GEC SB)", "Sandra K. (TKM SB)", "George K. (MEC SB)"
-    ],
-  };
-
-  const historyEditions = [
-    { year: "2022", host: "Govt. Engineering College, Barton Hill", milestone: "Inaugural edition with 40+ project teams in wireless communications." },
-    { year: "2023", host: "TKM College of Engineering, Kollam", milestone: "Expanded to include IoT & smart city grids, drawing 75+ registrations." },
-    { year: "2024", host: "Model Engineering College, Thrikkakara", milestone: "Focused on AI/ML in networking and protocol optimization." },
-    { year: "2025", host: "Government Engineering College, Thrissur", milestone: "Hosted cybersecurity audits and threat intelligence showcases." },
-  ];
-
-  const stats = [
-    { value: "400+", label: "Participants" },
-    { value: "45+", label: "Colleges" },
-    { value: "180+", label: "Projects Submitted" },
-    { value: "25+", label: "Industry Judges" },
-    { value: "12+", label: "Sponsors & Partners" },
-  ];
-
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen" style={{ backgroundColor: "var(--ivory)" }}>
       <Header />
-      <main className="flex-grow bg-retro-cream select-none">
-        
-        {/* Banner Section */}
-        <section className="relative w-full py-16 px-6 border-b-[3px] border-retro-brown text-center retro-grid-bg">
-          <div className="max-w-4xl mx-auto flex flex-col items-center">
-            <span className="bg-retro-brown text-retro-cream px-4 py-1.5 text-xs font-extrabold tracking-widest uppercase rounded-full border border-retro-brown shadow-sm mb-4">
-              ABOUT US
-            </span>
-            <h1 className="retro-text-3d text-4xl sm:text-6xl md:text-[68px] leading-tight select-text">
-              ORGANIZATION
-            </h1>
-            <p className="font-syne text-xs sm:text-sm md:text-base font-bold tracking-widest text-retro-brown uppercase mt-6 max-w-3xl">
-              IEEE COMMUNICATIONS SOCIETY KERALA CHAPTER
-            </p>
-          </div>
-        </section>
+      <main className="flex-grow">
 
-        {/* 1. About PROCOMM (Introduction, Vision, Mission, Objectives) */}
-        <section className="py-20 px-6 border-b-[3px] border-retro-brown select-text">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
-            
-            <div className="lg:col-span-5 flex flex-col gap-4">
-              <span className="font-mono text-xs font-bold uppercase tracking-widest text-retro-brown/70 flex items-center gap-2">
-                <Target className="w-4 h-4" />
-                [ Vision & Mission ]
+        {/* ── Banner ── */}
+        <AboutBanner />
+
+        {/* ── 1. Vision & Mission / Objectives ── */}
+        <section
+          className="relative py-28 px-6 overflow-hidden"
+          style={{ backgroundColor: "var(--ivory)" }}
+        >
+          <IllustrationLayer scene="brushwork" color="var(--ink-soft)" opacity={0.2} />
+
+          <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16">
+
+            {/* Left column */}
+            <div className="lg:col-span-5 flex flex-col gap-6">
+              <span className="chapter-label flex items-center gap-2">
+                <span style={{ color: "var(--ochre)" }}>◉</span> Vision &amp; Mission
               </span>
-              <h2 className="font-syne text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-retro-brown">
-                Core Directives
+              <h2
+                className="editorial-headline"
+                style={{ fontSize: "clamp(2.5rem, 5vw, 3.8rem)" }}
+              >
+                Core<br />Directives
               </h2>
-              <div className="w-20 h-1 bg-retro-brown my-2" />
-              
-              <div className="mt-4">
-                <h4 className="font-syne text-sm font-bold text-retro-brown uppercase tracking-wider">Vision</h4>
-                <p className="font-outfit text-xs sm:text-sm text-retro-brown/80 leading-relaxed mt-1">
-                  To establish Kerala as a hub of systems engineering and protocol innovation by training the next generation of communications engineers.
-                </p>
-              </div>
+              <div className="w-12 h-[2px]" style={{ backgroundColor: "var(--ochre)" }} />
 
-              <div className="mt-4">
-                <h4 className="font-syne text-sm font-bold text-retro-brown uppercase tracking-wider">Mission</h4>
-                <p className="font-outfit text-xs sm:text-sm text-retro-brown/80 leading-relaxed mt-1">
-                  To provide engineering students with resources, mentorship, and industrial platforms to build prototypes that solve societal connectivity challenges.
-                </p>
+              <div className="flex flex-col gap-6 mt-2">
+                <div className="transition-transform duration-300 hover:translate-x-1">
+                  <h4
+                    className="font-body font-semibold uppercase tracking-wider"
+                    style={{ fontSize: "0.72rem", color: "var(--moss)" }}
+                  >
+                    Vision
+                  </h4>
+                  <p
+                    className="font-body mt-2"
+                    style={{ fontSize: "0.9rem", color: "var(--ink-mid)", lineHeight: 1.75 }}
+                  >
+                    To establish Kerala as a hub of systems engineering and protocol innovation by training the next generation of communications engineers.
+                  </p>
+                </div>
+                <div className="transition-transform duration-300 hover:translate-x-1">
+                  <h4
+                    className="font-body font-semibold uppercase tracking-wider"
+                    style={{ fontSize: "0.72rem", color: "var(--moss)" }}
+                  >
+                    Mission
+                  </h4>
+                  <p
+                    className="font-body mt-2"
+                    style={{ fontSize: "0.9rem", color: "var(--ink-mid)", lineHeight: 1.75 }}
+                  >
+                    To provide engineering students with resources, mentorship, and industrial platforms to build prototypes that solve societal connectivity challenges.
+                  </p>
+                </div>
               </div>
             </div>
 
-            <div className="lg:col-span-7 bg-retro-white border-[3px] border-retro-brown rounded-[24px] p-6 sm:p-10 shadow-[5px_5px_0px_rgba(93,58,26,0.1)]">
-              <h3 className="font-syne text-lg font-bold text-retro-brown flex items-center gap-2 mb-6">
-                <BookOpen className="w-5 h-5 stroke-[2]" />
-                PROCOMM Objectives
-              </h3>
-              
-              <ul className="flex flex-col gap-4">
-                {objectives.map((obj, idx) => (
-                  <li key={idx} className="flex gap-3 items-start font-outfit text-xs sm:text-sm text-retro-brown/90 leading-relaxed">
-                    <span className="w-5 h-5 rounded-full bg-retro-cream border border-retro-brown flex items-center justify-center font-mono text-[10px] font-bold text-retro-brown flex-shrink-0 mt-0.5">
-                      {idx + 1}
-                    </span>
-                    <span>{obj}</span>
-                  </li>
-                ))}
-              </ul>
+            {/* Right column — Objectives */}
+            <div className="lg:col-span-7">
+              <div
+                className="organic-card hover-lift"
+                style={{
+                  borderRadius: "2.5rem 1.5rem 2rem 1.2rem",
+                  padding: "2.5rem",
+                }}
+              >
+                <h3
+                  className="font-display font-bold mb-8"
+                  style={{ fontSize: "1.4rem", fontStyle: "italic", color: "var(--ink-deep)" }}
+                >
+                  PROCOMM Objectives
+                </h3>
+                <ul className="flex flex-col gap-5 select-text">
+                  {objectives.map((obj, idx) => (
+                    <li key={idx} className="flex gap-4 items-start transition-transform duration-300 hover:translate-x-1">
+                      <span
+                        className="font-mono-editorial flex-shrink-0"
+                        style={{
+                          fontSize: "0.8rem",
+                          color: "var(--ochre)",
+                          width: "1.5rem",
+                          textAlign: "right",
+                          marginTop: "2px",
+                        }}
+                      >
+                        {String(idx + 1).padStart(2, "0")}
+                      </span>
+                      <p
+                        className="font-body"
+                        style={{ fontSize: "0.9rem", color: "var(--ink-mid)", lineHeight: 1.7 }}
+                      >
+                        {obj}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-
           </div>
         </section>
 
-        {/* 2. Theme of PROCOMM'26 */}
-        <section className="py-20 px-6 border-b-[3px] border-retro-brown bg-retro-white select-text">
-          <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
-            <span className="font-mono text-xs font-bold uppercase tracking-widest text-retro-brown/70">[ Focal Area ]</span>
-            
-            <h2 className="font-syne text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-retro-brown mt-3">
+        {/* ── Wave: Vision → Theme ── */}
+        <WaveDivider fromColor="var(--ivory)" toColor="var(--paper)" />
+
+        {/* ── 2. Theme of PROCOMM '26 ── */}
+        <section
+          className="relative py-28 px-6 overflow-hidden topo-bg"
+          style={{ backgroundColor: "var(--paper)" }}
+        >
+          <div className="relative z-10 max-w-4xl mx-auto text-center">
+            <span className="chapter-label">Focal Area</span>
+            <h2
+              className="editorial-headline mt-2"
+              style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}
+            >
               Theme of PROCOMM &apos;26
             </h2>
-            
-            <div className="border-2 border-retro-brown bg-retro-cream p-6 rounded-2xl shadow-[4px_4px_0px_#5d3a1a] mt-8 text-left">
-              <h3 className="font-syne text-lg font-bold text-retro-brown flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-retro-brown" />
+
+            <div
+              className="organic-card text-left mt-10 hover-lift"
+              style={{ borderRadius: "2rem 1.2rem 2.5rem 1rem" }}
+            >
+              {/* Decorative quote mark */}
+              <div
+                className="font-display font-bold mb-2 pointer-events-none select-none"
+                style={{ fontSize: "5rem", lineHeight: 0.7, color: "var(--ochre)", opacity: 0.2, fontStyle: "italic" }}
+                aria-hidden="true"
+              >
+                &ldquo;
+              </div>
+              <h3
+                className="font-display font-bold"
+                style={{ fontSize: "1.5rem", fontStyle: "italic", color: "var(--ink-deep)" }}
+              >
                 Next-Gen Communication Systems
               </h3>
-              <p className="font-outfit text-xs sm:text-sm text-retro-brown/85 leading-relaxed mt-4">
+              <p
+                className="font-body mt-4 select-text"
+                style={{ fontSize: "0.9rem", color: "var(--ink-mid)", lineHeight: 1.8 }}
+              >
                 The rapid convergence of AI with telecommunications, the deployment of 5G Non-Public Networks, and the design of low-power IoT networks are shifting the paradigms of networking. Under this light, the theme for this edition challenges students to construct systems utilizing Software Defined Radios, secure cryptographic key exchanges, or network telemetry platforms.
               </p>
             </div>
           </div>
         </section>
 
-        {/* 3. About IEEE Communications Society */}
-        <section className="py-20 px-6 border-b-[3px] border-retro-brown select-text">
-          <div className="max-w-7xl mx-auto">
-            
+        {/* ── Wave: Theme → Orgs ── */}
+        <WaveDivider fromColor="var(--paper)" toColor="var(--ivory)" flip />
+
+        {/* ── 3. About IEEE & ComSoc ── */}
+        <section
+          className="relative py-28 px-6 overflow-hidden"
+          style={{ backgroundColor: "var(--ivory)" }}
+        >
+          <div className="relative z-10 max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <span className="font-mono text-xs font-bold uppercase tracking-widest text-retro-brown/70">[ Parent Organizations ]</span>
-              <h2 className="font-syne text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-retro-brown mt-3">
-                About IEEE & ComSoc
+              <span className="chapter-label">Parent Organizations</span>
+              <h2
+                className="editorial-headline mt-2"
+                style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}
+              >
+                About IEEE &amp; ComSoc
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              
-              <div className="bg-retro-white border-2 border-retro-brown rounded-2xl p-6 shadow-[3px_3px_0px_#5d3a1a]">
-                <h3 className="font-syne text-base font-bold text-retro-brown uppercase tracking-wide">IEEE</h3>
-                <p className="font-outfit text-xs sm:text-sm text-retro-brown/80 leading-relaxed mt-4">
-                  The Institute of Electrical and Electronics Engineers is the world&apos;s largest technical professional organization dedicated to advancing technology for the benefit of humanity.
-                </p>
-              </div>
-
-              <div className="bg-retro-white border-2 border-retro-brown rounded-2xl p-6 shadow-[3px_3px_0px_#5d3a1a]">
-                <h3 className="font-syne text-base font-bold text-retro-brown uppercase tracking-wide">IEEE ComSoc</h3>
-                <p className="font-outfit text-xs sm:text-sm text-retro-brown/80 leading-relaxed mt-4">
-                  The IEEE Communications Society promotes technological innovation and fosters international technical exchanges in the area of communications and information networking.
-                </p>
-              </div>
-
-              <div className="bg-retro-white border-2 border-retro-brown rounded-2xl p-6 shadow-[3px_3px_0px_#5d3a1a]">
-                <h3 className="font-syne text-base font-bold text-retro-brown uppercase tracking-wide">ComSoc Kerala</h3>
-                <p className="font-outfit text-xs sm:text-sm text-retro-brown/80 leading-relaxed mt-4">
-                  The local chapter provides local student and professional members in Kerala with technical lectures, symposia, research exposure, and specialized workshops like PROCOMM.
-                </p>
-              </div>
-
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                {
+                  name: "IEEE",
+                  icon: Award,
+                  color: "var(--moss)",
+                  text: "The Institute of Electrical and Electronics Engineers is the world's largest technical professional organization dedicated to advancing technology for the benefit of humanity.",
+                },
+                {
+                  name: "IEEE ComSoc",
+                  icon: Network,
+                  color: "var(--ochre)",
+                  text: "The IEEE Communications Society promotes technological innovation and fosters international technical exchanges in the area of communications and information networking.",
+                },
+                {
+                  name: "ComSoc Kerala",
+                  icon: MapPin,
+                  color: "var(--lavender)",
+                  text: "The local chapter provides members in Kerala with technical lectures, symposia, research exposure, and specialized workshops like PROCOMM.",
+                },
+              ].map((org, i) => (
+                <div
+                  key={i}
+                  className="organic-card hover-lift flex flex-col gap-4"
+                  style={{
+                    borderRadius: `${1.8 + i * 0.3}rem ${1.2 + i * 0.4}rem ${2.2 - i * 0.2}rem ${1 + i * 0.5}rem`,
+                  }}
+                >
+                  <div className="flex items-center gap-3">
+                    <org.icon className="w-5 h-5 stroke-[1.4]" style={{ color: org.color }} />
+                    <h3
+                      className="font-display font-bold"
+                      style={{ fontSize: "1.15rem", fontStyle: "italic", color: "var(--ink-deep)" }}
+                    >
+                      {org.name}
+                    </h3>
+                  </div>
+                  <div className="w-8 h-[1.5px]" style={{ backgroundColor: org.color, opacity: 0.5 }} />
+                  <p
+                    className="font-body select-text"
+                    style={{ fontSize: "0.875rem", color: "var(--ink-mid)", lineHeight: 1.75 }}
+                  >
+                    {org.text}
+                  </p>
+                </div>
+              ))}
             </div>
-
           </div>
         </section>
 
-        {/* 4. Organizing Committee */}
-        <section className="py-20 px-6 border-b-[3px] border-retro-brown bg-retro-white select-text">
-          <div className="max-w-7xl mx-auto">
-            
+        {/* ── Wave: Orgs → Committee ── */}
+        <WaveDivider fromColor="var(--ivory)" toColor="var(--paper)" />
+
+        {/* ── 4. Organizing Committee ── */}
+        <section
+          className="relative py-28 px-6 overflow-hidden paper-bg"
+          style={{ backgroundColor: "var(--paper)" }}
+        >
+          <IllustrationLayer scene="topographic" color="var(--moss)" opacity={0.3} />
+          <div className="relative z-10 max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <span className="font-mono text-xs font-bold uppercase tracking-widest text-retro-brown/70">[ Organizers ]</span>
-              <h2 className="font-syne text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-retro-brown mt-3 animate-pulse">
-                Organizing Committee
+              <span className="chapter-label">Organizers</span>
+              <h2
+                className="editorial-headline mt-2"
+                style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}
+              >
+                Organizing<br />Committee
               </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              
+
               {/* Faculty Advisors */}
               <div>
-                <h3 className="font-syne text-lg font-bold text-retro-brown border-b border-retro-brown pb-2 mb-6">
+                <h3
+                  className="font-display font-bold mb-6 pb-3 border-b"
+                  style={{
+                    fontSize: "1.2rem",
+                    fontStyle: "italic",
+                    color: "var(--ink-deep)",
+                    borderColor: "var(--paper-dark)",
+                  }}
+                >
                   Faculty Advisors
                 </h3>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-3">
                   {committee.advisors.map((member, idx) => (
-                    <div key={idx} className="bg-retro-cream border-2 border-retro-brown rounded-xl p-4 shadow-sm">
-                      <div className="font-syne text-sm font-extrabold text-retro-brown">{member.name}</div>
-                      <div className="font-outfit text-xs text-retro-brown/70 mt-1">{member.role}</div>
+                    <div
+                      key={idx}
+                      className="organic-card hover-lift flex items-start gap-4 py-4 select-text"
+                      style={{ borderRadius: "1rem 0.6rem 1.2rem 0.7rem", padding: "1.25rem" }}
+                    >
+                      <span
+                        className="font-mono-editorial flex-shrink-0"
+                        style={{ fontSize: "0.75rem", color: "var(--ochre)" }}
+                      >
+                        {String(idx + 1).padStart(2, "0")}
+                      </span>
+                      <div>
+                        <div
+                          className="font-body font-semibold"
+                          style={{ fontSize: "0.9rem", color: "var(--ink-deep)" }}
+                        >
+                          {member.name}
+                        </div>
+                        <div
+                          className="font-mono-editorial mt-0.5"
+                          style={{ fontSize: "0.62rem", color: "var(--ink-soft)" }}
+                        >
+                          {member.role}
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -202,115 +343,228 @@ export default function AboutPage() {
 
               {/* Core Executive Team */}
               <div>
-                <h3 className="font-syne text-lg font-bold text-retro-brown border-b border-retro-brown pb-2 mb-6">
+                <h3
+                  className="font-display font-bold mb-6 pb-3 border-b"
+                  style={{
+                    fontSize: "1.2rem",
+                    fontStyle: "italic",
+                    color: "var(--ink-deep)",
+                    borderColor: "var(--paper-dark)",
+                  }}
+                >
                   Core Executive Team
                 </h3>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-3">
                   {committee.core.map((member, idx) => (
-                    <div key={idx} className="bg-retro-cream border-2 border-retro-brown rounded-xl p-4 shadow-sm">
-                      <div className="font-syne text-sm font-extrabold text-retro-brown">{member.name}</div>
-                      <div className="font-outfit text-xs text-retro-brown/70 mt-1">{member.role}</div>
+                    <div
+                      key={idx}
+                      className="organic-card hover-lift flex items-start gap-4 py-4 select-text"
+                      style={{ borderRadius: "1rem 0.6rem 1.2rem 0.7rem", padding: "1.25rem" }}
+                    >
+                      <span
+                        className="font-mono-editorial flex-shrink-0"
+                        style={{ fontSize: "0.75rem", color: "var(--moss)" }}
+                      >
+                        {String(idx + 1).padStart(2, "0")}
+                      </span>
+                      <div>
+                        <div
+                          className="font-body font-semibold"
+                          style={{ fontSize: "0.9rem", color: "var(--ink-deep)" }}
+                        >
+                          {member.name}
+                        </div>
+                        <div
+                          className="font-mono-editorial mt-0.5"
+                          style={{ fontSize: "0.62rem", color: "var(--ink-soft)" }}
+                        >
+                          {member.role}
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
-
             </div>
 
             {/* Student Volunteers */}
-            <div className="mt-12 border-t-2 border-retro-brown/15 pt-8">
-              <h3 className="font-syne text-base font-bold text-retro-brown mb-4 flex items-center gap-2">
-                <Users className="w-5 h-5" />
+            <div
+              className="mt-12 pt-8 border-t"
+              style={{ borderColor: "var(--paper-dark)" }}
+            >
+              <h3
+                className="font-display font-bold mb-5"
+                style={{ fontSize: "1.1rem", fontStyle: "italic", color: "var(--ink-deep)" }}
+              >
                 Student Volunteers
               </h3>
               <div className="flex flex-wrap gap-2">
                 {committee.volunteers.map((vol, idx) => (
-                  <span key={idx} className="bg-retro-cream border border-retro-brown rounded-full px-3 py-1 text-xs font-mono text-retro-brown">
+                  <span key={idx} className="vintage-stamp hover:scale-105 transition-transform duration-200 cursor-default">
                     {vol}
                   </span>
                 ))}
               </div>
             </div>
-
           </div>
         </section>
 
-        {/* 5. Past Editions */}
-        <section className="py-20 px-6 border-b-[3px] border-retro-brown select-text">
-          <div className="max-w-7xl mx-auto">
-            
+        {/* ── Wave: Committee → Legacy ── */}
+        <WaveDivider fromColor="var(--paper)" toColor="var(--ivory)" flip />
+
+        {/* ── 5. Past Editions ── */}
+        <section
+          className="relative py-28 px-6 overflow-hidden"
+          style={{ backgroundColor: "var(--ivory)" }}
+        >
+          <div className="relative z-10 max-w-5xl mx-auto">
             <div className="text-center mb-16">
-              <span className="font-mono text-xs font-bold uppercase tracking-widest text-retro-brown/70">[ Legacy ]</span>
-              <h2 className="font-syne text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-retro-brown mt-3">
+              <span className="chapter-label">Legacy</span>
+              <h2
+                className="editorial-headline mt-2"
+                style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}
+              >
                 Past Editions
               </h2>
             </div>
 
-            <div className="flex flex-col gap-6 max-w-4xl mx-auto">
+            <div className="flex flex-col gap-0">
               {historyEditions.map((edition, idx) => (
-                <div key={idx} className="bg-retro-white border-2 border-retro-brown rounded-xl p-6 shadow-[3px_3px_0px_#5d3a1a] flex gap-4 items-start">
-                  <div className="w-12 h-12 rounded bg-retro-cream border border-retro-brown flex items-center justify-center font-syne text-lg font-black text-retro-brown flex-shrink-0">
+                <div
+                  key={idx}
+                  className="flex gap-6 items-start py-8 border-b select-text hover-lift px-2 rounded-lg"
+                  style={{ borderColor: "var(--paper-dark)" }}
+                >
+                  {/* Year */}
+                  <div
+                    className="font-display font-bold flex-shrink-0 transition-colors duration-300 hover:text-ochre"
+                    style={{
+                      fontSize: "clamp(2rem, 5vw, 3.5rem)",
+                      fontStyle: "italic",
+                      color: "var(--paper-dark)",
+                      lineHeight: 1,
+                      width: "5rem",
+                    }}
+                    aria-hidden="true"
+                  >
                     {edition.year}
                   </div>
-                  <div>
-                    <h3 className="font-syne text-sm sm:text-base font-extrabold text-retro-brown flex items-center gap-2">
-                      <Milestone className="w-4 h-4" />
-                      Host: {edition.host}
+                  {/* Dot */}
+                  <div className="flex-shrink-0 flex flex-col items-center gap-1 pt-2">
+                    <div
+                      className="w-2.5 h-2.5 rounded-full"
+                      style={{ backgroundColor: "var(--ochre)" }}
+                    />
+                    {idx < historyEditions.length - 1 && (
+                      <div
+                        className="w-px"
+                        style={{ height: "60px", backgroundColor: "var(--paper-dark)" }}
+                      />
+                    )}
+                  </div>
+                  {/* Content */}
+                  <div className="flex-1">
+                    <h3
+                      className="font-display font-bold"
+                      style={{ fontSize: "1.2rem", fontStyle: "italic", color: "var(--ink-deep)" }}
+                    >
+                      {edition.host}
                     </h3>
-                    <p className="font-outfit text-xs sm:text-sm text-retro-brown/70 mt-1">
+                    <p
+                      className="font-body mt-2"
+                      style={{ fontSize: "0.875rem", color: "var(--ink-mid)", lineHeight: 1.7 }}
+                    >
                       {edition.milestone}
                     </p>
                   </div>
                 </div>
               ))}
             </div>
-
           </div>
         </section>
 
-        {/* 6. Statistics */}
-        <section className="py-20 px-6 border-b-[3px] border-retro-brown bg-retro-white select-text">
-          <div className="max-w-7xl mx-auto">
-            
+        {/* ── Wave: Legacy → Stats ── */}
+        <WaveDivider fromColor="var(--ivory)" toColor="var(--ink-deep)" />
+
+        {/* ── 6. Statistics ── */}
+        <section
+          className="relative py-28 px-6 overflow-hidden"
+          style={{ backgroundColor: "var(--ink-deep)" }}
+        >
+          <IllustrationLayer scene="flowlines" color="var(--star-glow)" opacity={0.5} />
+          <IllustrationLayer scene="topographic" color="var(--lavender)" opacity={0.15} />
+
+          <div className="relative z-10 max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <span className="font-mono text-xs font-bold uppercase tracking-widest text-retro-brown/70">[ Impact Data ]</span>
-              <h2 className="font-syne text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-retro-brown mt-3">
-                Competition History Statistics
+              <span className="vintage-stamp-light">Impact Data</span>
+              <h2
+                className="editorial-headline mt-4"
+                style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", color: "var(--ivory)" }}
+              >
+                Competition History<br />Statistics
               </h2>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-6 select-text">
               {stats.map((stat, idx) => (
-                <div key={idx} className="bg-retro-cream border-2 border-retro-brown rounded-xl p-6 text-center shadow-[3px_3px_0px_#5d3a1a]">
-                  <div className="font-syne text-3xl sm:text-4xl font-black text-retro-brown">{stat.value}</div>
-                  <div className="font-mono text-[9px] font-bold text-retro-brown/60 uppercase tracking-widest mt-2">{stat.label}</div>
+                <div key={idx} className="illustrated-stat transition-transform duration-300 hover:scale-105">
+                  <div className="illustrated-stat-number">{stat.value}</div>
+                  <div
+                    className="illustrated-stat-label"
+                    style={{ color: "rgba(230,237,245,0.4)" }}
+                  >
+                    {stat.label}
+                  </div>
                 </div>
               ))}
             </div>
-
           </div>
         </section>
 
-        {/* 7. Gallery */}
-        <section className="py-20 px-6 bg-retro-cream">
-          <div className="max-w-7xl mx-auto">
-            
+        {/* ── Wave: Stats → Gallery ── */}
+        <WaveDivider fromColor="var(--ink-deep)" toColor="var(--paper)" />
+
+        {/* ── 7. Gallery (placeholder) ── */}
+        <section
+          className="relative py-28 px-6 paper-bg overflow-hidden"
+          style={{ backgroundColor: "var(--paper)" }}
+        >
+          <div className="relative z-10 max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <span className="font-mono text-xs font-bold uppercase tracking-widest text-retro-brown/70">[ Media Highlights ]</span>
-              <h2 className="font-syne text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-retro-brown mt-3">
+              <span className="chapter-label">Media Highlights</span>
+              <h2
+                className="editorial-headline mt-2"
+                style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}
+              >
                 Event Gallery
               </h2>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {[1, 2, 3].map((val) => (
-                <div key={val} className="aspect-video bg-retro-white border-[3px] border-retro-brown rounded-[20px] shadow-[4px_4px_0px_#5d3a1a] flex flex-col items-center justify-center p-4">
-                  <ImageIcon className="w-10 h-10 text-retro-brown/40 mb-3" />
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-retro-brown/50">Highlight Photo 0{val}</span>
+              {[1, 2, 3].map((n) => (
+                <div
+                  key={n}
+                  className="aspect-video flex flex-col items-center justify-center gap-3 hover-lift cursor-pointer"
+                  style={{
+                    backgroundColor: "var(--moon)",
+                    border: "1.5px solid var(--paper-dark)",
+                    borderRadius: `${1.5 + n * 0.3}rem ${1 + n * 0.4}rem ${2 - n * 0.1}rem ${0.8 + n * 0.5}rem`,
+                  }}
+                >
+                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+                    <circle cx="20" cy="20" r="18" stroke="var(--fog)" strokeWidth="1" />
+                    <circle cx="16" cy="17" r="4" stroke="var(--fog)" strokeWidth="0.8" />
+                    <path d="M 8 32 Q 18 22 28 28 Q 34 32 36 32" stroke="var(--fog)" strokeWidth="0.8" fill="none" />
+                  </svg>
+                  <span
+                    className="font-mono-editorial tracking-widest uppercase"
+                    style={{ fontSize: "0.55rem", color: "var(--fog)" }}
+                  >
+                    Highlight Photo 0{n}
+                  </span>
                 </div>
               ))}
             </div>
-
           </div>
         </section>
 

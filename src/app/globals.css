@@ -1,110 +1,840 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@700;800&family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Instrument+Sans:wght@300;400;500;600;700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap');
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   ANALOG EDITORIAL SURREALISM — DESIGN TOKENS
+   Palette: Deep Indigo + Warm Ivory + Moss + Golden Ochre + Dusty Lavender
+───────────────────────────────────────────────────────────────────────────── */
+
 :root {
-  --background: #f4ece1;
-  --foreground: #5d3a1a;
-  
-  --retro-cream: #f4ece1;
-  --retro-brown: #5d3a1a;
-  --retro-beige: #e3d5c1;
-  --retro-white: #ffffff;
+  /* Core Palette — Goodkind Co. Pine & Cream Style */
+  --ink-deep:     #283434;   /* Dark Pine Green — primary text, dark bg */
+  --ink-mid:      #3d4947;   /* Medium Pine — secondary text            */
+  --ink-soft:     #67806e;   /* Muted Sage-Green — subdued text         */
+  --moss:         #acc9b5;   /* Sage Accent — secondary accent          */
+  --moss-light:   #c3d9ca;   /* Light Sage — hover accent               */
+  --olive:        #5c5c2e;   /* Olive — tertiary accent                 */
+  --ochre:        #e5a139;   /* Golden Ochre — warmth, highlight        */
+  --ochre-light:  #f0b85a;   /* Light Ochre — hover states              */
+  --rust:         #dd9294;   /* Peach/Rose — alert / secondary accent    */
+  --ivory:        #faf7e6;   /* Spring Cream — primary bg               */
+  --paper:        #ebf7ef;   /* Soft Sage-Cream — secondary bg          */
+  --paper-dark:   #c3d9ca;   /* Border Sage — borders, dividers         */
+  --fog:          #acc9b5;   /* Fog Sage — muted surfaces               */
+  --lavender:     #a4dbe9;   /* Ice Blue — info/cosmic accent           */
+  --moon:         #ffffff;   /* Pure White — card surfaces              */
+  --teal-soft:    #409993;   /* Soft Teal — tertiary info accent        */
+  --star-glow:    #e5a139;   /* Star/Starfield color                    */
+
+  /* Semantic aliases */
+  --bg-primary:   var(--ivory);
+  --bg-secondary: var(--paper);
+  --bg-dark:      var(--ink-deep);
+  --text-primary: var(--ink-deep);
+  --text-body:    var(--ink-mid);
+  --text-muted:   var(--ink-soft);
+  --accent-warm:  var(--ochre);
+  --accent-cool:  var(--moss);
+  --accent-cta:   var(--ochre);
+  --surface:      var(--moon);
+  --border:       var(--paper-dark);
 }
 
 @theme inline {
-  --color-retro-cream: var(--retro-cream);
-  --color-retro-brown: var(--retro-brown);
-  --color-retro-beige: var(--retro-beige);
-  --color-retro-white: var(--retro-white);
+  /* Colors */
+  --color-ink-deep:    var(--ink-deep);
+  --color-ink-mid:     var(--ink-mid);
+  --color-ink-soft:    var(--ink-soft);
+  --color-moss:        var(--moss);
+  --color-moss-light:  var(--moss-light);
+  --color-olive:       var(--olive);
+  --color-ochre:       var(--ochre);
+  --color-ochre-light: var(--ochre-light);
+  --color-rust:        var(--rust);
+  --color-ivory:       var(--ivory);
+  --color-paper:       var(--paper);
+  --color-paper-dark:  var(--paper-dark);
+  --color-fog:         var(--fog);
+  --color-lavender:    var(--lavender);
+  --color-moon:        var(--moon);
+  --color-teal-soft:   var(--teal-soft);
+  --color-star-glow:   var(--star-glow);
 
-  --font-outfit: 'Outfit', sans-serif;
-  --font-syne: 'Syne', sans-serif;
-  --font-fraunces: 'Fraunces', serif;
+  /* Fonts */
+  --font-display:   'Cormorant Garamond', Georgia, serif;
+  --font-body:      'Instrument Sans', system-ui, sans-serif;
+  --font-mono:      'DM Mono', 'Courier New', monospace;
+
+  /* Legacy compatibility (retro tokens → new tokens) */
+  --color-retro-cream:  var(--ivory);
+  --color-retro-brown:  var(--ink-deep);
+  --color-retro-beige:  var(--paper);
+  --color-retro-white:  var(--moon);
+  --font-outfit:        'Instrument Sans', sans-serif;
+  --font-syne:          'Cormorant Garamond', serif;
+  --font-fraunces:      'Cormorant Garamond', serif;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   BASE STYLES
+───────────────────────────────────────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background-color: var(--retro-cream);
-  color: var(--retro-brown);
-  font-family: 'Outfit', sans-serif;
+  background-color: var(--ivory);
+  color: var(--ink-deep);
+  font-family: 'Instrument Sans', system-ui, sans-serif;
   overflow-x: hidden;
   margin: 0;
   padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom Retro Utilities */
+/* ─────────────────────────────────────────────────────────────────────────────
+   PAPER GRAIN TEXTURE
+   SVG noise filter — applied as pseudo-element overlay
+───────────────────────────────────────────────────────────────────────────── */
 
-/* 3D outlined title matching PROCOMM '26 logo */
-.retro-text-3d {
-  font-family: 'Syne', sans-serif;
-  color: var(--retro-white);
-  -webkit-text-stroke: 2.5px var(--retro-brown);
-  text-shadow: 
-    1px 1px 0px var(--retro-brown),
-    2px 2px 0px var(--retro-brown),
-    3px 3px 0px var(--retro-brown),
-    4px 4px 0px var(--retro-brown),
-    5px 5px 0px var(--retro-brown),
-    6px 6px 0px var(--retro-brown);
-  font-weight: 800;
-  letter-spacing: 0.02em;
+.grain-overlay {
+  position: relative;
 }
 
-/* Secondary 3D text (e.g. for CALL FOR HOST) */
-.retro-text-3d-secondary {
-  font-family: 'Syne', sans-serif;
-  color: var(--retro-white);
-  -webkit-text-stroke: 1.5px var(--retro-brown);
-  text-shadow: 
-    1px 1px 0px var(--retro-brown),
-    2px 2px 0px var(--retro-brown),
-    3px 3px 0px var(--retro-brown),
-    4px 4px 0px var(--retro-brown);
+.grain-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: inherit;
+  opacity: 0.5;
+}
+
+.grain-overlay > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Paper texture background variant */
+.paper-bg {
+  background-color: var(--ivory);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23grain)' opacity='0.035'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* Dark paper (for footer, dark sections) */
+.paper-dark-bg {
+  background-color: var(--ink-deep);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23grain)' opacity='0.06'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TYPOGRAPHY UTILITIES
+───────────────────────────────────────────────────────────────────────────── */
+
+.font-display {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-body {
+  font-family: 'Instrument Sans', system-ui, sans-serif;
+}
+
+.font-mono-editorial {
+  font-family: 'DM Mono', 'Courier New', monospace;
+}
+
+/* Large editorial headline — massive scale, italic serif */
+.editorial-headline {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
   font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--ink-deep);
 }
 
-/* Double bordered container mimicking the CTA and poster sections */
-.retro-card-double-border {
-  border: 3px solid var(--retro-brown);
-  outline: 1.5px solid var(--retro-brown);
-  outline-offset: 4px;
-  background-color: var(--retro-cream);
+/* Chapter label — small mono uppercase */
+.chapter-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
 }
 
-.retro-button-shadow {
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  border: 2px solid var(--retro-brown);
-  box-shadow: 4px 4px 0px var(--retro-brown);
+/* Pull quote */
+.pull-quote {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--ink-mid);
 }
 
-.retro-button-shadow:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0px var(--retro-brown);
+/* ─────────────────────────────────────────────────────────────────────────────
+   HERO — Cinematic Deep-Indigo poster
+───────────────────────────────────────────────────────────────────────────── */
+
+.hero-display-text {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  color: var(--ivory);
+  text-shadow:
+    0 2px 40px rgba(200, 146, 58, 0.25),
+    0 1px 0px rgba(200, 146, 58, 0.15);
 }
 
-.retro-button-shadow:active {
-  transform: translate(4px, 4px);
-  box-shadow: 0px 0px 0px var(--retro-brown);
+/* ─────────────────────────────────────────────────────────────────────────────
+   SHADOW SYSTEM — Soft, natural, paper-like
+───────────────────────────────────────────────────────────────────────────── */
+
+.shadow-paper-sm {
+  box-shadow:
+    0 1px 3px rgba(28, 26, 46, 0.06),
+    0 2px 8px rgba(28, 26, 46, 0.04);
 }
 
-/* Fine-line grid pattern overlay for retro background */
-.retro-grid-bg {
-  background-size: 40px 40px;
-  background-image: 
-    linear-gradient(to right, rgba(93, 58, 26, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(93, 58, 26, 0.04) 1px, transparent 1px);
+.shadow-paper-md {
+  box-shadow:
+    0 2px 8px rgba(28, 26, 46, 0.08),
+    0 6px 20px rgba(28, 26, 46, 0.06),
+    0 1px 0px rgba(255, 255, 255, 0.5) inset;
 }
 
-/* Outline double borders for fields */
-.retro-input {
-  background-color: var(--retro-white);
-  border: 2px solid var(--retro-brown);
-  color: var(--retro-brown);
-  font-family: 'Outfit', sans-serif;
-  transition: all 0.2s ease;
+.shadow-paper-lg {
+  box-shadow:
+    0 4px 16px rgba(28, 26, 46, 0.1),
+    0 12px 40px rgba(28, 26, 46, 0.08);
 }
 
-.retro-input:focus {
+.shadow-ochre {
+  box-shadow:
+    0 2px 12px rgba(200, 146, 58, 0.2),
+    0 6px 24px rgba(200, 146, 58, 0.1);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ORGANIC SHAPE — Borders, blobs, rounded cards
+───────────────────────────────────────────────────────────────────────────── */
+
+.organic-card {
+  background-color: var(--moon);
+  border: 1.5px solid var(--paper-dark);
+  border-radius: 2rem 1.5rem 2.5rem 1rem;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.organic-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23grain)' opacity='0.03'/%3E%3C/svg%3E");
+  background-size: 150px 150px;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.organic-card-dark {
+  background-color: var(--ink-mid);
+  border: 1.5px solid rgba(240, 237, 232, 0.12);
+  border-radius: 2rem 1.5rem 2.5rem 1rem;
+  padding: 2rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   BUTTONS — Painterly, paper-texture, organic
+───────────────────────────────────────────────────────────────────────────── */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background-color: var(--ink-deep);
+  color: var(--ivory);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1.5px solid var(--ink-deep);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(200, 146, 58, 0.15), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.btn-primary:hover::before {
+  opacity: 1;
+}
+
+.btn-primary:hover {
+  background-color: var(--ink-mid);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(28, 26, 46, 0.25);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background-color: transparent;
+  color: var(--ivory);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1.5px solid rgba(245, 240, 232, 0.4);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  backdrop-filter: blur(4px);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(245, 240, 232, 0.1);
+  border-color: rgba(245, 240, 232, 0.7);
+  transform: translateY(-1px);
+}
+
+.btn-ochre {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background-color: var(--ochre);
+  color: var(--ink-deep);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1.5px solid var(--ochre);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-ochre:hover {
+  background-color: var(--ochre-light);
+  border-color: var(--ochre-light);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(200, 146, 58, 0.3);
+}
+
+/* Dark-bg outlined button */
+.btn-outline-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ivory);
+  border-bottom: 1px solid rgba(245, 240, 232, 0.5);
+  padding-bottom: 2px;
+  cursor: pointer;
+  transition: border-color 0.3s ease, opacity 0.3s ease;
+}
+
+.btn-outline-light:hover {
+  border-color: var(--ivory);
+  opacity: 0.85;
+}
+
+/* Light-bg text link */
+.btn-outline-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-deep);
+  border-bottom: 1px solid var(--paper-dark);
+  padding-bottom: 2px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.btn-outline-dark:hover {
+  border-color: var(--ink-deep);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   FORM INPUTS — Simple, thin, organic
+───────────────────────────────────────────────────────────────────────────── */
+
+.editorial-input {
+  width: 100%;
+  background-color: var(--moon);
+  border: 1.5px solid var(--paper-dark);
+  border-radius: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.875rem;
+  color: var(--ink-deep);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
   outline: none;
-  border-color: var(--retro-brown);
-  box-shadow: 3px 3px 0px var(--retro-brown);
+  appearance: none;
+}
+
+.editorial-input::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.7;
+}
+
+.editorial-input:focus {
+  border-color: var(--moss);
+  box-shadow: 0 0 0 3px rgba(74, 92, 63, 0.1);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   NAVIGATION — Organic ink underline hover
+───────────────────────────────────────────────────────────────────────────── */
+
+.nav-link {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1.5px;
+  background-color: var(--ochre);
+  border-radius: 2px;
+  transition: width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link.active {
+  color: var(--ink-deep);
+  font-weight: 600;
+}
+
+/* Dark header nav link */
+.nav-link-light {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.7);
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-link-light::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1.5px;
+  background-color: var(--star-glow);
+  border-radius: 2px;
+  transition: width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.nav-link-light:hover {
+  color: var(--ivory);
+}
+
+.nav-link-light:hover::after,
+.nav-link-light.active::after {
+  width: 100%;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WAVE / HILL DIVIDERS — Organic flowing separators
+───────────────────────────────────────────────────────────────────────────── */
+
+.wave-divider-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.wave-divider-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  line-height: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   COUNTDOWN TIMER — Paper card style
+───────────────────────────────────────────────────────────────────────────── */
+
+.countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.countdown-number {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1;
+  color: var(--ochre);
+  text-shadow: 0 2px 12px rgba(200, 146, 58, 0.2);
+}
+
+.countdown-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.5);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   STAMP / BADGE — Vintage print style
+───────────────────────────────────────────────────────────────────────────── */
+
+.vintage-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--paper-dark);
+  border-radius: 100px;
+  color: var(--ink-soft);
+  background-color: var(--paper);
+}
+
+.vintage-stamp-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid rgba(245, 240, 232, 0.2);
+  border-radius: 100px;
+  color: rgba(245, 240, 232, 0.6);
+  background-color: rgba(245, 240, 232, 0.05);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   STAT / ILLUSTRATED NUMBERS
+───────────────────────────────────────────────────────────────────────────── */
+
+.illustrated-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.illustrated-stat-number {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1;
+  color: var(--ochre);
+  letter-spacing: -0.02em;
+}
+
+.illustrated-stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TOPOGRAPHIC BACKGROUND PATTERN
+───────────────────────────────────────────────────────────────────────────── */
+
+.topo-bg {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cg fill='none' stroke='%234a5c3f' stroke-width='0.6' opacity='0.12'%3E%3Cellipse cx='300' cy='300' rx='280' ry='120'/%3E%3Cellipse cx='300' cy='300' rx='240' ry='90'/%3E%3Cellipse cx='300' cy='300' rx='200' ry='65'/%3E%3Cellipse cx='300' cy='300' rx='160' ry='45'/%3E%3Cellipse cx='300' cy='300' rx='120' ry='30'/%3E%3Cellipse cx='300' cy='300' rx='80' ry='18'/%3E%3Cellipse cx='300' cy='300' rx='40' ry='8'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 400px 400px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   KEYFRAME ANIMATIONS — Organic, wave-driven, no particles
+───────────────────────────────────────────────────────────────────────────── */
+
+/* Brush stroke clip-path reveal */
+@keyframes brush-reveal {
+  0%   { clip-path: inset(0 100% 0 0); opacity: 0; }
+  30%  { opacity: 1; }
+  100% { clip-path: inset(0 0% 0 0); opacity: 1; }
+}
+
+/* Ink stroke draw (for SVG paths) */
+@keyframes ink-fill {
+  0%   { stroke-dashoffset: 1000; opacity: 0; }
+  20%  { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+/* Gentle float — for moon, planets, decorative elements */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-14px) rotate(2deg); }
+}
+
+/* Opposite-phase float for layered parallax */
+@keyframes float-alt {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-8px) rotate(-1.5deg); }
+}
+
+/* Lateral fog / cloud drift */
+@keyframes fog-drift {
+  0%   { transform: translateX(0px); opacity: 0.35; }
+  50%  { transform: translateX(28px); opacity: 0.55; }
+  100% { transform: translateX(0px); opacity: 0.35; }
+}
+
+/* Wave undulation — for SVG wave paths via stroke-dashoffset */
+@keyframes wave-undulate {
+  0%   { d: path("M0,55 C180,30 360,80 540,55 C720,30 900,80 1080,55 C1260,30 1440,65 1440,55 L1440,100 L0,100 Z"); }
+  50%  { d: path("M0,45 C180,70 360,25 540,50 C720,72 900,28 1080,52 C1260,72 1440,40 1440,48 L1440,100 L0,100 Z"); }
+  100% { d: path("M0,55 C180,30 360,80 540,55 C720,30 900,80 1080,55 C1260,30 1440,65 1440,55 L1440,100 L0,100 Z"); }
+}
+
+/* Slow horizontal wander for topographic & decorative lines */
+@keyframes line-wander {
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(-20px); }
+  100% { transform: translateX(0); }
+}
+
+/* Pulsing border glow on cards */
+@keyframes border-breathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(200,146,58,0); }
+  50%       { box-shadow: 0 0 0 4px rgba(200,146,58,0.08); }
+}
+
+/* Ink underline draw from left */
+@keyframes underline-draw {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+/* Section heading letter-spacing entrance */
+@keyframes heading-open {
+  from { letter-spacing: -0.06em; opacity: 0; }
+  to   { letter-spacing: -0.01em; opacity: 1; }
+}
+
+/* Timeline dot pulse */
+@keyframes dot-pulse {
+  0%, 100% { transform: scale(1);   box-shadow: 0 0 0 0   rgba(200,146,58,0.4); }
+  50%       { transform: scale(1.2); box-shadow: 0 0 0 6px rgba(200,146,58,0); }
+}
+
+/* Card lift on hover (used via .hover-lift class) */
+@keyframes card-enter {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)   scale(1);    }
+}
+
+/* Divider wave slow morph */
+@keyframes wave-morph {
+  0%   { transform: translateX(0%)   scaleY(1);    }
+  33%  { transform: translateX(-2%)  scaleY(1.05); }
+  66%  { transform: translateX(2%)   scaleY(0.96); }
+  100% { transform: translateX(0%)   scaleY(1);    }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ANIMATION UTILITY CLASSES
+───────────────────────────────────────────────────────────────────────────── */
+
+.float-slow    { animation: float-slow  7s  ease-in-out infinite; }
+.float-alt     { animation: float-alt   9s  ease-in-out infinite; }
+.fog-drift     { animation: fog-drift   14s ease-in-out infinite; }
+.line-wander   { animation: line-wander 20s ease-in-out infinite; }
+.wave-morph    { animation: wave-morph  12s ease-in-out infinite; }
+.dot-pulse     { animation: dot-pulse   2.5s ease-in-out infinite; }
+
+/* Staggered float delays */
+.float-d1 { animation-delay: 0s;    }
+.float-d2 { animation-delay: 1.2s;  }
+.float-d3 { animation-delay: 2.5s;  }
+.float-d4 { animation-delay: 3.8s;  }
+.float-d5 { animation-delay: 5s;    }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MICRO-INTERACTION UTILITIES
+───────────────────────────────────────────────────────────────────────────── */
+
+/* Hover lift — cards, images */
+.hover-lift {
+  transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+              box-shadow 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 8px 24px rgba(28,26,46,0.12),
+    0 2px 8px  rgba(28,26,46,0.06);
+}
+
+/* Hover tilt — track cards, small tiles */
+.hover-tilt {
+  transition: transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+  transform-origin: center bottom;
+}
+.hover-tilt:hover {
+  transform: rotate(-0.6deg) translateY(-3px);
+}
+.hover-tilt:nth-child(even):hover {
+  transform: rotate(0.6deg) translateY(-3px);
+}
+
+/* Organic card — hover border glow */
+.organic-card {
+  transition:
+    transform   0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+    box-shadow  0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+    border-color 0.4s ease;
+}
+.organic-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 10px 32px rgba(28,26,46,0.10),
+    0 2px  8px  rgba(28,26,46,0.05);
+  border-color: var(--paper-dark);
+}
+
+/* Section entrance — staggered children */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity   0.6s cubic-bezier(0.22,0.61,0.36,1),
+    transform 0.6s cubic-bezier(0.22,0.61,0.36,1);
+}
+.stagger-children.in-view > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0s;    }
+.stagger-children.in-view > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.08s; }
+.stagger-children.in-view > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.16s; }
+.stagger-children.in-view > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.24s; }
+.stagger-children.in-view > *:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.32s; }
+.stagger-children.in-view > *:nth-child(6) { opacity: 1; transform: none; transition-delay: 0.40s; }
+
+/* Arched shape overlays - Goodkind & Pennybacker styles */
+.arch-card-shape {
+  border-radius: 120px 120px 16px 16px;
+  overflow: hidden;
+}
+
+.hero-arch-left {
+  border-radius: 200px 200px 0 0;
+  overflow: hidden;
+}
+
+.hero-arch-right {
+  border-radius: 200px 200px 0 0;
+  overflow: hidden;
+}
+
+/* Animated wave divider wrapper */
+.wave-divider {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  pointer-events: none;
+}
+.wave-divider svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.wave-divider svg path {
+  animation: wave-morph 14s ease-in-out infinite;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ACCESSIBILITY
+───────────────────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--ochre);
+  outline-offset: 3px;
+  border-radius: 4px;
 }

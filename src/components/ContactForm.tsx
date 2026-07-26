@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { z } from "zod";
 import confetti from "canvas-confetti";
-import { Mail, CheckCircle2, AlertCircle } from "lucide-react";
+import { Mail, CheckCircle2, AlertCircle, Phone, MapPin } from "lucide-react";
+import { motion } from "framer-motion";
 
 // Form validation schema using Zod
 const contactSchema = z.object({
@@ -85,7 +86,7 @@ export default function ContactForm() {
           particleCount: 100,
           spread: 70,
           origin: { y: 0.6 },
-          colors: ["#5d3a1a", "#e3d5c1", "#ffffff"]
+          colors: ["#c8923a", "#2a4030", "#ffffff"]
         });
       } else {
         setSubmitStatus("error");
@@ -100,46 +101,83 @@ export default function ContactForm() {
   };
 
   return (
-    <section id="contact" className="w-full bg-retro-cream py-20 px-6 border-b-[3px] border-retro-brown select-none">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <span className="font-mono text-xs font-bold uppercase tracking-widest text-retro-brown/70">
-            [ Inquiries & Hosting Interest ]
-          </span>
-          <h2 className="font-syne text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-retro-brown mt-3">
-            Inquire Now
-          </h2>
-          <p className="font-outfit text-xs sm:text-sm text-retro-brown/80 mt-2 max-w-lg mx-auto">
-            Have questions about student participation or want to pitch your campus as a venue? Fill out the form below.
-          </p>
+    <section id="contact" className="w-full py-20 px-6 select-none" style={{ backgroundColor: "var(--ivory)" }}>
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        
+        {/* Left Column - Contact Details */}
+        <div className="lg:col-span-4 flex flex-col gap-8">
+          <div className="select-text">
+            <span className="chapter-label">Queries</span>
+            <h2 className="editorial-headline mt-3">
+              Get in Touch
+            </h2>
+            <p className="font-body text-xs sm:text-sm mt-3 leading-relaxed" style={{ color: "var(--ink-mid)" }}>
+              Have questions about student participation, track criteria, or want to explore partner/sponsorship opportunities?
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-4 select-text">
+            {[
+              { icon: Mail, label: "Email support", val: "comsoc@ieeekerala.org" },
+              { icon: Phone, label: "Phone helpline", val: "+91 98765 43210" },
+              { icon: MapPin, label: "Office venue", val: "Saintgits College of Engineering (Autonomous), Kottayam, Kerala" },
+            ].map((item, idx) => (
+              <div 
+                key={idx} 
+                className="organic-card hover-lift flex gap-4 items-center p-4"
+                style={{
+                  borderRadius: `${1.2 + (idx % 3) * 0.3}rem ${0.8 + (idx % 2) * 0.4}rem ${1.5 - (idx % 3) * 0.2}rem ${1 + (idx % 2) * 0.3}rem`,
+                  backgroundColor: "var(--moon)",
+                  border: "1.5px solid var(--paper-dark)"
+                }}
+              >
+                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)" }}>
+                  <item.icon className="w-4 h-4" style={{ color: "var(--ochre)" }} />
+                </div>
+                <div>
+                  <span className="font-mono-editorial text-[9px] uppercase tracking-widest" style={{ color: "var(--ink-soft)" }}>{item.label}</span>
+                  <p className="font-display font-bold text-sm" style={{ fontStyle: "italic", color: "var(--ink-deep)" }}>{item.val}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Double Border Form Card */}
-        <div className="bg-retro-white border-[3px] border-retro-brown rounded-[24px] p-6 sm:p-10 shadow-[5px_5px_0px_rgba(93,58,26,0.1)] relative">
+        {/* Right Column - Double Border Form Card */}
+        <div 
+          className="lg:col-span-8 organic-card hover-lift p-6 sm:p-10 relative"
+          style={{
+            borderRadius: "2rem 1.5rem 2.5rem 1.2rem",
+            backgroundColor: "var(--moon)",
+            border: "1.5px solid var(--paper-dark)"
+          }}
+        >
           
           {submitStatus === "success" ? (
             <div className="py-8 flex flex-col items-center justify-center text-center">
-              <CheckCircle2 className="w-16 h-16 text-retro-brown mb-4 stroke-[1.5]" />
-              <h3 className="font-syne text-xl sm:text-2xl font-bold text-retro-brown">
+              <CheckCircle2 className="w-16 h-16 text-retro-brown mb-4 stroke-[1.5]" style={{ color: "var(--moss)" }} />
+              <h3 className="font-display font-bold text-xl sm:text-2xl" style={{ fontStyle: "italic", color: "var(--ink-deep)" }}>
                 Thank You!
               </h3>
-              <p className="font-outfit text-sm text-retro-brown/80 mt-2 max-w-sm">
+              <p className="font-body text-sm mt-2 max-w-sm" style={{ color: "var(--ink-mid)" }}>
                 Your inquiry has been submitted successfully. The PROCOMM &apos;26 coordinating team will contact you shortly.
               </p>
-              <button
+              <motion.button
                 onClick={() => setSubmitStatus("idle")}
-                className="mt-6 px-5 py-2.5 bg-retro-brown text-retro-cream font-syne text-xs font-extrabold tracking-widest rounded-lg uppercase cursor-pointer"
+                className="mt-6 px-5 py-2.5 btn-ochre cursor-pointer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 Send Another Message
-              </button>
+              </motion.button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-6 select-text">
               
               {submitStatus === "error" && (
-                <div className="bg-red-50 border-2 border-retro-brown rounded-xl p-4 flex items-start gap-3 text-retro-brown">
+                <div className="border-2 rounded-xl p-4 flex items-start gap-3" style={{ borderColor: "var(--rust)", backgroundColor: "rgba(184,74,42,0.05)", color: "var(--rust)" }}>
                   <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                  <div className="text-xs sm:text-sm">
+                  <div className="text-xs sm:text-sm font-body">
                     <span className="font-bold">Submission Error:</span> {apiErrorMessage}
                   </div>
                 </div>
@@ -150,7 +188,7 @@ export default function ContactForm() {
                 
                 {/* Name */}
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="name" className="font-syne text-[11px] font-extrabold uppercase tracking-widest text-retro-brown">
+                  <label htmlFor="name" className="font-mono-editorial text-[10px] uppercase tracking-widest" style={{ color: "var(--ink-soft)" }}>
                     Your Name
                   </label>
                   <input
@@ -160,11 +198,12 @@ export default function ContactForm() {
                     value={formData.name}
                     onChange={handleChange}
                     disabled={isSubmitting}
-                    className="retro-input px-4 py-3 rounded-xl text-sm"
+                    className="px-4 py-3 rounded-xl text-sm"
+                    style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)", color: "var(--ink-deep)" }}
                     placeholder="Enter name"
                   />
                   {errors.name && (
-                    <span className="text-xs font-bold text-red-700 mt-1 flex items-center gap-1 font-mono">
+                    <span className="text-xs font-bold text-red-700 mt-1 flex items-center gap-1 font-mono-editorial">
                       * {errors.name}
                     </span>
                   )}
@@ -172,7 +211,7 @@ export default function ContactForm() {
 
                 {/* Email */}
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="email" className="font-syne text-[11px] font-extrabold uppercase tracking-widest text-retro-brown">
+                  <label htmlFor="email" className="font-mono-editorial text-[10px] uppercase tracking-widest" style={{ color: "var(--ink-soft)" }}>
                     Email Address
                   </label>
                   <input
@@ -182,11 +221,12 @@ export default function ContactForm() {
                     value={formData.email}
                     onChange={handleChange}
                     disabled={isSubmitting}
-                    className="retro-input px-4 py-3 rounded-xl text-sm"
+                    className="px-4 py-3 rounded-xl text-sm"
+                    style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)", color: "var(--ink-deep)" }}
                     placeholder="name@institution.edu"
                   />
                   {errors.email && (
-                    <span className="text-xs font-bold text-red-700 mt-1 flex items-center gap-1 font-mono">
+                    <span className="text-xs font-bold text-red-700 mt-1 flex items-center gap-1 font-mono-editorial">
                       * {errors.email}
                     </span>
                   )}
@@ -199,7 +239,7 @@ export default function ContactForm() {
 
                 {/* Institution */}
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="institution" className="font-syne text-[11px] font-extrabold uppercase tracking-widest text-retro-brown">
+                  <label htmlFor="institution" className="font-mono-editorial text-[10px] uppercase tracking-widest" style={{ color: "var(--ink-soft)" }}>
                     Institution / College
                   </label>
                   <input
@@ -209,11 +249,12 @@ export default function ContactForm() {
                     value={formData.institution}
                     onChange={handleChange}
                     disabled={isSubmitting}
-                    className="retro-input px-4 py-3 rounded-xl text-sm"
+                    className="px-4 py-3 rounded-xl text-sm"
+                    style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)", color: "var(--ink-deep)" }}
                     placeholder="College name"
                   />
                   {errors.institution && (
-                    <span className="text-xs font-bold text-red-700 mt-1 flex items-center gap-1 font-mono">
+                    <span className="text-xs font-bold text-red-700 mt-1 flex items-center gap-1 font-mono-editorial">
                       * {errors.institution}
                     </span>
                   )}
@@ -221,7 +262,7 @@ export default function ContactForm() {
 
                 {/* Role */}
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="role" className="font-syne text-[11px] font-extrabold uppercase tracking-widest text-retro-brown">
+                  <label htmlFor="role" className="font-mono-editorial text-[10px] uppercase tracking-widest" style={{ color: "var(--ink-soft)" }}>
                     Your Role
                   </label>
                   <select
@@ -230,7 +271,8 @@ export default function ContactForm() {
                     value={formData.role}
                     onChange={handleChange}
                     disabled={isSubmitting}
-                    className="retro-input px-4 py-3 rounded-xl text-sm appearance-none cursor-pointer bg-white"
+                    className="px-4 py-3 rounded-xl text-sm appearance-none cursor-pointer bg-white"
+                    style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)", color: "var(--ink-deep)" }}
                   >
                     <option value="">Select your role</option>
                     <option value="Student Representative">Student Representative</option>
@@ -240,7 +282,7 @@ export default function ContactForm() {
                     <option value="Other">Other</option>
                   </select>
                   {errors.role && (
-                    <span className="text-xs font-bold text-red-700 mt-1 flex items-center gap-1 font-mono">
+                    <span className="text-xs font-bold text-red-700 mt-1 flex items-center gap-1 font-mono-editorial">
                       * {errors.role}
                     </span>
                   )}
@@ -250,7 +292,7 @@ export default function ContactForm() {
 
               {/* Message */}
               <div className="flex flex-col gap-1.5">
-                <label htmlFor="message" className="font-syne text-[11px] font-extrabold uppercase tracking-widest text-retro-brown">
+                <label htmlFor="message" className="font-mono-editorial text-[10px] uppercase tracking-widest" style={{ color: "var(--ink-soft)" }}>
                   Message / Expressions of Interest
                 </label>
                 <textarea
@@ -260,21 +302,24 @@ export default function ContactForm() {
                   value={formData.message}
                   onChange={handleChange}
                   disabled={isSubmitting}
-                  className="retro-input px-4 py-3 rounded-xl text-sm resize-none"
+                  className="px-4 py-3 rounded-xl text-sm resize-none"
+                  style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)", color: "var(--ink-deep)" }}
                   placeholder="Tell us about your campus hosting capabilities or general competition inquiries..."
                 />
                 {errors.message && (
-                  <span className="text-xs font-bold text-red-700 mt-1 flex items-center gap-1 font-mono">
+                  <span className="text-xs font-bold text-red-700 mt-1 flex items-center gap-1 font-mono-editorial">
                     * {errors.message}
                   </span>
                 )}
               </div>
 
               {/* Submit Button */}
-              <button
+              <motion.button
                 type="submit"
                 disabled={isSubmitting}
-                className="mt-4 px-6 py-4 bg-retro-brown text-retro-white font-syne text-xs sm:text-sm font-extrabold tracking-widest rounded-xl uppercase retro-button-shadow cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="mt-4 px-6 py-4 btn-primary cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
                 {isSubmitting ? (
                   <span>Submitting...</span>
@@ -284,7 +329,7 @@ export default function ContactForm() {
                     <span>Submit Inquiry</span>
                   </>
                 )}
-              </button>
+              </motion.button>
 
             </form>
           )}

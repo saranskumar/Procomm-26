@@ -5,35 +5,33 @@ import { z } from "zod";
 import confetti from "canvas-confetti";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import RegisterBanner from "@/components/RegisterBanner";
+import WaveDivider from "@/components/WaveDivider";
+import IllustrationLayer from "@/components/IllustrationLayer";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   Calendar, CheckCircle2, AlertCircle, FileText, 
-  HelpCircle, ChevronRight, Laptop, Send, UserCheck, Shield 
+  ChevronRight, Laptop, Send, UserCheck, Shield 
 } from "lucide-react";
 
 // Form validation schema using Zod
 const registrationSchema = z.object({
-  teamName: z.string().min(3, { message: "Team Name must be at least 3 characters." }),
   leaderName: z.string().min(2, { message: "Team Leader Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Please enter a valid institution email." }),
+  college: z.string().min(5, { message: "College/Institution full name must be at least 5 characters." }),
+  collegeId: z.string().min(3, { message: "College ID / Student ID / Roll Number is required." }),
+  email: z.string().email({ message: "Please enter a valid official/institution email." }),
   phone: z.string().min(10, { message: "Please enter a valid 10-digit phone number." }),
-  college: z.string().min(5, { message: "College/Institution name must be at least 5 characters." }),
-  membersCount: z.string().min(1, { message: "Please select team member count." }),
-  track: z.string().min(1, { message: "Please select a competition track." }),
-  abstractTitle: z.string().min(10, { message: "Abstract Title must be at least 10 characters." }),
 });
 
 type RegistrationFormFields = z.infer<typeof registrationSchema>;
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState<RegistrationFormFields>({
-    teamName: "",
     leaderName: "",
+    college: "",
+    collegeId: "",
     email: "",
     phone: "",
-    college: "",
-    membersCount: "",
-    track: "",
-    abstractTitle: "",
   });
 
   const [errors, setErrors] = useState<Partial<Record<keyof RegistrationFormFields, string>>>({});
@@ -79,7 +77,7 @@ export default function RegisterPage() {
           email: formData.email,
           institution: formData.college,
           role: "PROCOMM Team Registrant",
-          message: `Team Name: ${formData.teamName}\nTrack: ${formData.track}\nMembers: ${formData.membersCount}\nAbstract: ${formData.abstractTitle}\nPhone: ${formData.phone}`
+          message: `College ID: ${formData.collegeId}\nPhone: ${formData.phone}`
         }),
       });
 
@@ -88,22 +86,19 @@ export default function RegisterPage() {
       if (response.ok && data.success) {
         setSubmitStatus("success");
         setFormData({
-          teamName: "",
           leaderName: "",
+          college: "",
+          collegeId: "",
           email: "",
           phone: "",
-          college: "",
-          membersCount: "",
-          track: "",
-          abstractTitle: "",
         });
         
-        // Trigger high-fidelity success confetti
+        // Trigger success confetti
         confetti({
           particleCount: 150,
           spread: 80,
           origin: { y: 0.6 },
-          colors: ["#5d3a1a", "#e3d5c1", "#ffffff"]
+          colors: ["#c8923a", "#2a4030", "#ffffff"]
         });
       } else {
         setSubmitStatus("error");
@@ -118,125 +113,114 @@ export default function RegisterPage() {
   };
 
   const steps = [
-    { title: "Form Submission", desc: "Fill out the registration details including member names and track category choice." },
-    { title: "Document Upload", desc: "Upload college ID scans and a 2-page project proposal in PDF format." },
-    { title: "Jury Screening", desc: "The expert panel reviews abstracts to evaluate innovation and feasibility." },
-    { title: "Mentorship", desc: "Shortlisted teams match with assigned industry mentors for design refactoring." },
+    { title: "Form Submission", desc: "Fill out your student details and official contacts." },
+    { title: "Jury Screening", desc: "The expert panel evaluates team details and projects." },
+    { title: "24-Hour Hack", desc: "Compete in the flagship 24-hour design and code sprint." },
+    { title: "Grand Finale", desc: "Present final working prototypes physically at Saintgits." },
   ];
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen" style={{ backgroundColor: "var(--ivory)" }}>
       <Header />
-      <main className="flex-grow bg-retro-cream select-none">
+      <main className="flex-grow">
         
         {/* Banner Section */}
-        <section className="relative w-full py-16 px-6 border-b-[3px] border-retro-brown text-center retro-grid-bg">
-          <div className="max-w-4xl mx-auto flex flex-col items-center">
-            <span className="bg-retro-brown text-retro-cream px-4 py-1.5 text-xs font-extrabold tracking-widest uppercase rounded-full border border-retro-brown shadow-sm mb-4">
-              SUBMISSION PORTAL
-            </span>
-            <h1 className="retro-text-3d text-4xl sm:text-6xl md:text-[68px] leading-tight select-text">
-              REGISTRATION
-            </h1>
-            <p className="font-syne text-xs sm:text-sm md:text-base font-bold tracking-widest text-retro-brown uppercase mt-6 max-w-3xl">
-              SUBMIT YOUR PROJECT TO PROCOMM &apos;26
-            </p>
-          </div>
-        </section>
+        <RegisterBanner />
 
         {/* 1. Registration Process Stepper */}
-        <section className="py-20 px-6 border-b-[3px] border-retro-brown select-text">
+        <section className="py-20 px-6 select-text" style={{ backgroundColor: "var(--ivory)" }}>
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <span className="font-mono text-xs font-bold uppercase tracking-widest text-retro-brown/70">[ Roadmap ]</span>
-              <h2 className="font-syne text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-retro-brown mt-3">
+              <span className="chapter-label">Roadmap</span>
+              <h2 className="editorial-headline mt-3">
                 Registration Process
               </h2>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 select-text">
               {steps.map((step, idx) => (
-                <div key={idx} className="bg-retro-white border-2 border-retro-brown rounded-xl p-6 shadow-[3px_3px_0px_#5d3a1a] relative flex flex-col justify-between">
+                <motion.div 
+                  key={idx} 
+                  className="organic-card hover-lift flex flex-col justify-between"
+                  whileHover={{ scale: 1.02, y: -4 }}
+                  style={{
+                    borderRadius: `${1.5 + (idx % 3) * 0.4}rem ${1 + (idx % 2) * 0.5}rem ${2 - (idx % 4) * 0.2}rem ${0.8 + (idx % 3) * 0.4}rem`
+                  }}
+                >
                   <div>
-                    <span className="w-7 h-7 bg-retro-cream border border-retro-brown rounded-full flex items-center justify-center font-mono text-xs font-bold text-retro-brown mb-4">
+                    <span className="w-7 h-7 rounded-full flex items-center justify-center font-mono-editorial text-xs font-bold mb-4" style={{ backgroundColor: "var(--moon)", border: "1.5px solid var(--paper-dark)", color: "var(--ochre)" }}>
                       {idx + 1}
                     </span>
-                    <h3 className="font-syne text-sm sm:text-base font-bold text-retro-brown">{step.title}</h3>
-                    <p className="font-outfit text-xs text-retro-brown/70 mt-1.5 leading-relaxed">{step.desc}</p>
+                    <h3 className="font-display font-bold text-sm sm:text-base" style={{ fontStyle: "italic", color: "var(--ink-deep)" }}>{step.title}</h3>
+                    <p className="font-body text-xs mt-1.5 leading-relaxed" style={{ color: "var(--ink-mid)" }}>{step.desc}</p>
                   </div>
                   
                   {idx < 3 && (
-                    <ChevronRight className="hidden sm:block absolute right-[-15px] top-[40%] w-6 h-6 text-retro-brown/40 z-10" />
+                    <ChevronRight className="hidden sm:block absolute right-[-15px] top-[40%] w-6 h-6 text-retro-brown/40 z-10" style={{ color: "var(--paper-dark)" }} />
                   )}
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
 
+        {/* Wave Divider */}
+        <WaveDivider fromColor="var(--ivory)" toColor="var(--paper)" />
+
         {/* Form & Sidebar Grid */}
-        <section className="py-20 px-6 border-b-[3px] border-retro-brown bg-retro-white">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <section className="py-20 px-6" style={{ backgroundColor: "var(--paper)" }}>
+          <IllustrationLayer scene="brushwork" color="var(--ink-soft)" opacity={0.1} />
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-10">
             
             {/* Registration Form (Left side) */}
-            <div className="lg:col-span-8 bg-retro-cream border-[3px] border-retro-brown rounded-[24px] p-6 sm:p-10 shadow-[5px_5px_0px_rgba(93,58,26,0.1)] relative select-text">
+            <div 
+              className="lg:col-span-8 organic-card hover-lift p-6 sm:p-10 relative select-text"
+              style={{
+                borderRadius: "2.5rem 1.8rem 2.2rem 1.5rem",
+                backgroundColor: "var(--moon)",
+                border: "1.5px solid var(--paper-dark)"
+              }}
+            >
               
-              <div className="absolute top-3 left-3 w-2.5 h-2.5 rounded-full bg-retro-brown" />
-              <div className="absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-retro-brown" />
-              <div className="absolute bottom-3 left-3 w-2.5 h-2.5 rounded-full bg-retro-brown" />
-              <div className="absolute bottom-3 right-3 w-2.5 h-2.5 rounded-full bg-retro-brown" />
+              <div className="absolute top-3 left-3 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--paper-dark)" }} />
+              <div className="absolute top-3 right-3 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--paper-dark)" }} />
+              <div className="absolute bottom-3 left-3 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--paper-dark)" }} />
+              <div className="absolute bottom-3 right-3 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--paper-dark)" }} />
 
               {submitStatus === "success" ? (
                 <div className="py-12 flex flex-col items-center justify-center text-center">
-                  <CheckCircle2 className="w-16 h-16 text-retro-brown mb-4 stroke-[1.5]" />
-                  <h3 className="font-syne text-xl sm:text-2xl font-bold text-retro-brown">
+                  <CheckCircle2 className="w-16 h-16 text-retro-brown mb-4 stroke-[1.5]" style={{ color: "var(--moss)" }} />
+                  <h3 className="font-display font-bold text-xl sm:text-2xl" style={{ fontStyle: "italic", color: "var(--ink-deep)" }}>
                     Registration Success!
                   </h3>
-                  <p className="font-outfit text-sm text-retro-brown/80 mt-2 max-w-sm">
+                  <p className="font-body text-sm mt-2 max-w-sm" style={{ color: "var(--ink-mid)" }}>
                     Your team details have been recorded. A confirmation email has been sent to the Team Leader. Please check your inbox for instructions to upload your project proposal PDF.
                   </p>
-                  <button
+                  <motion.button
                     onClick={() => setSubmitStatus("idle")}
-                    className="mt-6 px-5 py-2.5 bg-retro-brown text-retro-cream font-syne text-xs font-extrabold tracking-widest rounded-lg uppercase cursor-pointer"
+                    className="mt-6 px-5 py-2.5 btn-ochre cursor-pointer"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     Submit Another Team
-                  </button>
+                  </motion.button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-6 select-text">
                   
                   {submitStatus === "error" && (
-                    <div className="bg-red-50 border-2 border-retro-brown rounded-xl p-4 flex items-start gap-3 text-retro-brown">
+                    <div className="border-2 rounded-xl p-4 flex items-start gap-3" style={{ borderColor: "var(--rust)", backgroundColor: "rgba(184, 74, 42, 0.05)", color: "var(--rust)" }}>
                       <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                      <div className="text-xs sm:text-sm">
+                      <div className="text-xs sm:text-sm font-body">
                         <span className="font-bold">Error:</span> {apiErrorMessage}
                       </div>
                     </div>
                   )}
 
-                  {/* Team Details Group */}
+                  {/* Leader Name & College Name */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="teamName" className="font-syne text-[11px] font-extrabold uppercase tracking-widest text-retro-brown">
-                        Team Name
-                      </label>
-                      <input
-                        type="text"
-                        id="teamName"
-                        name="teamName"
-                        value={formData.teamName}
-                        onChange={handleChange}
-                        disabled={isSubmitting}
-                        className="retro-input px-4 py-3 rounded-xl text-sm"
-                        placeholder="e.g. Spectral Mesh Leaders"
-                      />
-                      {errors.teamName && (
-                        <span className="text-xs font-bold text-red-700 mt-1 font-mono">* {errors.teamName}</span>
-                      )}
-                    </div>
-
-                    <div className="flex flex-col gap-1.5">
-                      <label htmlFor="leaderName" className="font-syne text-[11px] font-extrabold uppercase tracking-widest text-retro-brown">
+                      <label htmlFor="leaderName" className="font-mono-editorial text-[10px] uppercase tracking-widest" style={{ color: "var(--ink-soft)" }}>
                         Team Leader Name
                       </label>
                       <input
@@ -246,61 +230,18 @@ export default function RegisterPage() {
                         value={formData.leaderName}
                         onChange={handleChange}
                         disabled={isSubmitting}
-                        className="retro-input px-4 py-3 rounded-xl text-sm"
+                        className="px-4 py-3 rounded-xl text-sm"
+                        style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)", color: "var(--ink-deep)" }}
                         placeholder="Leader full name"
                       />
                       {errors.leaderName && (
-                        <span className="text-xs font-bold text-red-700 mt-1 font-mono">* {errors.leaderName}</span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Email & Phone Group */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="flex flex-col gap-1.5">
-                      <label htmlFor="email" className="font-syne text-[11px] font-extrabold uppercase tracking-widest text-retro-brown">
-                        Official/Leader Email
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        disabled={isSubmitting}
-                        className="retro-input px-4 py-3 rounded-xl text-sm"
-                        placeholder="leader@institution.edu"
-                      />
-                      {errors.email && (
-                        <span className="text-xs font-bold text-red-700 mt-1 font-mono">* {errors.email}</span>
+                        <span className="text-xs font-bold text-red-700 mt-1 font-mono-editorial">* {errors.leaderName}</span>
                       )}
                     </div>
 
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="phone" className="font-syne text-[11px] font-extrabold uppercase tracking-widest text-retro-brown">
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        disabled={isSubmitting}
-                        className="retro-input px-4 py-3 rounded-xl text-sm"
-                        placeholder="10-digit mobile number"
-                      />
-                      {errors.phone && (
-                        <span className="text-xs font-bold text-red-700 mt-1 font-mono">* {errors.phone}</span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* College & Members Group */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="flex flex-col gap-1.5">
-                      <label htmlFor="college" className="font-syne text-[11px] font-extrabold uppercase tracking-widest text-retro-brown">
-                        College / Institution Name
+                      <label htmlFor="college" className="font-mono-editorial text-[10px] uppercase tracking-widest" style={{ color: "var(--ink-soft)" }}>
+                        College / Institution Full Name
                       </label>
                       <input
                         type="text"
@@ -309,92 +250,91 @@ export default function RegisterPage() {
                         value={formData.college}
                         onChange={handleChange}
                         disabled={isSubmitting}
-                        className="retro-input px-4 py-3 rounded-xl text-sm"
-                        placeholder="Enter full college name"
+                        className="px-4 py-3 rounded-xl text-sm"
+                        style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)", color: "var(--ink-deep)" }}
+                        placeholder="Saintgits College of Engineering"
                       />
                       {errors.college && (
-                        <span className="text-xs font-bold text-red-700 mt-1 font-mono">* {errors.college}</span>
+                        <span className="text-xs font-bold text-red-700 mt-1 font-mono-editorial">* {errors.college}</span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* College ID & Email */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div className="flex flex-col gap-1.5">
+                      <label htmlFor="collegeId" className="font-mono-editorial text-[10px] uppercase tracking-widest" style={{ color: "var(--ink-soft)" }}>
+                        College ID / Student ID / Roll Number
+                      </label>
+                      <input
+                        type="text"
+                        id="collegeId"
+                        name="collegeId"
+                        value={formData.collegeId}
+                        onChange={handleChange}
+                        disabled={isSubmitting}
+                        className="px-4 py-3 rounded-xl text-sm"
+                        style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)", color: "var(--ink-deep)" }}
+                        placeholder="e.g. SGI-UG-2026"
+                      />
+                      {errors.collegeId && (
+                        <span className="text-xs font-bold text-red-700 mt-1 font-mono-editorial">* {errors.collegeId}</span>
                       )}
                     </div>
 
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="membersCount" className="font-syne text-[11px] font-extrabold uppercase tracking-widest text-retro-brown">
-                        Total Team Members
+                      <label htmlFor="email" className="font-mono-editorial text-[10px] uppercase tracking-widest" style={{ color: "var(--ink-soft)" }}>
+                        Official / Leader Email
                       </label>
-                      <select
-                        id="membersCount"
-                        name="membersCount"
-                        value={formData.membersCount}
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
                         onChange={handleChange}
                         disabled={isSubmitting}
-                        className="retro-input px-4 py-3 rounded-xl text-sm appearance-none bg-white cursor-pointer"
-                      >
-                        <option value="">Select team size</option>
-                        <option value="1 Member">1 Member (Solo)</option>
-                        <option value="2 Members">2 Members</option>
-                        <option value="3 Members">3 Members</option>
-                        <option value="4 Members">4 Members</option>
-                      </select>
-                      {errors.membersCount && (
-                        <span className="text-xs font-bold text-red-700 mt-1 font-mono">* {errors.membersCount}</span>
+                        className="px-4 py-3 rounded-xl text-sm"
+                        style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)", color: "var(--ink-deep)" }}
+                        placeholder="leader@institution.edu"
+                      />
+                      {errors.email && (
+                        <span className="text-xs font-bold text-red-700 mt-1 font-mono-editorial">* {errors.email}</span>
                       )}
                     </div>
                   </div>
 
-                  {/* Competition Track */}
+                  {/* Phone Number */}
                   <div className="flex flex-col gap-1.5">
-                    <label htmlFor="track" className="font-syne text-[11px] font-extrabold uppercase tracking-widest text-retro-brown">
-                      Select Competition Track
+                    <label htmlFor="phone" className="font-mono-editorial text-[10px] uppercase tracking-widest" style={{ color: "var(--ink-soft)" }}>
+                      Phone Number
                     </label>
-                    <select
-                      id="track"
-                      name="track"
-                      value={formData.track}
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
                       onChange={handleChange}
                       disabled={isSubmitting}
-                      className="retro-input px-4 py-3 rounded-xl text-sm appearance-none bg-white cursor-pointer"
-                    >
-                      <option value="">Select track category</option>
-                      <option value="5G/6G & Next-Gen Wireless">Track 1: 5G/6G & Next-Gen Wireless</option>
-                      <option value="IoT & Smart Systems">Track 2: IoT & Smart Systems</option>
-                      <option value="Network Security & Cryptography">Track 3: Network Security & Cryptography</option>
-                      <option value="AI & ML in Communications">Track 4: AI & ML in Communications</option>
-                      <option value="Optical & Satellite Communications">Track 5: Optical & Satellite Communications</option>
-                    </select>
-                    {errors.track && (
-                      <span className="text-xs font-bold text-red-700 mt-1 font-mono">* {errors.track}</span>
-                    )}
-                  </div>
-
-                  {/* Project Abstract Title */}
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="abstractTitle" className="font-syne text-[11px] font-extrabold uppercase tracking-widest text-retro-brown">
-                      Proposed Project Abstract Title
-                    </label>
-                    <textarea
-                      id="abstractTitle"
-                      name="abstractTitle"
-                      rows={3}
-                      value={formData.abstractTitle}
-                      onChange={handleChange}
-                      disabled={isSubmitting}
-                      className="retro-input px-4 py-3 rounded-xl text-sm resize-none"
-                      placeholder="Briefly state your project name and abstract focus..."
+                      className="px-4 py-3 rounded-xl text-sm"
+                      style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)", color: "var(--ink-deep)" }}
+                      placeholder="10-digit mobile number"
                     />
-                    {errors.abstractTitle && (
-                      <span className="text-xs font-bold text-red-700 mt-1 font-mono">* {errors.abstractTitle}</span>
+                    {errors.phone && (
+                      <span className="text-xs font-bold text-red-700 mt-1 font-mono-editorial">* {errors.phone}</span>
                     )}
                   </div>
 
                   {/* Submit Button */}
-                  <button
+                  <motion.button
                     type="submit"
                     disabled={isSubmitting}
-                    className="mt-4 px-6 py-4 bg-retro-brown text-retro-white font-syne text-xs sm:text-sm font-extrabold tracking-widest rounded-xl uppercase retro-button-shadow cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+                    className="mt-4 px-6 py-4 btn-primary cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
                     <Send className="w-4 h-4" />
                     <span>{isSubmitting ? "Registering..." : "Submit Registration"}</span>
-                  </button>
+                  </motion.button>
 
                 </form>
               )}
@@ -405,34 +345,48 @@ export default function RegisterPage() {
             <div className="lg:col-span-4 flex flex-col gap-8">
               
               {/* Important Dates */}
-              <div className="bg-retro-cream border-2 border-retro-brown rounded-2xl p-6 shadow-sm">
-                <h3 className="font-syne text-sm font-black uppercase tracking-widest text-retro-brown border-b border-retro-brown/15 pb-2 mb-4 flex items-center gap-2">
-                  <Calendar className="w-4 h-4" />
+              <div 
+                className="organic-card hover-lift p-6"
+                style={{
+                  borderRadius: "1.8rem 1.2rem 1.5rem 1rem",
+                  backgroundColor: "var(--moon)",
+                  border: "1.5px solid var(--paper-dark)"
+                }}
+              >
+                <h3 className="font-display font-bold text-sm uppercase tracking-wider border-b pb-2 mb-4 flex items-center gap-2" style={{ fontStyle: "italic", borderColor: "var(--paper-dark)", color: "var(--ink-deep)" }}>
+                  <Calendar className="w-4 h-4" style={{ color: "var(--ochre)" }} />
                   Important Dates
                 </h3>
-                <div className="flex flex-col gap-3 font-outfit text-xs text-retro-brown select-text">
-                  <div className="flex justify-between border-b border-retro-brown/10 pb-1">
+                <div className="flex flex-col gap-3 font-body text-xs select-text" style={{ color: "var(--ink-mid)" }}>
+                  <div className="flex justify-between border-b pb-1" style={{ borderColor: "rgba(11,26,48,0.06)" }}>
                     <span className="font-semibold">Reg Closes:</span>
-                    <span className="font-mono font-bold">Oct 15, 2026</span>
+                    <span className="font-mono-editorial font-bold">Aug 25, 2026</span>
                   </div>
-                  <div className="flex justify-between border-b border-retro-brown/10 pb-1">
+                  <div className="flex justify-between border-b pb-1" style={{ borderColor: "rgba(11,26,48,0.06)" }}>
                     <span className="font-semibold">Abstract Review:</span>
-                    <span className="font-mono font-bold">Oct 18, 2026</span>
+                    <span className="font-mono-editorial font-bold">Aug 28, 2026</span>
                   </div>
-                  <div className="flex justify-between border-b border-retro-brown/10 pb-1">
+                  <div className="flex justify-between border-b pb-1" style={{ borderColor: "rgba(11,26,48,0.06)" }}>
                     <span className="font-semibold">Jury Presentations:</span>
-                    <span className="font-mono font-bold">Oct 28-29, 2026</span>
+                    <span className="font-mono-editorial font-bold">Sept 5-6, 2026</span>
                   </div>
                 </div>
               </div>
 
               {/* Required Documents */}
-              <div className="bg-retro-cream border-2 border-retro-brown rounded-2xl p-6 shadow-sm select-text">
-                <h3 className="font-syne text-sm font-black uppercase tracking-widest text-retro-brown border-b border-retro-brown/15 pb-2 mb-4 flex items-center gap-2">
-                  <FileText className="w-4 h-4" />
+              <div 
+                className="organic-card hover-lift p-6 select-text"
+                style={{
+                  borderRadius: "1.2rem 1.8rem 1rem 1.5rem",
+                  backgroundColor: "var(--moon)",
+                  border: "1.5px solid var(--paper-dark)"
+                }}
+              >
+                <h3 className="font-display font-bold text-sm uppercase tracking-wider border-b pb-2 mb-4 flex items-center gap-2" style={{ fontStyle: "italic", borderColor: "var(--paper-dark)", color: "var(--ink-deep)" }}>
+                  <FileText className="w-4 h-4" style={{ color: "var(--moss)" }} />
                   Required Files
                 </h3>
-                <ul className="list-disc pl-4 font-outfit text-xs text-retro-brown/80 leading-relaxed flex flex-col gap-2">
+                <ul className="list-disc pl-4 font-body text-xs leading-relaxed flex flex-col gap-2" style={{ color: "var(--ink-mid)" }}>
                   <li>Valid Student ID card scans of all members.</li>
                   <li>IEEE/ComSoc membership card PDF (if applicable, for verification).</li>
                   <li>2-page project proposal in standard format.</li>
@@ -440,35 +394,56 @@ export default function RegisterPage() {
               </div>
 
               {/* Portal Info */}
-              <div className="bg-retro-cream border-2 border-retro-brown rounded-2xl p-6 shadow-sm select-text">
-                <h3 className="font-syne text-sm font-black uppercase tracking-widest text-retro-brown border-b border-retro-brown/15 pb-2 mb-4 flex items-center gap-2">
-                  <Laptop className="w-4 h-4" />
+              <div 
+                className="organic-card hover-lift p-6 select-text"
+                style={{
+                  borderRadius: "1.5rem 1rem 1.8rem 1.2rem",
+                  backgroundColor: "var(--moon)",
+                  border: "1.5px solid var(--paper-dark)"
+                }}
+              >
+                <h3 className="font-display font-bold text-sm uppercase tracking-wider border-b pb-2 mb-4 flex items-center gap-2" style={{ fontStyle: "italic", borderColor: "var(--paper-dark)", color: "var(--ink-deep)" }}>
+                  <Laptop className="w-4 h-4" style={{ color: "var(--teal-soft)" }} />
                   Submission Portal
                 </h3>
-                <p className="font-outfit text-xs text-retro-brown/80 leading-relaxed">
+                <p className="font-body text-xs leading-relaxed" style={{ color: "var(--ink-mid)" }}>
                   Upon registration, leaders will receive dashboard credentials to track evaluation reports, feedback channels, and final presentation scheduling.
                 </p>
               </div>
 
               {/* Contact Support */}
-              <div className="bg-retro-cream border-2 border-retro-brown rounded-2xl p-6 shadow-sm select-text">
-                <h3 className="font-syne text-sm font-black uppercase tracking-widest text-retro-brown border-b border-retro-brown/15 pb-2 mb-4 flex items-center gap-2">
-                  <UserCheck className="w-4 h-4" />
+              <div 
+                className="organic-card hover-lift p-6 select-text"
+                style={{
+                  borderRadius: "1.2rem 1.5rem 1.1rem 1.8rem",
+                  backgroundColor: "var(--moon)",
+                  border: "1.5px solid var(--paper-dark)"
+                }}
+              >
+                <h3 className="font-display font-bold text-sm uppercase tracking-wider border-b pb-2 mb-4 flex items-center gap-2" style={{ fontStyle: "italic", borderColor: "var(--paper-dark)", color: "var(--ink-deep)" }}>
+                  <UserCheck className="w-4 h-4" style={{ color: "var(--lavender)" }} />
                   Registration Support
                 </h3>
-                <div className="font-mono text-xs text-retro-brown flex flex-col gap-1">
+                <div className="font-mono-editorial text-xs flex flex-col gap-1" style={{ color: "var(--ink-mid)" }}>
                   <span>Tel: +91 98765 43210</span>
                   <span>Email: comsoc@ieeekerala.org</span>
                 </div>
               </div>
 
               {/* Declaration policies */}
-              <div className="bg-retro-cream border-2 border-retro-brown rounded-2xl p-6 shadow-sm select-text">
-                <h3 className="font-syne text-sm font-black uppercase tracking-widest text-retro-brown border-b border-retro-brown/15 pb-2 mb-4 flex items-center gap-2">
-                  <Shield className="w-4 h-4" />
+              <div 
+                className="organic-card hover-lift p-6 select-text"
+                style={{
+                  borderRadius: "1.8rem 1.4rem 1.6rem 1.2rem",
+                  backgroundColor: "var(--moon)",
+                  border: "1.5px solid var(--paper-dark)"
+                }}
+              >
+                <h3 className="font-display font-bold text-sm uppercase tracking-wider border-b pb-2 mb-4 flex items-center gap-2" style={{ fontStyle: "italic", borderColor: "var(--paper-dark)", color: "var(--ink-deep)" }}>
+                  <Shield className="w-4 h-4" style={{ color: "var(--rust)" }} />
                   Policy Declaration
                 </h3>
-                <p className="font-outfit text-[10px] sm:text-xs text-retro-brown/70 leading-relaxed">
+                <p className="font-body text-[10px] sm:text-xs leading-relaxed" style={{ color: "var(--ink-mid)" }}>
                   By registering, teams agree to the non-plagiarism rules, academic honor codes, and publication/licensing conditions of the parent society.
                 </p>
               </div>

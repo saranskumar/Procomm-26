@@ -7,7 +7,7 @@ const contactSchema = z.object({
   email: z.string().email(),
   institution: z.string().min(3),
   role: z.string().min(1),
-  message: z.string().min(10),
+  message: z.string().min(5),
 });
 
 export async function POST(request: Request) {
