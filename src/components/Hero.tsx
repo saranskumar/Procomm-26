@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { Calendar, MapPin, Trophy } from "lucide-react";
+import { Meteors } from "@/registry/magicui/meteors";
 
 export default function Hero() {
   const { scrollY } = useScroll();
@@ -13,15 +14,19 @@ export default function Hero() {
   return (
     <section
       className="relative w-full min-h-screen overflow-hidden flex flex-col justify-end"
-      style={{ backgroundColor: "var(--ink-deep)" }}
+      style={{
+        /* Blended night sky mixing original dark pine green (#283434) with deep teal-navy */
+        background:
+          "linear-gradient(180deg, #122020 0%, #172b31 30%, #1d3a43 55%, #162d34 80%, #0f1d20 100%)",
+      }}
     >
-      {/* ── Deep atmospheric gradient ── */}
+      {/* ── Blended ambient atmospheric glow ── */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 90% 60% at 15% 85%, rgba(172,201,181,0.12) 0%, transparent 65%)," +
-            "radial-gradient(ellipse 70% 50% at 85% 15%, rgba(229,161,57,0.04) 0%, transparent 55%)",
+            "radial-gradient(ellipse 80% 45% at 50% 60%, rgba(29,74,86,0.5) 0%, transparent 70%)," +
+            "radial-gradient(ellipse 60% 30% at 15% 85%, rgba(20,44,48,0.3) 0%, transparent 60%)",
         }}
         aria-hidden="true"
       />
@@ -41,45 +46,195 @@ export default function Hero() {
         </svg>
       </div>
 
-      {/* ── Floating crescent moon ── */}
+      {/* ── Star field (twinkling dots) + Dynamic Meteors ── */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        {/* Twinkling background stars */}
+        <svg viewBox="0 0 1440 900" className="w-full h-full" fill="none" preserveAspectRatio="xMidYMid slice">
+          {([
+            [120,38,1.1,0.8],[280,72,0.7,0.5],[440,18,0.9,0.7],[560,55,0.5,0.4],
+            [680,30,1.3,0.9],[820,48,0.6,0.45],[920,22,0.8,0.6],[1050,60,1.0,0.75],
+            [1180,35,0.7,0.5],[1320,18,1.1,0.8],[1400,55,0.5,0.4],[200,100,0.6,0.4],
+            [380,88,1.2,0.85],[500,115,0.5,0.35],[640,92,0.8,0.6],[760,78,1.0,0.7],
+            [900,105,0.6,0.45],[1010,82,1.3,0.9],[1140,98,0.7,0.5],[1260,72,0.9,0.65],
+            [70,140,0.7,0.5],[310,155,1.0,0.7],[470,135,0.6,0.4],[630,165,1.1,0.8],
+            [780,145,0.5,0.35],[940,160,0.8,0.55],[1090,138,1.2,0.85],[1240,155,0.6,0.4],
+            [1380,142,0.9,0.7],[160,195,0.5,0.35],[340,210,1.0,0.72],[600,200,0.7,0.5],
+            [850,215,0.6,0.42],[1100,198,1.1,0.78],[1300,208,0.5,0.38],
+            [50,260,0.8,0.55],[420,255,0.6,0.4],[710,268,1.0,0.7],[990,250,0.7,0.5],
+            [1200,265,0.9,0.65],[1420,258,0.5,0.38],
+            [170,310,0.6,0.42],[500,320,0.8,0.58],[780,308,1.1,0.8],[1060,315,0.6,0.44],
+            [1350,305,0.9,0.65],
+          ] as [number,number,number,number][]).map(([cx,cy,r,o],i) => (
+            <motion.circle
+              key={i} cx={cx} cy={cy} r={r} fill="#e8d8a0"
+              animate={{ opacity: [o*0.4, o, o*0.5, o*0.9, o*0.3, o] }}
+              transition={{
+                duration: 3 + (i % 5) * 0.8,
+                delay: (i * 0.37) % 4,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+        </svg>
+
+        {/* Dynamic meteor shower layer, restricted to the upper sky height */}
+        <div className="absolute inset-0 max-h-[420px]">
+          <Meteors number={6} minDelay={2} maxDelay={14} minDuration={3.5} maxDuration={8} className="opacity-90" />
+        </div>
+      </div>
+
+      {/* ── Planet LEFT — teal-blue ringed (small), upper-left ── */}
+      <motion.div
+        className="absolute pointer-events-none hidden md:block"
+        style={{ top: "3%", left: "2%" }}
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        aria-hidden="true"
+      >
+        <svg width="130" height="130" viewBox="0 0 130 130" fill="none" className="opacity-70">
+          <defs>
+            {/* Teal-blue gradient matching reference */}
+            <radialGradient id="plBody" cx="35%" cy="30%" r="60%">
+              <stop offset="0%" stopColor="#6ab0d8" stopOpacity="0.9" />
+              <stop offset="40%" stopColor="#2e7aaa" stopOpacity="0.85" />
+              <stop offset="75%" stopColor="#163d60" stopOpacity="0.9" />
+              <stop offset="100%" stopColor="#0a1e32" stopOpacity="1" />
+            </radialGradient>
+            <radialGradient id="plSpec" cx="32%" cy="27%" r="24%">
+              <stop offset="0%" stopColor="#c8e8ff" stopOpacity="0.55" />
+              <stop offset="100%" stopColor="#c8e8ff" stopOpacity="0" />
+            </radialGradient>
+            {/* Clip path to only draw the front half of the ring (bottom half) */}
+            <clipPath id="plFrontClip">
+              <rect x="0" y="65" width="130" height="65" />
+            </clipPath>
+          </defs>
+          <g transform="rotate(-15, 65, 65)">
+            {/* 1. Orbit ring BACK (behind the planet body) */}
+            <ellipse cx="65" cy="65" rx="55" ry="11" fill="none" stroke="#6888b8" strokeWidth="1" strokeDasharray="3 5" opacity="0.35" />
+            
+            {/* 2. Planet body */}
+            <circle cx="65" cy="65" r="26" fill="url(#plBody)" />
+            
+            {/* Atmosphere bands */}
+            <ellipse cx="65" cy="57" rx="25" ry="3" fill="none" stroke="#60a0c8" strokeWidth="0.8" opacity="0.25" />
+            <ellipse cx="65" cy="65" rx="25" ry="2.5" fill="none" stroke="#4880a8" strokeWidth="0.6" opacity="0.18" />
+            
+            {/* Specular */}
+            <circle cx="65" cy="65" r="26" fill="url(#plSpec)" />
+            
+            {/* 3. Orbit ring FRONT (drawn on top of the planet body) */}
+            <ellipse cx="65" cy="65" rx="55" ry="11" fill="none" stroke="#a0c8e8" strokeWidth="1.5" strokeDasharray="3 5" opacity="0.65" clipPath="url(#plFrontClip)" />
+          </g>
+        </svg>
+      </motion.div>
+
+      {/* ── Planet RIGHT — large dark-navy solid, upper-right ── */}
       <motion.div
         className="absolute pointer-events-none"
-        style={{ top: "6%", right: "5%", y: moonY }}
+        style={{ top: "-1%", right: "-1%" }}
+        animate={{ y: [0, -12, 0] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+        aria-hidden="true"
+      >
+        <svg width="240" height="240" viewBox="0 0 240 240" fill="none" className="opacity-75">
+          <defs>
+            {/* Deep navy matching reference — very dark with subtle blue highlight */}
+            <radialGradient id="prBody" cx="34%" cy="30%" r="58%">
+              <stop offset="0%" stopColor="#4a70a8" stopOpacity="0.9" />
+              <stop offset="30%" stopColor="#1e3d6a" stopOpacity="0.95" />
+              <stop offset="65%" stopColor="#0d2040" stopOpacity="1" />
+              <stop offset="100%" stopColor="#060e20" stopOpacity="1" />
+            </radialGradient>
+            <radialGradient id="prSpec" cx="30%" cy="25%" r="20%">
+              <stop offset="0%" stopColor="#a0c0e8" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#a0c0e8" stopOpacity="0" />
+            </radialGradient>
+            {/* Clip path to only draw the front half of the ring (bottom half) */}
+            <clipPath id="prFrontClip">
+              <rect x="0" y="120" width="240" height="120" />
+            </clipPath>
+          </defs>
+          <g transform="rotate(-12, 120, 120)">
+            {/* Subtle glow behind planet */}
+            <circle cx="120" cy="120" r="85" fill="#1e3d6a" opacity="0.06" />
+            
+            {/* 1. Orbit ring BACK (behind the planet body) */}
+            <ellipse cx="120" cy="120" rx="108" ry="15" fill="none" stroke="#6888b8" strokeWidth="1" strokeDasharray="8 5" opacity="0.3" />
+            
+            {/* 2. Planet body */}
+            <circle cx="120" cy="120" r="62" fill="url(#prBody)" />
+            
+            {/* Specular */}
+            <circle cx="120" cy="120" r="62" fill="url(#prSpec)" />
+            
+            {/* 3. Orbit ring FRONT (drawn on top of the planet body) */}
+            <ellipse cx="120" cy="120" rx="108" ry="15" fill="none" stroke="#7898c8" strokeWidth="1.2" strokeDasharray="8 5" opacity="0.55" clipPath="url(#prFrontClip)" />
+          </g>
+        </svg>
+      </motion.div>
+
+      {/* ── Floating Satellite (responsive on all screens including mobile) ── */}
+      <motion.div
+        className="absolute pointer-events-none z-10 select-none block"
+        style={{ top: "10%", left: "2%", y: useTransform(scrollY, [0, 400], [0, -25]) }}
         aria-hidden="true"
       >
         <motion.div
-          animate={{ y: [0, -16, 0], rotate: [0, 4, 0] }}
-          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+          animate={{ y: [0, -10, 0], rotate: [0, 1.5, 0] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          className="scale-60 sm:scale-85 lg:scale-100 origin-top-left"
         >
-          <svg width="160" height="160" viewBox="0 0 160 160" fill="none" className="opacity-50">
-            <circle cx="80" cy="80" r="70" stroke="var(--star-glow)" strokeWidth="0.6" />
-            <circle cx="80" cy="80" r="55" stroke="var(--star-glow)" strokeWidth="0.35" strokeDasharray="5 7" />
-            <path d="M 80 18 A 62 62 0 1 1 80 142 A 40 40 0 1 0 80 18" fill="var(--star-glow)" opacity="0.14" />
-            <circle cx="90" cy="68" r="4" stroke="var(--star-glow)" strokeWidth="0.4" fill="none" opacity="0.3" />
-            <circle cx="70" cy="90" r="2.5" stroke="var(--star-glow)" strokeWidth="0.3" fill="none" opacity="0.22" />
-            <ellipse cx="80" cy="80" rx="76" ry="17" stroke="var(--lavender)" strokeWidth="0.4" strokeDasharray="4 6" opacity="0.22" />
+          <svg width="180" height="180" viewBox="0 0 180 180" fill="none" className="opacity-45 sm:opacity-35">
+            {/* Orbit path line */}
+            <path d="M-20,110 Q80,20 180,80" stroke="var(--lavender)" strokeWidth="0.4" strokeDasharray="3 6" opacity="0.25" />
+            
+            {/* Satellite body group */}
+            <g transform="translate(80, 70) rotate(-22)">
+              {/* Solar Panels (Left) */}
+              <rect x="-65" y="-8" width="40" height="16" rx="1.5" fill="none" stroke="var(--star-glow)" strokeWidth="0.8" opacity="0.4" />
+              <line x1="-65" y1="0" x2="-25" y2="0" stroke="var(--star-glow)" strokeWidth="0.6" opacity="0.4" />
+              <line x1="-55" y1="-8" x2="-55" y2="8" stroke="var(--star-glow)" strokeWidth="0.4" opacity="0.4" />
+              <line x1="-45" y1="-8" x2="-45" y2="8" stroke="var(--star-glow)" strokeWidth="0.4" opacity="0.4" />
+              <line x1="-35" y1="-8" x2="-35" y2="8" stroke="var(--star-glow)" strokeWidth="0.4" opacity="0.4" />
+              
+              {/* Solar Panels (Right) */}
+              <rect x="25" y="-8" width="40" height="16" rx="1.5" fill="none" stroke="var(--star-glow)" strokeWidth="0.8" opacity="0.4" />
+              <line x1="25" y1="0" x2="65" y2="0" stroke="var(--star-glow)" strokeWidth="0.6" opacity="0.4" />
+              <line x1="35" y1="-8" x2="35" y2="8" stroke="var(--star-glow)" strokeWidth="0.4" opacity="0.4" />
+              <line x1="45" y1="-8" x2="45" y2="8" stroke="var(--star-glow)" strokeWidth="0.4" opacity="0.4" />
+              <line x1="55" y1="-8" x2="55" y2="8" stroke="var(--star-glow)" strokeWidth="0.4" opacity="0.4" />
+              
+              {/* Connectors */}
+              <line x1="-25" y1="0" x2="-10" y2="0" stroke="var(--star-glow)" strokeWidth="1" opacity="0.6" />
+              <line x1="10" y1="0" x2="25" y2="0" stroke="var(--star-glow)" strokeWidth="1" opacity="0.6" />
+              
+              {/* Central Bus / Body */}
+              <rect x="-10" y="-14" width="20" height="28" rx="2" fill="var(--ink-deep)" stroke="var(--star-glow)" strokeWidth="1.2" />
+              <circle cx="0" cy="0" r="3" fill="var(--ochre)" />
+              
+              {/* Dish stem */}
+              <line x1="0" y1="14" x2="0" y2="24" stroke="var(--star-glow)" strokeWidth="1" />
+              
+              {/* Parabolic Dish */}
+              <path d="M-12,28 C-6,21 6,21 12,28" fill="none" stroke="var(--star-glow)" strokeWidth="1" />
+              <line x1="0" y1="24" x2="0" y2="34" stroke="var(--ochre)" strokeWidth="0.8" />
+              <circle cx="0" cy="34" r="1.5" fill="var(--ochre)" />
+            </g>
+            
+            {/* Concentric directional signal waves pointing towards ground right */}
+            <path d="M72,125 Q95,145 125,160" stroke="var(--ochre)" strokeWidth="0.8" strokeDasharray="3 5" opacity="0.4" />
+            <path d="M80,140 Q105,160 135,175" stroke="var(--ochre)" strokeWidth="0.6" strokeDasharray="3 5" opacity="0.25" />
           </svg>
         </motion.div>
       </motion.div>
 
-      {/* ── Small floating planet (left, staggered phase) ── */}
-      <div
-        className="absolute pointer-events-none hidden md:block float-alt float-d3"
-        style={{ top: "25%", left: "3%", opacity: 0.22 }}
-        aria-hidden="true"
-      >
-        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-          <circle cx="28" cy="28" r="24" stroke="var(--lavender)" strokeWidth="0.8" fill="none" />
-          <ellipse cx="28" cy="28" rx="38" ry="8" stroke="var(--lavender)" strokeWidth="0.5" strokeDasharray="3 5" fill="none" />
-          <circle cx="28" cy="28" r="10" fill="var(--ink-mid)" stroke="var(--lavender)" strokeWidth="0.6" />
-        </svg>
-      </div>
-
-      {/* ── Animated Signal Tower silhouette (right, standing on the hills) ── */}
+      {/* ── Animated Signal Tower silhouette (responsive on all screens including mobile) ── */}
       <motion.div 
-        className="absolute bottom-[20px] right-[2%] sm:right-[4%] pointer-events-none z-10 select-none hidden sm:block"
-        initial={{ opacity: 0, scale: 1.2 }}
-        animate={{ opacity: 0.38, scale: 1.6 }}
+        className="absolute bottom-[10px] sm:bottom-[20px] right-[1%] sm:right-[4%] pointer-events-none z-10 select-none block"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 0.35, scale: 1.3 }}
         transition={{ duration: 1.2, delay: 0.5 }}
         style={{ transformOrigin: "bottom right" }}
       >
@@ -211,15 +366,15 @@ export default function Hero() {
         className="relative z-10 max-w-7xl mx-auto w-full px-6 pb-36 pt-36"
         style={{ y: textY }}
       >
-        {/* Presenter stamp */}
+        {/* Presenter Text (no capsule wrapper) */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="mb-8"
+          className="mb-6 flex items-center gap-2"
         >
-          <span className="vintage-stamp-light">
-            <svg width="5" height="5" viewBox="0 0 5 5" aria-hidden="true"><circle cx="2.5" cy="2.5" r="2.5" fill="var(--ochre)" /></svg>
+          <span className="font-mono-editorial text-[0.68rem] tracking-[0.25em] uppercase text-[#e5c97a] opacity-90 flex items-center gap-2 select-none">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#e5c97a] opacity-80 animate-pulse" />
             IEEE ComSoc Kerala Chapter Presents
           </span>
         </motion.div>

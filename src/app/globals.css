@@ -838,3 +838,28 @@ body {
   outline-offset: 3px;
   border-radius: 4px;
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MAGICUI REALISTIC METEOR EFFECT
+───────────────────────────────────────────────────────────────────────────── */
+
+@keyframes meteor {
+  0% {
+    transform: rotate(215deg) translateX(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  65% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(215deg) translateX(-800px);
+    opacity: 0;
+  }
+}
+
+.animate-meteor {
+  animation: meteor 5s linear infinite;
+}

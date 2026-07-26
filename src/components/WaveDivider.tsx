@@ -8,11 +8,15 @@ interface WaveDividerProps {
   flip?: boolean;
 }
 
-export default function WaveDivider({ fromColor, toColor, flip = false }: WaveDividerProps) {
+export default function WaveDivider({
+  fromColor,
+  toColor,
+  flip = false,
+}: WaveDividerProps) {
   return (
     <div
       className="relative w-full pointer-events-none"
-      style={{ backgroundColor: fromColor, stroke: "none", lineHeight: 0, zIndex: 1 }}
+      style={{ backgroundColor: fromColor, lineHeight: 0, zIndex: 1 }}
       aria-hidden="true"
     >
       <svg

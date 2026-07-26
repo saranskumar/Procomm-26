@@ -32,10 +32,13 @@ export default function Header() {
 
   const isActive = (href: string) => pathname === href;
 
+  const isHome = pathname === "/";
+  const showNavbar = !isHome || scrolled;
+
   return (
     <>
       <header
-        className="fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-500 w-[calc(100%-2rem)] sm:w-[calc(100%-3rem)] max-w-7xl rounded-2xl backdrop-blur-lg"
+        className="fixed left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] sm:w-[calc(100%-3rem)] max-w-7xl rounded-2xl backdrop-blur-lg"
         style={{
           top: scrolled ? "0.6rem" : "1.2rem",
           padding: scrolled ? "0.55rem 1.5rem" : "0.9rem 2rem",
@@ -49,6 +52,10 @@ export default function Header() {
           boxShadow: scrolled
             ? "0 8px 32px 0 rgba(11, 26, 48, 0.06)"
             : "inset 0 1px 0 0 rgba(250, 247, 230, 0.08)",
+          /* Hide on home page until scrolled, otherwise always show */
+          transform: showNavbar ? "translateX(-50%) translateY(0)" : "translateX(-50%) translateY(-120%)",
+          opacity: showNavbar ? 1 : 0,
+          transition: "transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.45s ease, padding 0.4s ease, background-color 0.4s ease, box-shadow 0.4s ease, top 0.4s ease",
         }}
       >
         <div className="w-full flex items-center justify-between">
@@ -59,15 +66,15 @@ export default function Header() {
             <Image
               src="/logo/procomm-logo.png"
               alt="PROCOMM '26"
-              width={140}
-              height={40}
+              width={160}
+              height={42}
               className="flex-shrink-0 object-contain transition-all duration-300"
               style={{
                 filter: scrolled
                   ? "brightness(0)"          /* dark navy on cream bg */
                   : "none",                  /* white on dark bg */
                 opacity: scrolled ? 0.85 : 0.92,
-                maxHeight: 36,
+                maxHeight: scrolled ? 34 : 40,
                 width: "auto",
               }}
               priority
