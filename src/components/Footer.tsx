@@ -172,35 +172,21 @@ export default function Footer() {
               className="font-mono-editorial tracking-widest uppercase"
               style={{ fontSize: "0.58rem", color: "var(--ochre)", opacity: 0.85 }}
             >
-              Inquiries
+              Inquiries &amp; Contact
             </h4>
             <div
-              className="flex flex-col gap-3 font-mono-editorial"
+              className="flex flex-col gap-3 font-mono-editorial select-text"
               style={{ fontSize: "0.72rem" }}
             >
-              <a
-                href="mailto:comsoc@ieeekerala.org"
-                className="flex items-start gap-2.5 transition-colors"
-                style={{ color: "rgba(245,240,232,0.4)" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(245,240,232,0.8)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(245,240,232,0.4)")}
-              >
-                <Mail className="w-3.5 h-3.5 flex-shrink-0 mt-px" />
-                comsoc@ieeekerala.org
-              </a>
+              <div className="text-[0.65rem] uppercase tracking-wider text-amber-500 font-bold mb-1">
+                For further queries, contact:
+              </div>
               <span
-                className="flex items-start gap-2.5"
-                style={{ color: "rgba(245,240,232,0.35)" }}
+                className="flex items-start gap-2.5 font-semibold"
+                style={{ color: "rgba(245,240,232,0.85)" }}
               >
-                <Phone className="w-3.5 h-3.5 flex-shrink-0 mt-px" />
-                +91 98765 43210 (Support)
-              </span>
-              <span
-                className="flex items-start gap-2.5"
-                style={{ color: "rgba(245,240,232,0.35)" }}
-              >
-                <MapPin className="w-3.5 h-3.5 flex-shrink-0 mt-px" />
-                Saintgits College, Kottayam, Kerala — 686532
+                <Phone className="w-3.5 h-3.5 flex-shrink-0 mt-px text-amber-500" />
+                S Harijith Viswanath:<br />+91 7994274376
               </span>
             </div>
           </div>

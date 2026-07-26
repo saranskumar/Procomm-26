@@ -202,33 +202,79 @@ export default function CompetitionPage() {
               </h2>
             </div>
 
-            {/* Problem Statements Released */}
-            <div className="flex justify-center mt-6">
-              <motion.div
-                className="organic-card hover-lift p-10 flex flex-col items-center justify-center text-center gap-6"
-                style={{
-                  borderRadius: "2.5rem 1.8rem 2.2rem 1.5rem",
-                  backgroundColor: "var(--moon)",
-                  border: "1.5px solid var(--paper-dark)",
-                  maxWidth: "550px"
-                }}
-                whileHover={{ scale: 1.01 }}
-              >
-                <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)" }}>
-                  <Radio className="w-7 h-7 float-slow" style={{ color: "var(--ochre)" }} />
-                </div>
-                <div className="flex flex-col items-center gap-4">
-                  <h3 className="font-display font-bold text-xl sm:text-2xl" style={{ fontStyle: "italic", color: "var(--ink-deep)" }}>
-                    Problem Statements Released
+            {/* 3 Problem Statements & 2-Round Format */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+              {[
+                {
+                  id: "01",
+                  title: "Smart Safety Helmet for Industrial Workers",
+                  target: "Miners, construction workers, archeologists, dam & toxic land inspectors",
+                  desc: "Detects falls, impacts, toxic gases, and worker inactivity using onboard sensors. Sends real-time emergency alerts with worker location for rapid rescue and response.",
+                },
+                {
+                  id: "02",
+                  title: "Smart Water Tank Health Monitoring System",
+                  target: "Residential & Industrial Water Infrastructure",
+                  desc: "Continuously monitors water quality parameters such as pH, turbidity, TDS, temperature, and water level. Alerts users to contamination or unsafe water conditions through a mobile or web dashboard.",
+                },
+                {
+                  id: "03",
+                  title: "Smart Rubber Plantation Worker Safety System",
+                  target: "Remote Plantation Workers",
+                  desc: "Monitors worker location, fall events, and vital parameters in remote plantation environments. Provides SOS alerts and long-range communication.",
+                },
+              ].map((item, idx) => (
+                <div
+                  key={idx}
+                  className="organic-card hover-lift p-6 flex flex-col gap-4 border select-text"
+                  style={{
+                    backgroundColor: "var(--moon)",
+                    borderColor: "var(--paper-dark)",
+                    borderRadius: "1.5rem",
+                  }}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono-editorial text-xs font-bold" style={{ color: "var(--ochre)" }}>
+                      PROBLEM STATEMENT {item.id}
+                    </span>
+                  </div>
+                  <h3 className="font-display font-bold text-xl" style={{ fontStyle: "italic", color: "var(--ink-deep)" }}>
+                    {item.title}
                   </h3>
-                  <p className="font-body leading-relaxed select-text" style={{ fontSize: "0.9rem", color: "var(--ink-mid)" }}>
-                    The problem statements for PROCOMM &apos;26 have been officially compiled. Undergraduate student teams must register now to claim their problem statements and participate in the 24-hour challenge.
+                  <div className="font-mono-editorial text-[0.65rem] tracking-wider uppercase text-zinc-500">
+                    Target: {item.target}
+                  </div>
+                  <p className="font-body text-xs leading-relaxed" style={{ color: "var(--ink-mid)" }}>
+                    {item.desc}
                   </p>
-                  <Link href="/register" className="btn-ochre text-xs py-2.5 px-6 inline-flex items-center gap-2 mt-2">
-                    Register Now
-                  </Link>
                 </div>
-              </motion.div>
+              ))}
+            </div>
+
+            {/* Hackathon Rounds Structure */}
+            <div className="mt-16 p-8 border rounded-2xl" style={{ backgroundColor: "var(--paper)", borderColor: "var(--paper-dark)" }}>
+              <div className="text-center mb-8">
+                <span className="chapter-label">Structure</span>
+                <h3 className="editorial-headline text-2xl md:text-3xl mt-1">Hackathon Rounds</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="p-6 rounded-xl border bg-white" style={{ borderColor: "var(--paper-dark)" }}>
+                  <div className="font-mono-editorial text-xs font-bold uppercase tracking-wider text-amber-600 mb-2">Round 1</div>
+                  <h4 className="font-display font-bold text-lg mb-2">Problem Solution Submission</h4>
+                  <ul className="font-body text-xs space-y-2 text-zinc-600 list-disc pl-4">
+                    <li>Participants must submit their proposed solution for the given problem statement.</li>
+                    <li>Submissions will be evaluated by an expert panel, and shortlisted teams will advance to Round 2.</li>
+                  </ul>
+                </div>
+                <div className="p-6 rounded-xl border bg-white" style={{ borderColor: "var(--paper-dark)" }}>
+                  <div className="font-mono-editorial text-xs font-bold uppercase tracking-wider text-amber-600 mb-2">Round 2</div>
+                  <h4 className="font-display font-bold text-lg mb-2">In-Person 24-Hour Hackathon</h4>
+                  <ul className="font-body text-xs space-y-2 text-zinc-600 list-disc pl-4">
+                    <li>Shortlisted teams from Round 1 will be invited to participate in an in-person, 24-hour hackathon at Saintgits College of Engineering (Autonomous), Kottayam.</li>
+                    <li>Participants will build, prototype, and demonstrate their working solution live before the jury.</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </section>

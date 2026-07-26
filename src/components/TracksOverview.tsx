@@ -57,35 +57,54 @@ export default function TracksOverview() {
           </Reveal>
         </div>
 
-        {/* Right — Coming Soon Placeholder */}
-        <div className="lg:col-span-7 flex justify-center w-full">
-          <Reveal delay={0.1}>
-            <motion.div
-              className="organic-card hover-lift p-8 flex flex-col items-center justify-center text-center gap-6 w-full"
-              style={{
-                borderRadius: "2rem 1.5rem 2.5rem 1.2rem",
-                backgroundColor: "var(--moon)",
-                border: "1.5px solid var(--paper-dark)",
-                maxWidth: "480px",
-              }}
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)" }}>
-                <Compass className="w-7 h-7 float-slow" style={{ color: "var(--ochre)" }} />
-              </div>
-              <div className="flex flex-col items-center gap-4">
-                <h3 className="font-display font-bold" style={{ fontSize: "1.6rem", fontStyle: "italic", color: "var(--ink-deep)" }}>
-                  Claim Your Problem Statement
+        {/* Right — 3 Official Problem Statements */}
+        <div className="lg:col-span-7 flex flex-col gap-5 w-full">
+          {[
+            {
+              id: "01",
+              title: "Smart Safety Helmet for Industrial Workers",
+              badge: "Industrial Safety",
+              desc: "Detects falls, impacts, toxic gases, and worker inactivity using onboard sensors. Sends real-time emergency alerts with worker location for rapid rescue in mining, construction, and dam inspection sites.",
+            },
+            {
+              id: "02",
+              title: "Smart Water Tank Health Monitoring System",
+              badge: "Water & Health",
+              desc: "Continuously monitors water quality parameters such as pH, turbidity, TDS, temperature, and water level. Alerts users to contamination or unsafe water conditions through a mobile or web dashboard.",
+            },
+            {
+              id: "03",
+              title: "Smart Rubber Plantation Worker Safety System",
+              badge: "Remote Safety",
+              desc: "Monitors worker location, fall events, and vital parameters in remote plantation environments. Provides SOS emergency alerts and long-range wireless communication.",
+            },
+          ].map((item, idx) => (
+            <Reveal key={idx} delay={0.1 * (idx + 1)}>
+              <div
+                className="organic-card hover-lift p-6 flex flex-col gap-3 w-full border"
+                style={{
+                  backgroundColor: "var(--moon)",
+                  borderColor: "var(--paper-dark)",
+                  borderRadius: "1.25rem",
+                }}
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <span className="font-mono-editorial text-xs font-bold" style={{ color: "var(--ochre)" }}>
+                    STATEMENT {item.id}
+                  </span>
+                  <span className="font-mono-editorial text-[0.6rem] tracking-wider uppercase px-2.5 py-0.5 rounded-full" style={{ backgroundColor: "var(--paper)", color: "var(--ink-soft)" }}>
+                    {item.badge}
+                  </span>
+                </div>
+                <h3 className="font-display font-bold text-lg" style={{ fontStyle: "italic", color: "var(--ink-deep)" }}>
+                  {item.title}
                 </h3>
                 <p className="font-body text-xs leading-relaxed" style={{ color: "var(--ink-mid)" }}>
-                  Complete your team registration now to receive the official problem statements and lock in your slot for the 24-hour hackathon.
+                  {item.desc}
                 </p>
-                <Link href="/register" className="btn-ochre text-xs py-2.5 px-6 inline-flex items-center gap-2 mt-2">
-                  Register Now <ArrowRight size={12} />
-                </Link>
               </div>
-            </motion.div>
-          </Reveal>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

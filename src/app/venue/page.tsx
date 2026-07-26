@@ -214,32 +214,24 @@ export default function VenuePage() {
               ))}
             </div>
 
-            {/* Map placeholder */}
+            {/* Interactive Google Map Embed */}
             <div
-              className="mt-12 w-full h-64 flex items-center justify-center hover-lift"
+              className="mt-12 w-full overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl"
               style={{
-                backgroundColor: "var(--moon)",
-                border: "1.5px solid var(--paper-dark)",
                 borderRadius: "1.5rem",
+                border: "1.5px solid var(--paper-dark)",
               }}
             >
-              <div className="text-center flex flex-col items-center gap-3">
-                <Map className="w-10 h-10 stroke-[1.2]" style={{ color: "var(--ochre)" }} />
-                <p
-                  className="font-mono-editorial tracking-widest uppercase"
-                  style={{ fontSize: "0.58rem", color: "var(--ink-soft)" }}
-                >
-                  Interactive map — coming soon
-                </p>
-                <a
-                  href="https://maps.google.com/?q=Saintgits+College+of+Engineering+Kottayam"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-outline-dark mt-2 inline-flex"
-                >
-                  Open in Google Maps ↗
-                </a>
-              </div>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3934.9851992881363!2d76.548784474979!3d9.510014881274149!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b062ed484f475a7%3A0xea66b5d0e55062ca!2sSaintgits%20College%20of%20Engineering%20(Autonomous)%2C%20Kottayam%2C%20Kerala!5e0!3m2!1sen!2sin!4v1785072325985!5m2!1sen!2sin"
+                width="100%"
+                height="450"
+                style={{ border: 0, display: "block" }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="strict-origin-when-cross-origin"
+                title="Saintgits College of Engineering Google Map Location"
+              />
             </div>
           </div>
         </section>

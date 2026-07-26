@@ -118,9 +118,8 @@ export default function ContactForm() {
 
           <div className="flex flex-col gap-4 select-text">
             {[
-              { icon: Mail, label: "Email support", val: "comsoc@ieeekerala.org" },
-              { icon: Phone, label: "Phone helpline", val: "+91 98765 43210" },
-              { icon: MapPin, label: "Office venue", val: "Saintgits College of Engineering (Autonomous), Kottayam, Kerala" },
+              { icon: Phone, label: "For further queries, contact", val: "S Harijith Viswanath: +91 7994274376" },
+              { icon: MapPin, label: "Host venue", val: "Saintgits College of Engineering (Autonomous), Kottayam, Kerala" },
             ].map((item, idx) => (
               <div 
                 key={idx} 
