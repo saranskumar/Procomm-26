@@ -8,16 +8,7 @@ interface IntroLoaderProps {
   onComplete: () => void;
 }
 
-/** Radiating pulse ring component */
-function SignalRing({
-  delay,
-  radius,
-  duration,
-}: {
-  delay: number;
-  radius: number;
-  duration: number;
-}) {
+function SignalRing({ delay, radius, duration }: { delay: number; radius: number; duration: number }) {
   return (
     <motion.circle
       cx="0"
@@ -28,13 +19,7 @@ function SignalRing({
       strokeWidth="1.5"
       initial={{ scale: 0.2, opacity: 0.8 }}
       animate={{ scale: 1, opacity: 0 }}
-      transition={{
-        duration,
-        delay,
-        repeat: Infinity,
-        ease: "easeOut",
-        repeatDelay: 0.1,
-      }}
+      transition={{ duration, delay, repeat: Infinity, ease: "easeOut", repeatDelay: 0.1 }}
     />
   );
 }
@@ -43,7 +28,6 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
   const [progress, setProgress] = useState(0);
   const [done, setDone] = useState(false);
 
-  // Lock body scroll while visible
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -51,22 +35,20 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
     };
   }, []);
 
-  // Drive progress 0→100 over ~2.8s then fire onComplete
   useEffect(() => {
-    const duration = 2800;
+    const duration = 2600;
     const interval = 30;
     let elapsed = 0;
 
     const timer = setInterval(() => {
       elapsed += interval;
       const t = Math.min(elapsed / duration, 1);
-      // ease-in-out cubic
       const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
       setProgress(Math.round(eased * 100));
       if (t >= 1) {
         clearInterval(timer);
         setDone(true);
-        setTimeout(() => onComplete(), 600);
+        setTimeout(() => onComplete(), 400);
       }
     }, interval);
 
@@ -75,12 +57,12 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
 
   return (
     <AnimatePresence>
-      {!done ? (
+      {!done && (
         <motion.div
-          key="intro"
+          key="intro-overlay"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.04 }}
-          transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
           className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden"
           style={{ backgroundColor: "var(--ink-deep)" }}
         >
@@ -114,13 +96,13 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
 
           {/* ── Top: organiser logos ── */}
           <motion.div
-            className="relative z-10 mt-10 md:mt-14 flex flex-col items-center gap-3"
+            className="relative z-10 flex flex-col items-center gap-3"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
+            style={{ marginBottom: "1.5rem" }}
           >
             <div className="flex items-center gap-5">
-              {/* ComSoc Kerala Chapter */}
               <Image
                 src="/logo/Comsoc Logo New Blue.png"
                 alt="IEEE ComSoc Kerala Chapter"
@@ -131,7 +113,6 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
                 priority
               />
               <span style={{ width: 1, height: 32, backgroundColor: "rgba(245,240,232,0.15)", display: "block" }} />
-              {/* Saintgits */}
               <Image
                 src="/logo/saint-logo .png"
                 alt="Saintgits College of Engineering"
@@ -142,7 +123,7 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
               />
             </div>
             <span
-              className="font-mono-editorial text-[9px] tracking-[0.25em] uppercase mt-1"
+              className="font-mono-editorial text-[9px] tracking-[0.25em] uppercase"
               style={{ color: "rgba(245,240,232,0.28)" }}
             >
               Presents
@@ -150,24 +131,24 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
           </motion.div>
 
           {/* ── Central scene: tower + pulsing rings ── */}
-          <div className="relative flex items-end justify-center" style={{ width: 320, height: 320 }}>
-            {/* Pulsing signal rings (centred on the transmitter ball) */}
+          <div className="relative flex items-end justify-center animate-pulse-slow" style={{ width: 320, height: 300 }}>
+            {/* Pulsing signal rings */}
             <svg
               className="absolute"
-              style={{ left: "50%", top: "28%", transform: "translate(-50%,-50%)", overflow: "visible" }}
+              style={{ left: "50%", top: "27%", transform: "translate(-50%,-50%)", overflow: "visible" }}
               width="0"
               height="0"
               viewBox="0 0 0 0"
               overflow="visible"
               aria-hidden="true"
             >
-              <SignalRing radius={55}  delay={0}    duration={2} />
-              <SignalRing radius={95}  delay={0.45} duration={2} />
-              <SignalRing radius={140} delay={0.9}  duration={2} />
+              <SignalRing radius={55} delay={0} duration={2} />
+              <SignalRing radius={95} delay={0.45} duration={2} />
+              <SignalRing radius={140} delay={0.9} duration={2} />
               <SignalRing radius={190} delay={1.35} duration={2} />
             </svg>
 
-            {/* Communication tower SVG */}
+            {/* Tower SVG */}
             <motion.svg
               width="160"
               height="260"
@@ -182,31 +163,16 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
               transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 0.61, 0.36, 1] }}
               style={{ position: "relative", zIndex: 10 }}
             >
-              {/* Ground base line */}
               <line x1="12" y1="150" x2="88" y2="150" strokeWidth="2.5" />
-
-              {/* A-frame mast body */}
-              <polygon
-                points="36,150 46,60 54,60 64,150"
-                strokeWidth="2.2"
-                fill="rgba(11,26,48,0.45)"
-              />
-
-              {/* Horizontal struts */}
+              <polygon points="36,150 46,60 54,60 64,150" strokeWidth="2.2" fill="rgba(11,26,48,0.45)" />
               <line x1="39" y1="122" x2="61" y2="122" />
-              <line x1="42" y1="98"  x2="58" y2="98"  />
-              <line x1="44" y1="78"  x2="56" y2="78"  />
-
-              {/* Diagonal bracings */}
-              <line x1="39" y1="122" x2="58" y2="98"  strokeWidth="0.9" opacity="0.6" />
-              <line x1="61" y1="122" x2="42" y2="98"  strokeWidth="0.9" opacity="0.6" />
-              <line x1="42" y1="98"  x2="56" y2="78"  strokeWidth="0.9" opacity="0.6" />
-              <line x1="58" y1="98"  x2="44" y2="78"  strokeWidth="0.9" opacity="0.6" />
-
-              {/* Vertical stem up to transmitter */}
+              <line x1="42" y1="98" x2="58" y2="98" />
+              <line x1="44" y1="78" x2="56" y2="78" />
+              <line x1="39" y1="122" x2="58" y2="98" strokeWidth="0.9" opacity="0.6" />
+              <line x1="61" y1="122" x2="42" y2="98" strokeWidth="0.9" opacity="0.6" />
+              <line x1="42" y1="98" x2="56" y2="78" strokeWidth="0.9" opacity="0.6" />
+              <line x1="58" y1="98" x2="44" y2="78" strokeWidth="0.9" opacity="0.6" />
               <line x1="50" y1="60" x2="50" y2="38" strokeWidth="2.5" />
-
-              {/* Transmitter ball — glows with ochre */}
               <circle
                 cx="50"
                 cy="28"
@@ -219,9 +185,10 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
             </motion.svg>
           </div>
 
-          {/* ── Wordmark ── */}
+          {/* ── PROCOMM '26 wordmark ── */}
           <motion.div
-            className="flex flex-col items-center gap-1 mt-6"
+            className="flex flex-col items-center gap-1 z-10"
+            style={{ marginTop: "1rem" }}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.55 }}
@@ -235,8 +202,7 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
                 letterSpacing: "-0.02em",
               }}
             >
-              PROCOMM{" "}
-              <span style={{ color: "var(--ochre)" }}>&apos;26</span>
+              PROCOMM <span style={{ color: "var(--ochre)" }}>&apos;26</span>
             </span>
             <span
               className="font-mono-editorial tracking-[0.3em] uppercase"
@@ -246,18 +212,15 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
             </span>
           </motion.div>
 
-          {/* ── Bottom: progress bar ── */}
+          {/* ── Progress bar ── */}
           <motion.div
-            className="absolute bottom-14 left-1/2 -translate-x-1/2 w-full max-w-xs px-8 flex flex-col items-center gap-3"
+            className="z-10 w-full max-w-xs px-8 flex flex-col items-center gap-3"
+            style={{ marginTop: "2rem" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.6 }}
           >
-            {/* Track */}
-            <div
-              className="w-full h-[2px] rounded-full overflow-hidden"
-              style={{ backgroundColor: "rgba(245,240,232,0.07)" }}
-            >
+            <div className="w-full h-[2px] rounded-full overflow-hidden" style={{ backgroundColor: "rgba(245,240,232,0.07)" }}>
               <motion.div
                 className="h-full rounded-full"
                 style={{
@@ -266,19 +229,11 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
                 }}
               />
             </div>
-
-            {/* Percentage */}
             <div className="flex items-center justify-between w-full">
-              <span
-                className="font-mono-editorial text-[9px] tracking-widest uppercase"
-                style={{ color: "rgba(245,240,232,0.22)" }}
-              >
+              <span className="font-mono-editorial text-[9px] tracking-widest uppercase" style={{ color: "rgba(245,240,232,0.22)" }}>
                 comsoc.ieeekerala.org
               </span>
-              <span
-                className="font-mono-editorial text-[10px] tabular-nums"
-                style={{ color: "rgba(245,240,232,0.3)" }}
-              >
+              <span className="font-mono-editorial text-[10px] tabular-nums" style={{ color: "rgba(245,240,232,0.3)" }}>
                 {progress}%
               </span>
             </div>
@@ -286,11 +241,11 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
 
           {/* ── Footer line with logos ── */}
           <motion.div
+            className="absolute bottom-0 left-0 right-0 z-10 border-t px-8 py-3 flex items-center justify-between"
+            style={{ borderColor: "rgba(245,240,232,0.07)" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="relative z-10 w-full border-t px-8 py-3 flex items-center justify-between mb-1"
-            style={{ borderColor: "rgba(245,240,232,0.07)" }}
           >
             <span className="font-mono-editorial text-[9px] tracking-wider" style={{ color: "rgba(245,240,232,0.18)" }}>
               Sept 5th &amp; 6th, 2026
@@ -308,7 +263,7 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
             </span>
           </motion.div>
 
-          {/* ── Skip ── */}
+          {/* ── Skip button ── */}
           <AnimatePresence>
             {progress > 30 && (
               <motion.button
@@ -317,8 +272,8 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                onClick={onComplete}
-                className="absolute bottom-5 right-8 font-mono-editorial text-[9px] tracking-widest uppercase cursor-pointer transition-opacity"
+                onClick={() => setDone(true)}
+                className="absolute bottom-5 right-8 font-mono-editorial text-[9px] tracking-widest uppercase cursor-pointer"
                 style={{ color: "rgba(245,240,232,0.2)" }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(245,240,232,0.6)")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(245,240,232,0.2)")}
@@ -328,7 +283,7 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
             )}
           </AnimatePresence>
         </motion.div>
-      ) : null}
+      )}
     </AnimatePresence>
   );
 }
