@@ -39,7 +39,7 @@ export default function PrizePool() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-16 select-text">
           {[
             { rank: "First Prize", amount: "₹12,000", symbol: "🏆", color: "var(--ochre)" },
-            { rank: "Second Prize", amount: "₹10,000", symbol: "🥈", color: "var(--lavender)" },
+            { rank: "Second Prize", amount: "₹9,000", symbol: "🥈", color: "var(--lavender)" },
             { rank: "Third Prize", amount: "₹7,000", symbol: "🥉", color: "var(--teal-soft)" },
           ].map((prize, i) => (
             <Reveal delay={i * 0.1} key={i}>

@@ -263,25 +263,7 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
             </span>
           </motion.div>
 
-          {/* ── Skip button ── */}
-          <AnimatePresence>
-            {progress > 30 && (
-              <motion.button
-                key="skip"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}
-                onClick={() => setDone(true)}
-                className="absolute bottom-5 right-8 font-mono-editorial text-[9px] tracking-widest uppercase cursor-pointer"
-                style={{ color: "rgba(245,240,232,0.2)" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(245,240,232,0.6)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(245,240,232,0.2)")}
-              >
-                Skip ↗
-              </motion.button>
-            )}
-          </AnimatePresence>
+
         </motion.div>
       )}
     </AnimatePresence>

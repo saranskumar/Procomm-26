@@ -10,6 +10,34 @@ export default function AboutSection() {
     <section className="relative py-28 px-6 overflow-hidden" style={{ backgroundColor: "var(--ivory)" }} id="about">
       <IllustrationLayer scene="brushwork" color="var(--ink-soft)" opacity={0.25} />
 
+      {/* Organizers & Hosts banner integrated at the top of the About section */}
+      <div className="relative z-10 max-w-7xl mx-auto mb-16 pb-10 border-b border-dashed border-zinc-300/30">
+        <Reveal delay={0.1}>
+          <div className="text-center">
+            <span className="font-mono-editorial text-[0.62rem] tracking-[0.25em] uppercase text-zinc-400 select-none block mb-6">
+              Organizers & Hosts
+            </span>
+            <div className="flex flex-wrap items-center justify-center gap-12 md:gap-20">
+              <img
+                src="/logo/Comsoc Logo New Blue.png"
+                alt="IEEE ComSoc Kerala Chapter Logo"
+                className="h-8 md:h-9 w-auto opacity-75 hover:opacity-100 transition-opacity duration-300 object-contain"
+              />
+              <img
+                src="/logo/ieee-saint.png"
+                alt="IEEE Saintgits Student Branch Logo"
+                className="h-11 md:h-13 w-auto opacity-90 hover:opacity-100 transition-opacity duration-300 object-contain"
+              />
+              <img
+                src="/logo/IEEE Kerala Section Logo.png"
+                alt="IEEE Kerala Section Logo"
+                className="h-7 md:h-8 w-auto opacity-75 hover:opacity-100 transition-opacity duration-300 object-contain"
+              />
+            </div>
+          </div>
+        </Reveal>
+      </div>
+
       <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
         {/* Left — Large decorative number + heading */}
         <div className="lg:col-span-5">

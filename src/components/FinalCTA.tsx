@@ -10,33 +10,19 @@ export default function FinalCTA() {
   return (
     <section
       className="relative py-36 px-6 overflow-hidden"
-      style={{ backgroundColor: "var(--ink-deep)" }}
+      style={{ backgroundColor: "var(--ivory)" }}
       id="cta"
     >
-      <IllustrationLayer scene="cosmic" color="var(--ochre)" opacity={0.18} animated />
-
-      {/* Hill transition into footer */}
-      <svg
-        className="absolute bottom-0 left-0 w-full pointer-events-none"
-        viewBox="0 0 1440 80"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-      >
-        <path
-          d="M0,40 C240,10 480,70 720,40 C960,10 1200,65 1440,45 L1440,80 L0,80 Z"
-          fill="var(--ink-deep)"
-          opacity="0.8"
-        />
-      </svg>
+      <IllustrationLayer scene="cosmic" color="var(--ink-soft)" opacity={0.15} animated />
 
       <div className="relative z-10 max-w-3xl mx-auto text-center">
         <Reveal>
-          <span className="vintage-stamp-light">Call to Action</span>
+          <span className="vintage-stamp">Call to Action</span>
           <h2
             className="editorial-headline mt-6"
             style={{
               fontSize: "clamp(3rem, 8vw, 6rem)",
-              color: "var(--ivory)",
+              color: "var(--ink-deep)",
               lineHeight: 0.92,
             }}
           >
@@ -48,7 +34,7 @@ export default function FinalCTA() {
             className="font-body mt-8 mx-auto"
             style={{
               fontSize: "1rem",
-              color: "rgba(230,237,245,0.5)",
+              color: "var(--ink-mid)",
               lineHeight: 1.75,
               maxWidth: "36ch",
             }}
@@ -79,7 +65,7 @@ export default function FinalCTA() {
         <Reveal delay={0.35}>
           <p
             className="font-mono-editorial mt-8 tracking-widest uppercase"
-            style={{ fontSize: "0.55rem", color: "rgba(230,237,245,0.2)" }}
+            style={{ fontSize: "0.55rem", color: "var(--ink-soft)" }}
           >
             IEEE ComSoc Kerala Chapter · comsoc.ieeekerala.org
           </p>

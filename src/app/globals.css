@@ -8,22 +8,22 @@
 
 :root {
   /* Core Palette — Goodkind Co. Pine & Cream Style */
-  --ink-deep:     #283434;   /* Dark Pine Green — primary text, dark bg */
-  --ink-mid:      #3d4947;   /* Medium Pine — secondary text            */
-  --ink-soft:     #67806e;   /* Muted Sage-Green — subdued text         */
-  --moss:         #acc9b5;   /* Sage Accent — secondary accent          */
-  --moss-light:   #c3d9ca;   /* Light Sage — hover accent               */
-  --olive:        #5c5c2e;   /* Olive — tertiary accent                 */
+  --ink-deep:     #121422;   /* Deep Midnight Indigo-Black — primary text, dark bg */
+  --ink-mid:      #282b3d;   /* Slate Indigo — secondary text            */
+  --ink-soft:     #555a73;   /* Muted Lavender-Grey — subdued text         */
+  --moss:         #8fa3c7;   /* Dusty Blue/Lavender Accent — secondary accent          */
+  --moss-light:   #b2c3eb;   /* Light Blue — hover accent               */
+  --olive:        #46415e;   /* Dark Violet — tertiary accent                 */
   --ochre:        #e5a139;   /* Golden Ochre — warmth, highlight        */
   --ochre-light:  #f0b85a;   /* Light Ochre — hover states              */
-  --rust:         #dd9294;   /* Peach/Rose — alert / secondary accent    */
-  --ivory:        #faf7e6;   /* Spring Cream — primary bg               */
-  --paper:        #ebf7ef;   /* Soft Sage-Cream — secondary bg          */
-  --paper-dark:   #c3d9ca;   /* Border Sage — borders, dividers         */
-  --fog:          #acc9b5;   /* Fog Sage — muted surfaces               */
-  --lavender:     #a4dbe9;   /* Ice Blue — info/cosmic accent           */
+  --rust:         #d67b84;   /* Deep Rose/Red — alert / secondary accent    */
+  --ivory:        #faf6eb;   /* Warm Sand-Cream (Sandal) — primary bg               */
+  --paper:        #e6eaf3;   /* Soft Twilight Slate-Blue — secondary bg          */
+  --paper-dark:   #cbd2e1;   /* Border Muted Slate-Blue — borders, dividers         */
+  --fog:          #bac3d6;   /* Fog Muted Slate-Blue — muted surfaces               */
+  --lavender:     #a6d7e2;   /* Ice Blue — info/cosmic accent           */
   --moon:         #ffffff;   /* Pure White — card surfaces              */
-  --teal-soft:    #409993;   /* Soft Teal — tertiary info accent        */
+  --teal-soft:    #4c5d8a;   /* Deep Slate-Blue/Indigo — tertiary info accent        */
   --star-glow:    #e5a139;   /* Star/Starfield color                    */
 
   /* Semantic aliases */

@@ -9,13 +9,12 @@ import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
 import WaveDivider from "@/components/WaveDivider";
 
-import Highlights from "@/components/Highlights";
+
 import AboutSection from "@/components/AboutSection";
 import WhyParticipate from "@/components/WhyParticipate";
 import TracksOverview from "@/components/TracksOverview";
 import TimelineSection from "@/components/TimelineSection";
 import PrizePool from "@/components/PrizePool";
-import OrganizersList from "@/components/OrganizersList";
 import FinalCTA from "@/components/FinalCTA";
 
 export default function Home() {
@@ -58,16 +57,7 @@ export default function Home() {
 
         {!loading && (
           <>
-            {/* ── Wave: Hero → Highlights ── */}
-            <WaveDivider fromColor="var(--ivory)" toColor="var(--paper)" />
-
-            {/* ── 2. Event Highlights Strip ── */}
-            <Highlights />
-
-            {/* ── Wave: Highlights → About ── */}
-            <WaveDivider fromColor="var(--paper)" toColor="var(--ivory)" flip />
-
-            {/* ── 3. About PROCOMM ── */}
+            {/* ── 2. About PROCOMM & Organizers/Hosts ── */}
             <AboutSection />
 
             {/* ── Wave: About → Why ── */}
@@ -94,17 +84,14 @@ export default function Home() {
             {/* ── 7. Prize Pool ── */}
             <PrizePool />
 
-            {/* ── Wave: Prizes → Organizers ── */}
-            <WaveDivider fromColor="var(--ink-deep)" toColor="var(--paper)" />
+            {/* ── Wave: Prizes → CTA ── */}
+            <WaveDivider fromColor="var(--ink-deep)" toColor="var(--ivory)" />
 
-            {/* ── 8. Organizing Committee ── */}
-            <OrganizersList />
-
-            {/* ── Wave: Organizers → CTA ── */}
-            <WaveDivider fromColor="var(--paper)" toColor="var(--ink-deep)" flip />
-
-            {/* ── 9. Final CTA ── */}
+            {/* ── 8. Final CTA (Light) ── */}
             <FinalCTA />
+
+            {/* ── Wave: CTA → Footer ── */}
+            <WaveDivider fromColor="var(--ivory)" toColor="var(--ink-deep)" flip />
           </>
         )}
       </main>
