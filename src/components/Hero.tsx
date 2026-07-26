@@ -23,12 +23,13 @@ export default function Hero() {
 
   // Imperative spring animations to return the elements to their origin on tower click
   const resetElements = () => {
-    animate(satelliteX, 0, { type: "spring", stiffness: 100, damping: 15 });
-    animate(satelliteY, 0, { type: "spring", stiffness: 100, damping: 15 });
-    animate(leftPlanetX, 0, { type: "spring", stiffness: 100, damping: 15 });
-    animate(leftPlanetY, 0, { type: "spring", stiffness: 100, damping: 15 });
-    animate(rightPlanetX, 0, { type: "spring", stiffness: 100, damping: 15 });
-    animate(rightPlanetY, 0, { type: "spring", stiffness: 100, damping: 15 });
+    const springConfig = { type: "spring" as const, stiffness: 28, damping: 18, mass: 1.4 };
+    animate(satelliteX, 0, springConfig);
+    animate(satelliteY, 0, springConfig);
+    animate(leftPlanetX, 0, springConfig);
+    animate(leftPlanetY, 0, springConfig);
+    animate(rightPlanetX, 0, springConfig);
+    animate(rightPlanetY, 0, springConfig);
   };
 
   return (

@@ -64,7 +64,10 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
           exit={{ opacity: 0, scale: 0.98 }}
           transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
           className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden"
-          style={{ backgroundColor: "var(--ink-deep)" }}
+          style={{
+            background:
+              "linear-gradient(180deg, #122020 0%, #172b31 30%, #1d3a43 55%, #162d34 80%, #0f1d20 100%)",
+          }}
         >
           {/* ── Deep atmospheric backdrop ── */}
           <div
@@ -102,25 +105,31 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
             transition={{ duration: 0.8, delay: 0.2 }}
             style={{ marginBottom: "1.5rem" }}
           >
-            <div className="flex items-center gap-5">
-              <Image
-                src="/logo/Comsoc Logo New Blue.png"
-                alt="IEEE ComSoc Kerala Chapter"
-                width={140}
-                height={46}
-                className="object-contain"
-                style={{ filter: "brightness(0) invert(1)", opacity: 0.75, maxHeight: 40, width: "auto" }}
-                priority
-              />
-              <span style={{ width: 1, height: 32, backgroundColor: "rgba(245,240,232,0.15)", display: "block" }} />
-              <Image
-                src="/logo/saint-logo .png"
-                alt="Saintgits College of Engineering"
-                width={52}
-                height={52}
-                className="object-contain"
-                style={{ opacity: 0.65, maxHeight: 44, width: "auto" }}
-              />
+            <div className="flex items-center justify-center w-full max-w-[400px]">
+              <div className="flex-1 flex justify-end pr-4">
+                <Image
+                  src="/logo/Comsoc Logo New Blue.png"
+                  alt="IEEE ComSoc Kerala Chapter"
+                  width={170}
+                  height={56}
+                  className="object-contain"
+                  style={{ filter: "brightness(0) invert(1)", opacity: 0.75, maxHeight: 48, width: "auto" }}
+                  priority
+                />
+              </div>
+              <span style={{ width: 1, height: 36, backgroundColor: "rgba(245,240,232,0.15)", display: "block", flexShrink: 0 }} />
+              <div className="flex-1 flex justify-start pl-4">
+                <Image
+                  src="/logo/ieee-saint.png"
+                  alt="Saintgits IEEE Student Branch"
+                  width={150}
+                  height={48}
+                  className="object-contain"
+                  style={{ opacity: 0.65, height: "auto", width: "auto" }}
+                  loading="eager"
+                  priority
+                />
+              </div>
             </div>
             <span
               className="font-mono-editorial text-[9px] tracking-[0.25em] uppercase"
@@ -247,20 +256,26 @@ export default function IntroLoader({ onComplete }: IntroLoaderProps) {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
           >
-            <span className="font-mono-editorial text-[9px] tracking-wider" style={{ color: "rgba(245,240,232,0.18)" }}>
-              Sept 5th &amp; 6th, 2026
-            </span>
-            <Image
-              src="/logo/ieee-saint.png"
-              alt="Saintgits IEEE Student Branch"
-              width={90}
-              height={28}
-              className="object-contain"
-              style={{ filter: "brightness(0) invert(1)", opacity: 0.3, maxHeight: 24, width: "auto" }}
-            />
-            <span className="font-mono-editorial text-[9px] tracking-wider" style={{ color: "rgba(245,240,232,0.18)" }}>
-              Saintgits, Kottayam
-            </span>
+            <div className="flex-1 flex justify-start">
+              <span className="font-mono-editorial text-[9px] tracking-wider" style={{ color: "rgba(245,240,232,0.18)" }}>
+                Sept 5th &amp; 6th, 2026
+              </span>
+            </div>
+            <div className="flex-shrink-0 flex justify-center mx-4">
+              <Image
+                src="/logo/ieee-saint.png"
+                alt="Saintgits IEEE Student Branch"
+                width={90}
+                height={28}
+                className="object-contain"
+                style={{ opacity: 0.3, height: "auto", width: "auto" }}
+              />
+            </div>
+            <div className="flex-1 flex justify-end">
+              <span className="font-mono-editorial text-[9px] tracking-wider" style={{ color: "rgba(245,240,232,0.18)" }}>
+                Saintgits, Kottayam
+              </span>
+            </div>
           </motion.div>
 
 
