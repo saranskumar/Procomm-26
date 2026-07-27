@@ -18,64 +18,52 @@ export default function WaveDivider({
       className="relative w-full pointer-events-none overflow-hidden"
       style={{
         backgroundColor: fromColor,
-        height: "92px",
+        height: "80px",
         lineHeight: 0,
         zIndex: 1,
-        marginTop: "-1.5px",
-        marginBottom: "-1.5px",
+        marginTop: "-1px",
+        marginBottom: "-1px",
       }}
       aria-hidden="true"
     >
       <svg
-        viewBox="0 0 1440 90"
+        viewBox="0 0 1440 80"
         preserveAspectRatio="none"
         className="w-full h-full block"
         style={{ transform: flip ? "scaleX(-1)" : undefined }}
       >
-        {/* Hill Layer 1 — Deepest / lowest opacity */}
+        {/* Subtle accent crest stroke echo */}
         <motion.path
-          d="M0,60 C240,25 480,75 720,50 C960,25 1200,65 1440,45 L1440,90 L0,90 Z"
-          fill={toColor}
-          opacity="0.15"
+          d="M0,32 C280,5 560,65 840,25 C1120,-5 1320,45 1440,30"
+          fill="none"
+          stroke={toColor}
+          strokeWidth="2"
+          opacity="0.3"
           animate={{
             d: [
-              "M0,60 C240,25 480,75 720,50 C960,25 1200,65 1440,45 L1440,90 L0,90 Z",
-              "M0,52 C240,35 480,65 720,56 C960,35 1200,58 1440,52 L1440,90 L0,90 Z",
-              "M0,60 C240,25 480,75 720,50 C960,25 1200,65 1440,45 L1440,90 L0,90 Z",
+              "M0,32 C280,5 560,65 840,25 C1120,-5 1320,45 1440,30",
+              "M0,22 C280,55 560,15 840,45 C1120,25 1320,10 1440,40",
+              "M0,32 C280,5 560,65 840,25 C1120,-5 1320,45 1440,30",
             ],
           }}
-          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-        />
-        
-        {/* Hill Layer 2 — Middle hill */}
-        <motion.path
-          d="M0,75 C180,55 360,80 540,70 C720,60 900,78 1080,68 C1260,58 1380,72 1440,70 L1440,90 L0,90 Z"
-          fill={toColor}
-          opacity="0.35"
-          animate={{
-            d: [
-              "M0,75 C180,55 360,80 540,70 C720,60 900,78 1080,68 C1260,58 1380,72 1440,70 L1440,90 L0,90 Z",
-              "M0,70 C180,61 360,73 540,76 C720,66 900,71 1080,74 C1260,64 1380,68 1440,76 L1440,90 L0,90 Z",
-              "M0,75 C180,55 360,80 540,70 C720,60 900,78 1080,68 C1260,58 1380,72 1440,70 L1440,90 L0,90 Z",
-            ],
-          }}
-          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
 
-        {/* Hill Layer 3 — Foreground (solid, transitions directly into the bottom section) */}
+        {/* Primary 100% solid Bezier wave path */}
         <motion.path
-          d="M0,82 C200,65 400,92 600,80 C800,68 1000,88 1200,78 C1340,68 1400,82 1440,80 L1440,90 L0,90 Z"
+          d="M0,42 C280,15 560,72 840,35 C1120,5 1320,55 1440,40 L1440,80 L0,80 Z"
           fill={toColor}
           animate={{
             d: [
-              "M0,82 C200,65 400,92 600,80 C800,68 1000,88 1200,78 C1340,68 1400,82 1440,80 L1440,90 L0,90 Z",
-              "M0,78 C200,72 400,85 600,84 C800,75 1000,82 1200,83 C1340,76 1400,78 1440,84 L1440,90 L0,90 Z",
-              "M0,82 C200,65 400,92 600,80 C800,68 1000,88 1200,78 C1340,68 1400,82 1440,80 L1440,90 L0,90 Z",
+              "M0,42 C280,15 560,72 840,35 C1120,5 1320,55 1440,40 L1440,80 L0,80 Z",
+              "M0,32 C280,62 560,22 840,52 C1120,32 1320,20 1440,48 L1440,80 L0,80 Z",
+              "M0,42 C280,15 560,72 840,35 C1120,5 1320,55 1440,40 L1440,80 L0,80 Z",
             ],
           }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
       </svg>
     </div>
   );
 }
+

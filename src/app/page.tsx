@@ -89,13 +89,10 @@ export default function Home() {
 
             {/* ── 8. Final CTA (Light) ── */}
             <FinalCTA />
-
-            {/* ── Wave: CTA → Footer ── */}
-            <WaveDivider fromColor="var(--ivory)" toColor="var(--ink-deep)" flip />
           </>
         )}
       </main>
-      {!loading && <Footer />}
+      {!loading && <Footer fromColor="var(--ivory)" />}
     </div>
   );
 }

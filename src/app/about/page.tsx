@@ -275,12 +275,10 @@ export default function AboutPage() {
         </section>
 
         {/* ── Wave: Orgs → Legacy ── */}
-        <WaveDivider fromColor="var(--ivory)" toColor="var(--paper)" />
-
-        {/* ── 5. Past Editions ── */}
+             {/* ── 5. Past Editions ── */}
         <section
-          className="relative py-28 px-6 overflow-hidden"
-          style={{ backgroundColor: "var(--ivory)" }}
+          className="relative py-28 px-6 overflow-hidden topo-bg"
+          style={{ backgroundColor: "var(--paper)" }}
         >
           <div className="relative z-10 max-w-5xl mx-auto">
             <div className="text-center mb-16">
@@ -349,7 +347,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── Wave: Legacy → Stats ── */}
-        <WaveDivider fromColor="var(--ivory)" toColor="var(--ink-deep)" />
+        <WaveDivider fromColor="var(--paper)" toColor="var(--ink-deep)" />
 
         {/* ── 6. Statistics ── */}
         <section
@@ -386,9 +384,8 @@ export default function AboutPage() {
           </div>
         </section>
 
-
       </main>
-      <Footer />
+      <Footer fromColor="var(--ink-deep)" />
     </div>
   );
 }

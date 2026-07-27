@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Facebook, Instagram, Linkedin, Twitter, Globe, Mail, Phone, MapPin } from "lucide-react";
 
 // ── Topographic background for footer ───────────────────────────────────────
@@ -11,7 +12,11 @@ const TOPO_PATHS = [
   "M-100,232 C200,185 500,224 800,206 C1100,180 1300,215 1540,205",
 ];
 
-export default function Footer() {
+interface FooterProps {
+  fromColor?: string;
+}
+
+export default function Footer({ fromColor = "var(--ivory)" }: FooterProps) {
   return (
     <footer
       className="relative overflow-hidden"
@@ -27,7 +32,7 @@ export default function Footer() {
       >
         <path
           d="M0,0 L0,40 C200,70 400,20 600,50 C800,80 1000,30 1200,58 C1350,75 1420,40 1440,48 L1440,0 Z"
-          fill="var(--ivory)"
+          fill={fromColor}
           opacity="1"
         />
       </svg>
@@ -101,19 +106,13 @@ export default function Footer() {
           {/* Col 1 — About */}
           <div className="flex flex-col gap-5">
             <div className="flex items-center gap-2">
-              {/* IEEE ComSoc Logo */}
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ color: "var(--ochre)" }} aria-hidden="true">
-                <circle cx="12" cy="12" r="10" />
-                <circle cx="12" cy="12" r="6" strokeDasharray="2 2" />
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                <path d="M2 12h20" />
-              </svg>
-              <span
-                className="font-display font-bold"
-                style={{ fontSize: "1.1rem", fontStyle: "italic", color: "var(--ivory)" }}
-              >
-                PROCOMM <span style={{ color: "var(--ochre)" }}>&apos;26</span>
-              </span>
+              <Image
+                src="/logo/procomm-logo-white.png"
+                alt="PROCOMM '26"
+                width={200}
+                height={32}
+                className="object-contain h-7 w-auto opacity-95"
+              />
             </div>
 
             <p

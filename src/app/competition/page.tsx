@@ -75,9 +75,9 @@ const judgingCriteria = [
 
 const faqs = [
   { q: "Is there a registration fee?", a: "No, registration is completely free for all eligible engineering student teams." },
-  { q: "What is the maximum team size?", a: "Teams can have a minimum of 1 and a maximum of 4 members. Inter-departmental teams are allowed, but all members must be from the same institution." },
-  { q: "Are simulation projects allowed?", a: "Yes, but projects incorporating physical hardware validation (e.g., SDRs, microcontrollers, or optical kits) will score significantly higher under Technical Excellence." },
-  { q: "Who do I contact for technical support?", a: "Write to comsoc@ieeekerala.org or reach out to your local student volunteer coordinators listed on the Register page." },
+  { q: "What is the maximum team size?", a: "Teams can have a minimum of 1 and a maximum of 4 members. Inter-departmental and inter-college teams are allowed — team members can be from different institutions." },
+  { q: "Are simulation projects allowed?", a: "Yes, but projects incorporating physical hardware validation (e.g., SDRs, microcontrollers, or sensor kits) will score significantly higher under Technical Excellence." },
+  { q: "Who do I contact for technical support?", a: "Contact official coordinator S Harijith Viswanath at +91 7994274376." },
 ];
 
 // ── Animated wave divider ────────────────────────────────────────────────────

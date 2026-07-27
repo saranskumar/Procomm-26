@@ -25,16 +25,11 @@ export default function MobileNavbar({ pathname, isActive, navLinks, isDarkTheme
       {/* Logo / Wordmark */}
       <Link href="/" className="flex items-center group flex-shrink-0">
         <Image
-          src="/logo/procomm-logo.png"
+          src={isDarkTheme ? "/logo/procomm-logo.png" : "/logo/procomm-logo-white.png"}
           alt="PROCOMM '26"
-          width={112}
-          height={28}
-          className="object-contain opacity-95 transition-all duration-300"
-          style={{
-            filter: isDarkTheme ? "brightness(0)" : "none",
-            maxHeight: 25,
-            width: "auto",
-          }}
+          width={180}
+          height={30}
+          className="object-contain transition-all duration-300 h-6.5 w-auto"
           priority
         />
       </Link>

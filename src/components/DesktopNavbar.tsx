@@ -17,16 +17,11 @@ export default function DesktopNavbar({ pathname, isActive, navLinks, isDarkThem
       {/* Logo / Wordmark */}
       <Link href="/" className="flex items-center group flex-shrink-0">
         <Image
-          src="/logo/procomm-logo.png"
+          src={isDarkTheme ? "/logo/procomm-logo.png" : "/logo/procomm-logo-white.png"}
           alt="PROCOMM '26"
-          width={112}
-          height={28}
-          className="object-contain opacity-95 transition-all duration-300"
-          style={{
-            filter: isDarkTheme ? "brightness(0)" : "none",
-            maxHeight: 25,
-            width: "auto",
-          }}
+          width={220}
+          height={36}
+          className="object-contain transition-all duration-300 h-8 w-auto"
           priority
         />
       </Link>
