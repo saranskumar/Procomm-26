@@ -17,21 +17,21 @@ export default function AboutSection() {
             <span className="font-mono-editorial text-[0.62rem] tracking-[0.25em] uppercase text-zinc-400 select-none block mb-6">
               Organizers & Hosts
             </span>
-            <div className="flex flex-wrap items-center justify-center gap-12 md:gap-20">
+            <div className="flex flex-nowrap items-center justify-center gap-6 sm:gap-12 md:gap-16 overflow-x-auto py-1">
               <img
                 src="/logo/Comsoc Logo New Blue.png"
                 alt="IEEE ComSoc Kerala Chapter Logo"
-                className="h-8 md:h-9 w-auto opacity-75 hover:opacity-100 transition-opacity duration-300 object-contain"
+                className="h-7 sm:h-8 md:h-9 w-auto opacity-80 hover:opacity-100 transition-opacity duration-300 object-contain flex-shrink-0"
               />
               <img
                 src="/logo/ieee-saint.png"
                 alt="IEEE Saintgits Student Branch Logo"
-                className="h-11 md:h-13 w-auto opacity-90 hover:opacity-100 transition-opacity duration-300 object-contain"
+                className="h-9 sm:h-11 md:h-13 w-auto opacity-95 hover:opacity-100 transition-opacity duration-300 object-contain flex-shrink-0"
               />
               <img
                 src="/logo/IEEE Kerala Section Logo.png"
                 alt="IEEE Kerala Section Logo"
-                className="h-7 md:h-8 w-auto opacity-75 hover:opacity-100 transition-opacity duration-300 object-contain"
+                className="h-6 sm:h-7 md:h-8 w-auto opacity-80 hover:opacity-100 transition-opacity duration-300 object-contain flex-shrink-0"
               />
             </div>
           </div>
