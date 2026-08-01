@@ -161,7 +161,7 @@ export default function MobileNavbar() {
                     href="/register"
                     className="btn-ochre w-full text-center py-3.5 rounded-xl flex justify-center text-xs font-semibold tracking-wider uppercase shadow-lg"
                   >
-                    Register Now
+                    Opening Soon
                   </Link>
                 </div>
               </nav>

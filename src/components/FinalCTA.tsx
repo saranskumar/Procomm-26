@@ -39,7 +39,7 @@ export default function FinalCTA() {
               maxWidth: "36ch",
             }}
           >
-            Submit your registration today and pitch your prototype at the flagship 24-hour IEEE Communications Project Competition.
+            Registration will open soon. Sign up to get notified and prepare your team for the flagship 24-hour IEEE Communications Project Competition.
           </p>
         </Reveal>
 
@@ -47,7 +47,7 @@ export default function FinalCTA() {
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
               <Link href="/register" className="btn-ochre" id="cta-register-btn">
-                Register Now
+                Opening Soon
               </Link>
             </motion.div>
             <motion.button

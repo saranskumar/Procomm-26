@@ -260,7 +260,7 @@ export default function VenuePage() {
             </p>
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link href="/register" className="btn-primary transition-all duration-300 hover:scale-105">
-                Register & Get Details
+                Get Opening Updates
               </Link>
               <a href="mailto:comsoc@ieeekerala.org" className="btn-outline-dark transition-all duration-300 hover:scale-105">
                 Email Organizers

@@ -28,11 +28,6 @@ export default function AboutSection() {
                 alt="IEEE Saintgits Student Branch Logo"
                 className="h-9 sm:h-11 md:h-13 w-auto opacity-95 hover:opacity-100 transition-opacity duration-300 object-contain flex-shrink-0"
               />
-              <img
-                src="/logo/IEEE Kerala Section Logo.png"
-                alt="IEEE Kerala Section Logo"
-                className="h-6 sm:h-7 md:h-8 w-auto opacity-80 hover:opacity-100 transition-opacity duration-300 object-contain flex-shrink-0"
-              />
             </div>
           </div>
         </Reveal>

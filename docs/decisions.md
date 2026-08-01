@@ -19,3 +19,9 @@
 ## 3. Next.js Routing and Form Submission
 - A single-page layout for simplicity and fast loading.
 - API route `/api/contact` handles form submissions using standard Vercel serverless functions with Zod validation.
+
+## 4. Registration Status & Notification Flow
+- Temporarily transitioned the active registration page (`/register`) to an "Opening Soon" status page.
+- Simplified `/register` to show a clean static "Coming Soon" card with no email alerts, notify fields, or input form submissions.
+- Fixed the visual header word wrap on `/register` page banner to show "Registration" cleanly on a single line instead of wrapped.
+- Realigned all call-to-action triggers across the homepage (Hero, Header, Mobile Drawer, Final CTA) and Subpages (Venue, footer links) to state "Opening Soon" or "Get Opening Updates" in order to establish accurate user expectations.

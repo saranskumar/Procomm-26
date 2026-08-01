@@ -37,11 +37,9 @@ export default function RegisterBanner() {
         <span className="vintage-stamp-light">Submission Portal</span>
         <h1
           className="hero-display-text mt-4"
-          style={{ fontSize: "clamp(3.5rem, 10vw, 8.5rem)", lineHeight: 0.88 }}
+          style={{ fontSize: "clamp(2.5rem, 8vw, 6.5rem)", lineHeight: 1 }}
         >
-          Registra
-          <br />
-          <span style={{ color: "var(--ochre)" }}>tion</span>
+          Registra<span style={{ color: "var(--ochre)" }}>tion</span>
         </h1>
         <p
           className="font-mono-editorial tracking-widest uppercase mt-4"

@@ -387,7 +387,7 @@ export default function Hero() {
         >
           <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
             <Link href="/register" className="btn-ochre" id="hero-register-btn">
-              Register Now
+              Opening Soon
             </Link>
           </motion.div>
           <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>

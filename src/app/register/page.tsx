@@ -1,117 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import { z } from "zod";
-import confetti from "canvas-confetti";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RegisterBanner from "@/components/RegisterBanner";
 import WaveDivider from "@/components/WaveDivider";
 import IllustrationLayer from "@/components/IllustrationLayer";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { 
-  Calendar, CheckCircle2, AlertCircle, FileText, 
-  ChevronRight, Laptop, Send, UserCheck, Shield 
+  Calendar, FileText, ChevronRight, Laptop, UserCheck, Shield 
 } from "lucide-react";
 
-// Form validation schema using Zod
-const registrationSchema = z.object({
-  leaderName: z.string().min(2, { message: "Team Leader Name must be at least 2 characters." }),
-  college: z.string().min(5, { message: "College/Institution full name must be at least 5 characters." }),
-  collegeId: z.string().min(3, { message: "College ID / Student ID / Roll Number is required." }),
-  email: z.string().email({ message: "Please enter a valid official/institution email." }),
-  phone: z.string().min(10, { message: "Please enter a valid 10-digit phone number." }),
-});
-
-type RegistrationFormFields = z.infer<typeof registrationSchema>;
-
 export default function RegisterPage() {
-  const [formData, setFormData] = useState<RegistrationFormFields>({
-    leaderName: "",
-    college: "",
-    collegeId: "",
-    email: "",
-    phone: "",
-  });
-
-  const [errors, setErrors] = useState<Partial<Record<keyof RegistrationFormFields, string>>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
-  const [apiErrorMessage, setApiErrorMessage] = useState("");
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name as keyof RegistrationFormFields]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setErrors({});
-    setSubmitStatus("idle");
-    setApiErrorMessage("");
-
-    // Validate using Zod
-    const validation = registrationSchema.safeParse(formData);
-    if (!validation.success) {
-      const fieldErrors: Partial<Record<keyof RegistrationFormFields, string>> = {};
-      validation.error.issues.forEach((err) => {
-        if (err.path[0]) {
-          fieldErrors[err.path[0] as keyof RegistrationFormFields] = err.message;
-        }
-      });
-      setErrors(fieldErrors);
-      setIsSubmitting(false);
-      return;
-    }
-
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.leaderName,
-          email: formData.email,
-          institution: formData.college,
-          role: "PROCOMM Team Registrant",
-          message: `College ID: ${formData.collegeId}\nPhone: ${formData.phone}`
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.success) {
-        setSubmitStatus("success");
-        setFormData({
-          leaderName: "",
-          college: "",
-          collegeId: "",
-          email: "",
-          phone: "",
-        });
-        
-        // Trigger success confetti
-        confetti({
-          particleCount: 150,
-          spread: 80,
-          origin: { y: 0.6 },
-          colors: ["#c8923a", "#2a4030", "#ffffff"]
-        });
-      } else {
-        setSubmitStatus("error");
-        setApiErrorMessage(data.message || "Failed to submit. Please try again.");
-      }
-    } catch (err) {
-      setSubmitStatus("error");
-      setApiErrorMessage("A network error occurred. Please try again later.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   const steps = [
     { title: "Form Submission", desc: "Fill out your student details and official contacts." },
     { title: "Jury Screening", desc: "The expert panel evaluates team details and projects." },
@@ -172,9 +71,9 @@ export default function RegisterPage() {
           <IllustrationLayer scene="brushwork" color="var(--ink-soft)" opacity={0.1} />
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-10">
             
-            {/* Registration Form (Left side) */}
+            {/* Registration Coming Soon Status (Left side) */}
             <div 
-              className="lg:col-span-8 organic-card hover-lift p-6 sm:p-10 relative select-text"
+              className="lg:col-span-8 organic-card hover-lift p-6 sm:p-12 relative select-text flex flex-col justify-center items-center text-center min-h-[350px]"
               style={{
                 borderRadius: "2.5rem 1.8rem 2.2rem 1.5rem",
                 backgroundColor: "var(--moon)",
@@ -187,158 +86,18 @@ export default function RegisterPage() {
               <div className="absolute bottom-3 left-3 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--paper-dark)" }} />
               <div className="absolute bottom-3 right-3 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--paper-dark)" }} />
 
-              {submitStatus === "success" ? (
-                <div className="py-12 flex flex-col items-center justify-center text-center">
-                  <CheckCircle2 className="w-16 h-16 text-retro-brown mb-4 stroke-[1.5]" style={{ color: "var(--moss)" }} />
-                  <h3 className="font-display font-bold text-xl sm:text-2xl" style={{ fontStyle: "italic", color: "var(--ink-deep)" }}>
-                    Registration Success!
-                  </h3>
-                  <p className="font-body text-sm mt-2 max-w-sm" style={{ color: "var(--ink-mid)" }}>
-                    Your team details have been recorded. A confirmation email has been sent to the Team Leader. Please check your inbox for instructions to upload your project proposal PDF.
-                  </p>
-                  <motion.button
-                    onClick={() => setSubmitStatus("idle")}
-                    className="mt-6 px-5 py-2.5 btn-ochre cursor-pointer"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Submit Another Team
-                  </motion.button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-6 select-text">
-                  
-                  {submitStatus === "error" && (
-                    <div className="border-2 rounded-xl p-4 flex items-start gap-3" style={{ borderColor: "var(--rust)", backgroundColor: "rgba(184, 74, 42, 0.05)", color: "var(--rust)" }}>
-                      <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                      <div className="text-xs sm:text-sm font-body">
-                        <span className="font-bold">Error:</span> {apiErrorMessage}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Leader Name & College Name */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="flex flex-col gap-1.5">
-                      <label htmlFor="leaderName" className="font-mono-editorial text-[10px] uppercase tracking-widest" style={{ color: "var(--ink-soft)" }}>
-                        Team Leader Name
-                      </label>
-                      <input
-                        type="text"
-                        id="leaderName"
-                        name="leaderName"
-                        value={formData.leaderName}
-                        onChange={handleChange}
-                        disabled={isSubmitting}
-                        className="px-4 py-3 rounded-xl text-sm"
-                        style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)", color: "var(--ink-deep)" }}
-                        placeholder="Leader full name"
-                      />
-                      {errors.leaderName && (
-                        <span className="text-xs font-bold text-red-700 mt-1 font-mono-editorial">* {errors.leaderName}</span>
-                      )}
-                    </div>
-
-                    <div className="flex flex-col gap-1.5">
-                      <label htmlFor="college" className="font-mono-editorial text-[10px] uppercase tracking-widest" style={{ color: "var(--ink-soft)" }}>
-                        College / Institution Full Name
-                      </label>
-                      <input
-                        type="text"
-                        id="college"
-                        name="college"
-                        value={formData.college}
-                        onChange={handleChange}
-                        disabled={isSubmitting}
-                        className="px-4 py-3 rounded-xl text-sm"
-                        style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)", color: "var(--ink-deep)" }}
-                        placeholder="Saintgits College of Engineering"
-                      />
-                      {errors.college && (
-                        <span className="text-xs font-bold text-red-700 mt-1 font-mono-editorial">* {errors.college}</span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* College ID & Email */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="flex flex-col gap-1.5">
-                      <label htmlFor="collegeId" className="font-mono-editorial text-[10px] uppercase tracking-widest" style={{ color: "var(--ink-soft)" }}>
-                        College ID / Student ID / Roll Number
-                      </label>
-                      <input
-                        type="text"
-                        id="collegeId"
-                        name="collegeId"
-                        value={formData.collegeId}
-                        onChange={handleChange}
-                        disabled={isSubmitting}
-                        className="px-4 py-3 rounded-xl text-sm"
-                        style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)", color: "var(--ink-deep)" }}
-                        placeholder="e.g. SGI-UG-2026"
-                      />
-                      {errors.collegeId && (
-                        <span className="text-xs font-bold text-red-700 mt-1 font-mono-editorial">* {errors.collegeId}</span>
-                      )}
-                    </div>
-
-                    <div className="flex flex-col gap-1.5">
-                      <label htmlFor="email" className="font-mono-editorial text-[10px] uppercase tracking-widest" style={{ color: "var(--ink-soft)" }}>
-                        Official / Leader Email
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        disabled={isSubmitting}
-                        className="px-4 py-3 rounded-xl text-sm"
-                        style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)", color: "var(--ink-deep)" }}
-                        placeholder="leader@institution.edu"
-                      />
-                      {errors.email && (
-                        <span className="text-xs font-bold text-red-700 mt-1 font-mono-editorial">* {errors.email}</span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Phone Number */}
-                  <div className="flex flex-col gap-1.5">
-                    <label htmlFor="phone" className="font-mono-editorial text-[10px] uppercase tracking-widest" style={{ color: "var(--ink-soft)" }}>
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      disabled={isSubmitting}
-                      className="px-4 py-3 rounded-xl text-sm"
-                      style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)", color: "var(--ink-deep)" }}
-                      placeholder="10-digit mobile number"
-                    />
-                    {errors.phone && (
-                      <span className="text-xs font-bold text-red-700 mt-1 font-mono-editorial">* {errors.phone}</span>
-                    )}
-                  </div>
-
-                  {/* Submit Button */}
-                  <motion.button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="mt-4 px-6 py-4 btn-primary cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <Send className="w-4 h-4" />
-                    <span>{isSubmitting ? "Registering..." : "Submit Registration"}</span>
-                  </motion.button>
-
-                </form>
-              )}
-
+              <div className="flex flex-col items-center gap-4 max-w-lg select-text">
+                <span className="font-mono-editorial text-xs font-bold uppercase tracking-wider text-amber-600 px-3 py-1 bg-amber-500/10 rounded-full select-none">
+                  Portal Status
+                </span>
+                <h3 className="font-display font-bold text-3xl md:text-4xl mt-2 text-ink-deep italic">
+                  Coming Soon
+                </h3>
+                <div className="w-12 h-[2px] bg-ochre my-2 select-none" />
+                <p className="font-body text-sm text-ink-mid leading-relaxed">
+                  We are finalizing the guidelines and portal setup. Online registrations for PROCOMM &apos;26 will open shortly. Please check back soon or consult the rulebook to prepare your project submission.
+                </p>
+              </div>
             </div>
 
             {/* Sidebar (Right side) */}

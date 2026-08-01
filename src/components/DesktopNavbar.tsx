@@ -113,7 +113,7 @@ export default function DesktopNavbar() {
                   borderRadius: "9999px"
                 }}
               >
-                Register Now
+                Opening Soon
               </Link>
             </div>
           </div>
