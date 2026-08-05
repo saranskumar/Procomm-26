@@ -184,8 +184,8 @@ export default function RegisterPage() {
                   Registration Support
                 </h3>
                 <div className="font-mono-editorial text-xs flex flex-col gap-1" style={{ color: "var(--ink-mid)" }}>
-                  <span>Tel: +91 98765 43210</span>
-                  <span>Email: comsoc@ieeekerala.org</span>
+                  <span>S Harijith Viswanath: +91 79942 74376</span>
+                  <span>Nayana Raj: +91 90372 99063</span>
                 </div>
               </div>
 

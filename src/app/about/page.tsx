@@ -74,7 +74,7 @@ const historyEditions: HistoryEdition[] = [
     date: "September 5–6, 2026",
     organizer: "IEEE ComSoc Kerala Chapter + Saintgits IEEE SB",
     format: "Flagship 24-Hour Communications Competition",
-    highlight: "Premier flagship edition featuring ₹1,00,000+ prize pool, industry mentorship, and live hardware prototyping.",
+    highlight: "Premier flagship edition featuring ₹28,000+ prize pool, industry mentorship, and live hardware prototyping.",
   },
 ];
 

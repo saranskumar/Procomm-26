@@ -1,7 +1,6 @@
 import Header from "@/components/Header";
 import ContactForm from "@/components/ContactForm";
 import ContactBanner from "@/components/ContactBanner";
-import WaveDivider from "@/components/WaveDivider";
 import Footer from "@/components/Footer";
 
 export const metadata = {
@@ -15,10 +14,7 @@ export default function ContactPage() {
       <Header />
       <main className="flex-grow">
         <ContactBanner />
-        <WaveDivider fromColor="var(--ivory)" toColor="var(--paper)" />
-        <div style={{ backgroundColor: "var(--paper)" }} className="py-2">
-          <ContactForm />
-        </div>
+        <ContactForm />
       </main>
       <Footer />
     </div>

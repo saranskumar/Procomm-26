@@ -10,7 +10,7 @@ import { X } from "lucide-react";
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/competition", label: "Problems" },
+  { href: "/problem", label: "Problems" },
   { href: "/venue", label: "Venue" },
   { href: "/contact", label: "Contact" },
 ];
@@ -34,12 +34,13 @@ export default function MobileNavbar() {
   }, [pathname]);
 
   const isActive = (href: string) => pathname === href;
+  const shouldShow = pathname !== "/" || scrolled;
 
   return (
     <>
       <header
         className={`block md:hidden fixed top-0 left-0 right-0 z-40 w-full select-none transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-          scrolled
+          shouldShow
             ? "translate-y-0 opacity-100 pointer-events-auto"
             : "-translate-y-full opacity-0 pointer-events-none"
         }`}

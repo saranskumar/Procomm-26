@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/competition", label: "Problems" },
+  { href: "/problem", label: "Problems" },
   { href: "/venue", label: "Venue" },
   { href: "/contact", label: "Contact" },
 ];
@@ -29,6 +29,7 @@ export default function DesktopNavbar() {
   const isActive = (href: string) => pathname === href;
   const isDarkTheme = false; // Always dark theme (#122020)
   const navBg = "rgba(18, 32, 32, 0.94)";
+  const shouldShow = pathname !== "/" || scrolled;
 
   return (
     <>
@@ -43,7 +44,7 @@ export default function DesktopNavbar() {
 
       <header
         className={`hidden md:block fixed top-0 left-0 right-0 z-40 w-full select-none transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-          scrolled
+          shouldShow
             ? "translate-y-0 opacity-100 pointer-events-auto"
             : "-translate-y-full opacity-0 pointer-events-none"
         }`}

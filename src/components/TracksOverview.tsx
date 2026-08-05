@@ -51,7 +51,7 @@ export default function TracksOverview() {
                 <span key={i} className="vintage-stamp">{tag}</span>
               ))}
             </div>
-            <Link href="/competition" className="btn-outline-dark mt-8 inline-flex">
+            <Link href="/problem" className="btn-outline-dark mt-8 inline-flex">
               Competition Guidelines <ArrowRight size={12} />
             </Link>
           </Reveal>

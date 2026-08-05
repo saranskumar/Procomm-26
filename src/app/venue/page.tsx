@@ -4,7 +4,7 @@ import IllustrationLayer from "@/components/IllustrationLayer";
 import VenueBanner from "@/components/VenueBanner";
 import WaveDivider from "@/components/WaveDivider";
 import Link from "next/link";
-import { MapPin, Calendar, Globe, Plane, Train, Bus, Map } from "lucide-react";
+import { MapPin, Calendar, Globe, Map } from "lucide-react";
 
 export const metadata = {
   title: "Venue | PROCOMM '26",
@@ -78,70 +78,27 @@ export default function VenuePage() {
               </div>
             </div>
 
-            {/* Campus illustration */}
+            {/* Campus Image */}
             <div>
               <div
-                className="w-full aspect-video flex items-end justify-end overflow-hidden hover-lift"
+                className="w-full aspect-video overflow-hidden hover-lift relative"
                 style={{
                   backgroundColor: "var(--paper)",
                   border: "1.5px solid var(--paper-dark)",
                   borderRadius: "2rem 1.2rem 2.5rem 1rem",
                 }}
               >
-                {/* Stylized campus illustration */}
-                <svg
-                  className="w-full h-full"
-                  viewBox="0 0 600 400"
-                  fill="none"
-                  stroke="var(--ink-deep)"
-                  strokeWidth="0.8"
-                  opacity="0.45"
-                  aria-label="Stylized campus illustration"
-                >
-                  <line x1="0" y1="360" x2="600" y2="360" strokeDasharray="6 4" opacity="0.3" />
-                  <rect x="150" y="160" width="320" height="200" rx="2" />
-                  {[170, 210, 250, 290, 330, 370, 410, 450].map((x, i) => (
-                    <line key={i} x1={x} y1="160" x2={x} y2="360" opacity="0.3" />
-                  ))}
-                  <line x1="150" y1="230" x2="470" y2="230" opacity="0.4" />
-                  <line x1="150" y1="300" x2="470" y2="300" opacity="0.4" />
-                  {[165, 220, 275, 330, 385, 435].map((x, i) => (
-                    <rect key={i} x={x} y="170" width="18" height="28" rx="1" opacity="0.5" />
-                  ))}
-                  {[165, 220, 275, 330, 385, 435].map((x, i) => (
-                    <rect key={i} x={x} y="240" width="18" height="28" rx="1" opacity="0.4" />
-                  ))}
-                  <rect x="50" y="220" width="90" height="140" rx="2" opacity="0.6" />
-                  <path d="M 50 220 L 95 185 L 140 220 Z" opacity="0.5" />
-                  <line x1="95" y1="185" x2="95" y2="220" opacity="0.4" />
-                  <path d="M 270 360 L 270 300 Q 310 280 350 300 L 350 360" opacity="0.5" />
-                  <path d="M 280 360 L 280 308 Q 310 292 340 308 L 340 360" opacity="0.3" />
-                  <path d="M 150 160 L 310 100 L 470 160" opacity="0.5" />
-                  <line x1="310" y1="100" x2="310" y2="60" />
-                  <path d="M 310 60 L 340 70 L 310 80" fill="none" opacity="0.6" />
-                  {[60, 520].map((x, i) => (
-                    <g key={i} opacity="0.4">
-                      <path d={`M ${x} 360 Q ${x - 5} 310 ${x} 260 Q ${x + 5} 310 ${x} 360`} />
-                      <path d={`M ${x} 300 Q ${x - 15} 280 ${x} 255 Q ${x + 15} 280 ${x} 300`} />
-                      <ellipse cx={x} cy="260" rx="20" ry="25" opacity="0.35" />
-                    </g>
-                  ))}
-                  {[0, 1, 2].map((i) => (
-                    <path
-                      key={i}
-                      d={`M ${310 - (i + 1) * 12} ${55 + i * 8} Q 310 ${45 + i * 8} ${310 + (i + 1) * 12} ${55 + i * 8}`}
-                      strokeDasharray="3 3"
-                      opacity={0.3 - i * 0.07}
-                    />
-                  ))}
-                  <path d="M 200 360 Q 310 350 420 360" opacity="0.3" />
-                </svg>
+                <img
+                  src="/Saintgits-College.jpg"
+                  alt="Saintgits College of Engineering Campus"
+                  className="w-full h-full object-cover"
+                />
               </div>
               <p
                 className="font-mono-editorial text-center mt-3 tracking-widest uppercase"
                 style={{ fontSize: "0.52rem", color: "var(--ink-soft)" }}
               >
-                Saintgits College of Engineering — Illustrated
+                Saintgits College of Engineering Campus
               </p>
             </div>
           </div>
@@ -166,57 +123,9 @@ export default function VenuePage() {
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                {
-                  mode: Plane,
-                  title: "By Air",
-                  color: "var(--lavender)",
-                  desc: "Nearest airport is Cochin International Airport (COK), ~60 km away. Regular taxi and cab services available to Kottayam.",
-                },
-                {
-                  mode: Train,
-                  title: "By Train",
-                  color: "var(--moss)",
-                  desc: "Kottayam Railway Station is the nearest railhead, well-connected to major cities. Autos and cabs available to the college.",
-                },
-                {
-                  mode: Bus,
-                  title: "By Road",
-                  color: "var(--ochre)",
-                  desc: "Saintgits is 14 km from Kottayam town on the Kottayam–Changanacherry road. KSRTC buses and private cabs are readily available.",
-                },
-              ].map((item, i) => (
-                <div
-                  key={i}
-                  className="organic-card hover-lift flex flex-col gap-4"
-                  style={{
-                    borderRadius: `${1.8 + i * 0.3}rem ${1.2 + i * 0.4}rem ${2.2 - i * 0.2}rem ${1 + i * 0.5}rem`,
-                  }}
-                >
-                  <div style={{ color: item.color }} className="flex-shrink-0">
-                    <item.mode className="w-8 h-8 stroke-[1.2]" />
-                  </div>
-                  <h3
-                    className="font-display font-bold"
-                    style={{ fontSize: "1.2rem", fontStyle: "italic", color: "var(--ink-deep)" }}
-                  >
-                    {item.title}
-                  </h3>
-                  <div className="w-8 h-[1.5px]" style={{ backgroundColor: item.color, opacity: 0.6 }} />
-                  <p
-                    className="font-body select-text"
-                    style={{ fontSize: "0.875rem", color: "var(--ink-mid)", lineHeight: 1.75 }}
-                  >
-                    {item.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-
             {/* Interactive Google Map Embed */}
             <div
-              className="mt-12 w-full overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl"
+              className="w-full overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl"
               style={{
                 borderRadius: "1.5rem",
                 border: "1.5px solid var(--paper-dark)",

@@ -45,7 +45,7 @@ export default function WhyParticipate() {
               num: "III",
               icon: Award,
               title: "Recognition & Prizes",
-              body: "Earn IEEE ComSoc certificates, win cash grants from a ₹1,00,000+ pool, and secure university credits.",
+              body: "Earn IEEE ComSoc certificates, win cash grants from a ₹28,000+ pool, and secure university credits.",
               accent: "var(--lavender)",
             },
           ].map((card, i) => (

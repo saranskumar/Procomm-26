@@ -39,8 +39,7 @@ export default function ContactBanner() {
           className="hero-display-text mt-4"
           style={{ fontSize: "clamp(3.5rem, 10vw, 8.5rem)", lineHeight: 0.88 }}
         >
-          Contact<br />
-          <span style={{ color: "var(--ochre)" }}>Us</span>
+          Contact <span style={{ color: "var(--ochre)" }}>Us</span>
         </h1>
         <p
           className="font-mono-editorial tracking-widest uppercase mt-4"

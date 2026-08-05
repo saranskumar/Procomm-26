@@ -144,7 +144,7 @@ export default function Footer({ fromColor = "var(--ivory)" }: FooterProps) {
               {[
                 { href: "/", label: "Home" },
                 { href: "/about", label: "About" },
-                { href: "/competition", label: "Problem Statements" },
+                { href: "/problem", label: "Problem Statements" },
                 { href: "/venue", label: "Venue" },
                 { href: "/register", label: "Registration Portal" },
               ].map((link) => (
@@ -185,7 +185,14 @@ export default function Footer({ fromColor = "var(--ivory)" }: FooterProps) {
                 style={{ color: "rgba(245,240,232,0.85)" }}
               >
                 <Phone className="w-3.5 h-3.5 flex-shrink-0 mt-px text-amber-500" />
-                S Harijith Viswanath:<br />+91 7994274376
+                +91 7994274376
+              </span>
+              <span
+                className="flex items-start gap-2.5 font-semibold"
+                style={{ color: "rgba(245,240,232,0.85)" }}
+              >
+                <Phone className="w-3.5 h-3.5 flex-shrink-0 mt-px text-amber-500" />
+                +91 90372 99063
               </span>
             </div>
           </div>

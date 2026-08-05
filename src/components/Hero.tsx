@@ -391,7 +391,7 @@ export default function Hero() {
             </Link>
           </motion.div>
           <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-            <Link href="/competition" className="btn-secondary" id="hero-competition-btn">
+            <Link href="/problem" className="btn-secondary" id="hero-competition-btn">
               Competition Rules
             </Link>
           </motion.div>
