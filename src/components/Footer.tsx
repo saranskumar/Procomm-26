@@ -121,15 +121,6 @@ export default function Footer({ fromColor = "var(--ivory)" }: FooterProps) {
             >
               The flagship Communications Project Competition organized by the IEEE ComSoc Kerala Chapter. Fostering next-gen innovation in communications engineering.
             </p>
-
-            <div
-              className="font-mono-editorial"
-              style={{ fontSize: "0.6rem", color: "rgba(245,240,232,0.3)", lineHeight: 1.6 }}
-            >
-              Host Venue:<br />
-              <strong style={{ color: "rgba(245,240,232,0.5)" }}>Saintgits College of Engineering (Autonomous)</strong><br />
-              Kottayam, Kerala, India
-            </div>
           </div>
 
           {/* Col 2 — Quick Links */}
@@ -145,7 +136,7 @@ export default function Footer({ fromColor = "var(--ivory)" }: FooterProps) {
                 { href: "/", label: "Home" },
                 { href: "/about", label: "About" },
                 { href: "/problem", label: "Problem Statements" },
-                { href: "/venue", label: "Venue" },
+                { href: "/contact", label: "Contact" },
                 { href: "/register", label: "Registration Portal" },
               ].map((link) => (
                 <Link
@@ -174,26 +165,25 @@ export default function Footer({ fromColor = "var(--ivory)" }: FooterProps) {
               Inquiries &amp; Contact
             </h4>
             <div
-              className="flex flex-col gap-3 font-mono-editorial select-text"
+              className="flex flex-col gap-3 font-mono-editorial"
               style={{ fontSize: "0.72rem" }}
             >
-              <div className="text-[0.65rem] uppercase tracking-wider text-amber-500 font-bold mb-1">
-                For further queries, contact:
-              </div>
-              <span
-                className="flex items-start gap-2.5 font-semibold"
+              <a
+                href="tel:+917994274376"
+                className="flex items-start gap-2.5 font-semibold transition-colors hover:text-amber-500/80 cursor-pointer"
                 style={{ color: "rgba(245,240,232,0.85)" }}
               >
                 <Phone className="w-3.5 h-3.5 flex-shrink-0 mt-px text-amber-500" />
                 +91 7994274376
-              </span>
-              <span
-                className="flex items-start gap-2.5 font-semibold"
+              </a>
+              <a
+                href="tel:+919037299063"
+                className="flex items-start gap-2.5 font-semibold transition-colors hover:text-amber-500/80 cursor-pointer"
                 style={{ color: "rgba(245,240,232,0.85)" }}
               >
                 <Phone className="w-3.5 h-3.5 flex-shrink-0 mt-px text-amber-500" />
                 +91 90372 99063
-              </span>
+              </a>
             </div>
           </div>
 

@@ -255,16 +255,23 @@ export default function CompetitionPage() {
             <div className="mt-16 p-8 border rounded-2xl" style={{ backgroundColor: "var(--paper)", borderColor: "var(--paper-dark)" }}>
               <div className="text-center mb-8">
                 <span className="chapter-label">Structure</span>
-                <h3 className="editorial-headline text-2xl md:text-3xl mt-1">Hackathon Rounds</h3>
+                <h3 className="editorial-headline text-2xl md:text-3xl mt-1">Guidelines</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="p-6 rounded-xl border bg-white" style={{ borderColor: "var(--paper-dark)" }}>
-                  <div className="font-mono-editorial text-xs font-bold uppercase tracking-wider text-amber-600 mb-2">Round 1</div>
-                  <h4 className="font-display font-bold text-lg mb-2">Problem Solution Submission</h4>
-                  <ul className="font-body text-xs space-y-2 text-zinc-600 list-disc pl-4">
-                    <li>Participants must submit their proposed solution for the given problem statement.</li>
-                    <li>Submissions will be evaluated by an expert panel, and shortlisted teams will advance to Round 2.</li>
-                  </ul>
+                <div className="p-6 rounded-xl border bg-white flex flex-col justify-between" style={{ borderColor: "var(--paper-dark)" }}>
+                  <div>
+                    <div className="font-mono-editorial text-xs font-bold uppercase tracking-wider text-amber-600 mb-2">Round 1</div>
+                    <h4 className="font-display font-bold text-lg mb-2">Abstract Submission & Presentation</h4>
+                    <ul className="font-body text-xs space-y-2.5 text-zinc-600 list-disc pl-4">
+                      <li>Students can participate in teams of a maximum of 4 members.</li>
+                      <li>Abstract presentation time limit: 10 minutes.</li>
+                      <li>Mode of presentation: Google Meet</li>
+                      <li>The presentation must not exceed 20 slides.</li>
+                    </ul>
+                  </div>
+                  <div className="mt-6 pt-4 border-t border-dashed border-zinc-300/60 font-mono-editorial text-[9px] uppercase tracking-wider text-amber-700 font-bold">
+                    * Abstract presentation templates will be shared shortly
+                  </div>
                 </div>
                 <div className="p-6 rounded-xl border bg-white" style={{ borderColor: "var(--paper-dark)" }}>
                   <div className="font-mono-editorial text-xs font-bold uppercase tracking-wider text-amber-600 mb-2">Round 2</div>
@@ -542,7 +549,7 @@ export default function CompetitionPage() {
         </section>
 
       </main>
-      <Footer />
+      <Footer fromColor="var(--paper)" />
     </div>
   );
 }

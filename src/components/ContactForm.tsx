@@ -1,44 +1,82 @@
 "use client";
 
-import { Phone, MapPin } from "lucide-react";
+import { motion } from "framer-motion";
+import { PhoneCall } from "lucide-react";
 
 export default function ContactForm() {
-  return (
-    <section id="contact" className="w-full py-20 px-6 select-none" style={{ backgroundColor: "var(--ivory)" }}>
-      <div className="max-w-xl mx-auto flex flex-col gap-8 items-center text-center">
-        <div className="select-text">
-          <span className="chapter-label">Queries</span>
-          <h2 className="editorial-headline mt-3">
-            Get in Touch
-          </h2>
-          <p className="font-body text-xs sm:text-sm mt-3 leading-relaxed" style={{ color: "var(--ink-mid)" }}>
-            Have questions about student participation, track criteria, or want to explore partner/sponsorship opportunities?
-          </p>
-        </div>
+  const contacts = [
+    {
+      type: "contact",
+      label: "Co-coordinator",
+      val: "S Harijith Viswanath",
+      displayPhone: "+91 79942 74376",
+      phone: "+917994274376",
+      whatsapp: "917994274376",
+    },
+    {
+      type: "contact",
+      label: "Co-coordinator",
+      val: "Nayana Raj",
+      displayPhone: "+91 90372 99063",
+      phone: "+919037299063",
+      whatsapp: "919037299063",
+    },
+  ];
 
-        <div className="flex flex-col gap-4 select-text text-left w-full">
-          {[
-            { icon: Phone, label: "For further queries, contact", val: "S Harijith Viswanath: +91 7994274376" },
-            { icon: Phone, label: "For further queries, contact", val: "Nayana Raj: +91 90372 99063" },
-            { icon: MapPin, label: "Host venue", val: "Saintgits College of Engineering (Autonomous), Kottayam, Kerala" },
-          ].map((item, idx) => (
-            <div 
-              key={idx} 
-              className="organic-card hover-lift flex gap-4 items-center p-4"
+  return (
+    <section id="contact" className="w-full py-16 px-6 select-none" style={{ backgroundColor: "var(--ivory)" }}>
+      <div className="max-w-3xl mx-auto">
+        {/* Premium Cards Grid */}
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 select-text text-left">
+          {contacts.map((item, idx) => (
+            <motion.div 
+              key={idx}
+              className="p-7 flex flex-col justify-between"
               style={{
-                borderRadius: `${1.2 + (idx % 3) * 0.3}rem ${0.8 + (idx % 2) * 0.4}rem ${1.5 - (idx % 3) * 0.2}rem ${1 + (idx % 2) * 0.3}rem`,
+                borderRadius: "1rem",
                 backgroundColor: "var(--moon)",
-                border: "1.5px solid var(--paper-dark)"
+                border: "1px solid var(--paper-dark)",
+                minHeight: "200px"
               }}
             >
-              <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: "var(--ivory)", border: "1.5px solid var(--paper-dark)" }}>
-                <item.icon className="w-4 h-4" style={{ color: "var(--ochre)" }} />
-              </div>
               <div>
-                <span className="font-mono-editorial text-[9px] uppercase tracking-widest" style={{ color: "var(--ink-soft)" }}>{item.label}</span>
-                <p className="font-display font-bold text-sm" style={{ fontStyle: "italic", color: "var(--ink-deep)" }}>{item.val}</p>
+                {/* Header Row: Label */}
+                <div className="flex items-center justify-between mb-4">
+                  <span className="font-mono-editorial text-[9px] uppercase tracking-widest font-semibold" style={{ color: idx % 2 === 0 ? "var(--ochre)" : "var(--moss)" }}>
+                    {item.label}
+                  </span>
+                </div>
+
+                {/* Card Title & Content */}
+                <h3 className="font-display font-bold text-xl sm:text-2xl text-ink-deep italic leading-snug">
+                  {item.val}
+                </h3>
+                <p className="font-mono-editorial text-xs mt-1.5" style={{ color: "var(--ink-mid)" }}>
+                  {item.displayPhone}
+                </p>
               </div>
-            </div>
+
+              {/* Card Footer Actions */}
+              <div className="flex gap-3 items-center mt-6 pt-5 border-t border-dashed border-zinc-300/40">
+                <a
+                  href={`tel:${item.phone}`}
+                  className="group flex-1 py-2 text-xs flex items-center justify-center gap-2 rounded-lg border border-[var(--paper-dark)] bg-[var(--ivory)] hover:bg-[var(--ink-deep)] hover:border-[var(--ink-deep)] text-[var(--ink-deep)] hover:text-[var(--ivory)] transition-all duration-300 font-medium cursor-pointer"
+                >
+                  <PhoneCall size={12} className="text-[var(--ochre)] group-hover:text-[var(--ivory)] transition-colors duration-300" />
+                  <span>Call</span>
+                </a>
+                <a
+                  href={`https://wa.me/${item.whatsapp}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex-1 py-2 text-xs flex items-center justify-center gap-2 rounded-lg border border-[var(--paper-dark)] bg-[var(--ivory)] hover:bg-[var(--ink-deep)] hover:border-[var(--ink-deep)] text-[var(--ink-deep)] hover:text-[var(--ivory)] transition-all duration-300 font-medium cursor-pointer"
+                >
+                  <img src="/whatsapp-icon.png" alt="WhatsApp" className="w-3.5 h-3.5 object-contain block group-hover:hidden" />
+                  <img src="/whatsapp-icon-white.png" alt="WhatsApp" className="w-3.5 h-3.5 object-contain hidden group-hover:block" />
+                  <span>WhatsApp</span>
+                </a>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>

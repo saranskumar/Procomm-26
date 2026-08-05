@@ -1,11 +1,11 @@
 import Header from "@/components/Header";
-import ContactForm from "@/components/ContactForm";
-import ContactBanner from "@/components/ContactBanner";
 import Footer from "@/components/Footer";
+import ContactBanner from "@/components/ContactBanner";
+import ContactForm from "@/components/ContactForm";
 
 export const metadata = {
   title: "Contact | PROCOMM '26",
-  description: "Contact the IEEE Communications Project Competition organizing committee with any inquiries.",
+  description: "Contact the PROCOMM '26 organizing team.",
 };
 
 export default function ContactPage() {
@@ -13,8 +13,13 @@ export default function ContactPage() {
     <div className="flex flex-col min-h-screen" style={{ backgroundColor: "var(--ivory)" }}>
       <Header />
       <main className="flex-grow">
+
+        {/* ── Banner ── */}
         <ContactBanner />
+
+        {/* ── Contact Details ── */}
         <ContactForm />
+
       </main>
       <Footer />
     </div>

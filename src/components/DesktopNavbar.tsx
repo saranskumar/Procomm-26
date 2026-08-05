@@ -10,7 +10,6 @@ const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/problem", label: "Problems" },
-  { href: "/venue", label: "Venue" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -27,8 +26,8 @@ export default function DesktopNavbar() {
   }, []);
 
   const isActive = (href: string) => pathname === href;
-  const isDarkTheme = false; // Always dark theme (#122020)
-  const navBg = "rgba(18, 32, 32, 0.94)";
+  const isDarkTheme = false; // Always dark theme (#121422 - matches var(--ink-deep))
+  const navBg = "rgba(18, 20, 34, 0.94)";
   const shouldShow = pathname !== "/" || scrolled;
 
   return (

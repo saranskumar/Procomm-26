@@ -11,7 +11,6 @@ const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/problem", label: "Problems" },
-  { href: "/venue", label: "Venue" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -113,7 +112,7 @@ export default function MobileNavbar() {
               exit={{ opacity: 0, scale: 0.75, y: -10 }}
               transition={{ type: "spring", stiffness: 360, damping: 28 }}
               style={{ transformOrigin: "center center" }}
-              className="fixed inset-x-4 top-5 z-50 md:hidden rounded-3xl border border-white/15 bg-[#122020]/95 backdrop-blur-2xl shadow-2xl overflow-hidden p-6"
+              className="fixed inset-x-4 top-5 z-50 md:hidden rounded-3xl border border-white/15 bg-[#121422]/95 backdrop-blur-2xl shadow-2xl overflow-hidden p-6"
             >
               {/* Expanded Header Inside Floating Box */}
               <div className="flex items-center justify-between pb-4 mb-2 border-b border-white/10">
