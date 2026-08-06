@@ -119,11 +119,11 @@ export default function RegisterPage() {
                 <div className="flex flex-col gap-3 font-body text-xs select-text" style={{ color: "var(--ink-mid)" }}>
                   <div className="flex justify-between border-b pb-1" style={{ borderColor: "rgba(11,26,48,0.06)" }}>
                     <span className="font-semibold">Reg Closes:</span>
-                    <span className="font-mono-editorial font-bold">Aug 25, 2026</span>
+                    <span className="font-mono-editorial font-bold">Aug 21, 2026</span>
                   </div>
                   <div className="flex justify-between border-b pb-1" style={{ borderColor: "rgba(11,26,48,0.06)" }}>
                     <span className="font-semibold">Abstract Review:</span>
-                    <span className="font-mono-editorial font-bold">Aug 28, 2026</span>
+                    <span className="font-mono-editorial font-bold">Aug 23, 2026</span>
                   </div>
                   <div className="flex justify-between border-b pb-1" style={{ borderColor: "rgba(11,26,48,0.06)" }}>
                     <span className="font-semibold">Jury Presentations:</span>

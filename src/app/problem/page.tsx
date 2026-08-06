@@ -202,13 +202,13 @@ export default function CompetitionPage() {
               </h2>
             </div>
 
-            {/* 3 Problem Statements & 2-Round Format */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+            {/* Problem Statements & 2-Round Format */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
               {[
                 {
                   id: "01",
                   title: "Smart Safety Helmet for Industrial Workers",
-                  target: "Miners, construction workers, archeologists, dam & toxic land inspectors",
+                  target: "Miners, construction site workers, archeologists, inspection agents for dam, toxic land sites",
                   desc: "Detects falls, impacts, toxic gases, and worker inactivity using onboard sensors. Sends real-time emergency alerts with worker location for rapid rescue and response.",
                 },
                 {
@@ -221,7 +221,19 @@ export default function CompetitionPage() {
                   id: "03",
                   title: "Smart Rubber Plantation Worker Safety System",
                   target: "Remote Plantation Workers",
-                  desc: "Monitors worker location, fall events, and vital parameters in remote plantation environments. Provides SOS alerts and long-range communication.",
+                  desc: "Monitors worker location, fall events, and vital parameters in remote plantation environments. Provides SOS alerts and long-range communication for quick emergency assistance.",
+                },
+                {
+                  id: "04",
+                  title: "Machine Health Monitoring System Using Standard Industrial Protocols",
+                  target: "Manufacturing Plants, Assembly Lines, & Industrial Machinery",
+                  desc: "Monitors machine vibration, temperature, current, and other health parameters for predictive maintenance. Uses standard industrial communication protocols such as CAN, Modbus RTU/TCP, or OPC UA for reliable data acquisition and monitoring.",
+                },
+                {
+                  id: "05",
+                  title: "Smart Bridge Structural Health Monitoring System",
+                  target: "Bridges, Overpasses, & Civil Infrastructure",
+                  desc: "Monitors bridge integrity by detecting vibration, strain, tilt, crack propagation, and corrosion. Uses accelerometers, strain gauges, and tilt sensors with CAN, RS-485 (Modbus), or LoRa communication to provide real-time structural health monitoring and maintenance alerts.",
                 },
               ].map((item, idx) => (
                 <div

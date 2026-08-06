@@ -26,14 +26,14 @@ export default function TimelineSection() {
           {[
             {
               phase: "Phase 01",
-              date: "Aug 25, 2026",
+              date: "Aug 21, 2026",
               label: "Registration Closes",
               desc: "Complete all form submissions and team details. Last date to register teams.",
               side: "left",
             },
             {
               phase: "Phase 02",
-              date: "Aug 28, 2026",
+              date: "Aug 23, 2026",
               label: "Proposal Shortlist",
               desc: "Notification of teams advancing to the final evaluation round.",
               side: "right",
