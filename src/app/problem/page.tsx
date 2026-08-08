@@ -57,21 +57,13 @@ const tracks = [
 ];
 
 const workflowSteps = [
-  { label: "Register", desc: "Teams register and submit basic institution info." },
-  { label: "Proposal", desc: "Submit a 2-page abstract and block diagram." },
-  { label: "Screening", desc: "Technical jury selects top concepts for mentoring." },
-  { label: "Mentoring", desc: "Spend 2 weeks with assigned industry experts." },
-  { label: "Final Submit", desc: "Upload reports, demo video, and code repos." },
-  { label: "Grand Finale", desc: "Present physical demos to jury at Saintgits College of Engineering (Autonomous), Kottayam, Kerala." },
+  { label: "Team Registration", desc: "Register your team of 1–4 members online before August 21, 2026. Inter-college teams are permitted." },
+  { label: "Abstract Submission", desc: "Submit your solution proposal abstract based on one of the 5 problem statements before August 21, 2026." },
+  { label: "Shortlist Announcement", desc: "The list of shortlisted teams advancing to the finals will be announced on August 23, 2026." },
+  { label: "Grand Finale", desc: "Participate in the physical 24-hour prototype hackathon and live jury evaluation on Sept 5–6, 2026 at Saintgits College of Engineering." },
 ];
 
-const judgingCriteria = [
-  { title: "Innovation", score: "25%", desc: "Novelty of concept, engineering approach, and originality.", color: "var(--ochre)" },
-  { title: "Technical Excellence", score: "25%", desc: "Quality of prototype, testing, and mathematical/code rigor.", color: "var(--moss)" },
-  { title: "Impact & Feasibility", score: "20%", desc: "Practical usability, market viability, and ease of deployment.", color: "var(--teal-soft)" },
-  { title: "Presentation & Demo", score: "15%", desc: "Clarity of slides, live demonstration, and Q&A response.", color: "var(--lavender)" },
-  { title: "Scalability", score: "15%", desc: "Extensibility of architecture to larger loads or wider bandwidths.", color: "var(--rust)" },
-];
+
 
 const faqs = [
   { q: "Is there a registration fee?", a: "No, registration is completely free for all eligible engineering student teams." },
@@ -318,7 +310,7 @@ export default function CompetitionPage() {
               </h2>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {workflowSteps.map((step, i) => (
                 <motion.div
                   key={i}
@@ -352,78 +344,11 @@ export default function CompetitionPage() {
           </div>
         </section>
 
-        {/* ── Wave: Workflow → Judging ── */}
-        <WaveDivider fromColor="var(--paper)" toColor="var(--ivory)" flip />
+        {/* ── Wave: Workflow → Downloads (Commented) ── */}
+        {/* <WaveDivider fromColor="var(--paper)" toColor="var(--ink-deep)" flip /> */}
 
-        {/* ── 3. Judging Criteria ── */}
-        <section
-          className="relative py-28 px-6 overflow-hidden"
-          style={{ backgroundColor: "var(--ivory)" }}
-          id="judging"
-        >
-          <IllustrationLayer scene="topographic" color="var(--moss)" opacity={0.25} />
-          <div className="relative z-10 max-w-5xl mx-auto">
-            <div className="text-center mb-16">
-              <span className="chapter-label">Evaluation</span>
-              <h2
-                className="editorial-headline mt-2"
-                style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}
-              >
-                Judging Criteria
-              </h2>
-            </div>
-
-            <div className="flex flex-col gap-4 select-text">
-              {judgingCriteria.map((criterion, i) => (
-                <motion.div
-                  key={i}
-                  className="flex items-start gap-6 p-6 hover-lift"
-                  whileHover={{ scale: 1.015, y: -2 }}
-                  style={{
-                    backgroundColor: "var(--moon)",
-                    border: "1.5px solid var(--paper-dark)",
-                    borderRadius: `${1.2 + (i % 3) * 0.3}rem ${0.8 + (i % 2) * 0.5}rem ${1.5 + (i % 4) * 0.2}rem ${1 + (i % 3) * 0.4}rem`,
-                  }}
-                >
-                  {/* Score */}
-                  <div
-                    className="font-display font-bold flex-shrink-0"
-                    style={{
-                      fontSize: "2rem",
-                      fontStyle: "italic",
-                      color: criterion.color,
-                      lineHeight: 1,
-                      width: "4rem",
-                      textAlign: "center",
-                    }}
-                  >
-                    {criterion.score}
-                  </div>
-                  <div className="flex-1">
-                    <h4
-                      className="font-body font-semibold"
-                      style={{ fontSize: "0.95rem", color: "var(--ink-deep)" }}
-                    >
-                      {criterion.title}
-                    </h4>
-                    <p
-                      className="font-body mt-1"
-                      style={{ fontSize: "0.85rem", color: "var(--ink-mid)", lineHeight: 1.65 }}
-                    >
-                      {criterion.desc}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── Wave: Judging → Downloads ── */}
-        <WaveDivider fromColor="var(--ivory)" toColor="var(--ink-deep)" />
-
-        {/* ── 4. Template Downloads ── */}
-        <section
+        {/* ── 4. Template Downloads (Commented out per user request) ── */}
+        {/* <section
           className="relative py-24 px-6 overflow-hidden"
           style={{ backgroundColor: "var(--ink-deep)" }}
           id="downloads"
@@ -474,10 +399,10 @@ export default function CompetitionPage() {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
 
-        {/* ── Wave: Downloads → FAQ ── */}
-        <WaveDivider fromColor="var(--ink-deep)" toColor="var(--paper)" />
+        {/* ── Wave: Downloads → FAQ (Commented) ── */}
+        {/* <WaveDivider fromColor="var(--ink-deep)" toColor="var(--paper)" /> */}
 
         {/* ── 5. FAQ ── */}
         <section

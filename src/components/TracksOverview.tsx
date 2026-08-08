@@ -46,63 +46,42 @@ export default function TracksOverview() {
             >
               PROCOMM &apos;26 features core challenges focused on telecom innovation. Registrations are now open. Claim your problem statements and prepare your prototype.
             </p>
-            <div className="flex gap-3 mt-6 flex-wrap">
-              {["24-Hour Hack", "Jury Rounds", "Sept 5–6"].map((tag, i) => (
-                <span key={i} className="vintage-stamp">{tag}</span>
-              ))}
-            </div>
-            <Link href="/problem" className="btn-outline-dark mt-8 inline-flex">
-              Competition Guidelines <ArrowRight size={12} />
+            <Link href="/problem" className="btn-primary mt-8 inline-flex items-center gap-2">
+              Read All Problem Statements <ArrowRight size={12} />
             </Link>
           </Reveal>
         </div>
 
-        {/* Right — 3 Official Problem Statements */}
-        <div className="lg:col-span-7 flex flex-col gap-5 w-full">
+        {/* Right — 5 Problem Statements List */}
+        <div className="lg:col-span-7 flex flex-col w-full border-t border-zinc-200/60">
           {[
-            {
-              id: "01",
-              title: "Smart Safety Helmet for Industrial Workers",
-              badge: "Industrial Safety",
-              desc: "Detects falls, impacts, toxic gases, and worker inactivity using onboard sensors. Sends real-time emergency alerts with worker location for rapid rescue in mining, construction, and dam inspection sites.",
-            },
-            {
-              id: "02",
-              title: "Smart Water Tank Health Monitoring System",
-              badge: "Water & Health",
-              desc: "Continuously monitors water quality parameters such as pH, turbidity, TDS, temperature, and water level. Alerts users to contamination or unsafe water conditions through a mobile or web dashboard.",
-            },
-            {
-              id: "03",
-              title: "Smart Rubber Plantation Worker Safety System",
-              badge: "Remote Safety",
-              desc: "Monitors worker location, fall events, and vital parameters in remote plantation environments. Provides SOS emergency alerts and long-range wireless communication.",
-            },
+            { id: "01", title: "Smart Safety Helmet for Industrial Workers" },
+            { id: "02", title: "Smart Water Tank Health Monitoring System" },
+            { id: "03", title: "Smart Rubber Plantation Worker Safety System" },
+            { id: "04", title: "Machine Health Monitoring System Using Standard Industrial Protocols" },
+            { id: "05", title: "Smart Bridge Structural Health Monitoring System" },
           ].map((item, idx) => (
-            <Reveal key={idx} delay={0.1 * (idx + 1)}>
-              <div
-                className="organic-card hover-lift p-6 flex flex-col gap-3 w-full border"
-                style={{
-                  backgroundColor: "var(--moon)",
-                  borderColor: "var(--paper-dark)",
-                  borderRadius: "1.25rem",
-                }}
+            <Reveal key={idx} delay={0.06 * (idx + 1)}>
+              <Link 
+                href="/problem" 
+                className="group flex items-center justify-between py-5 border-b border-zinc-200/60 transition-colors duration-300 hover:bg-zinc-50/50 px-4 -mx-4 rounded-lg cursor-pointer"
               >
-                <div className="flex items-center justify-between gap-4">
-                  <span className="font-mono-editorial text-xs font-bold" style={{ color: "var(--ochre)" }}>
-                    STATEMENT {item.id}
+                <div className="flex items-center gap-6">
+                  {/* ID */}
+                  <span className="font-mono-editorial text-xs font-bold text-zinc-400 group-hover:text-amber-600 transition-colors duration-300">
+                    {item.id}
                   </span>
-                  <span className="font-mono-editorial text-[0.6rem] tracking-wider uppercase px-2.5 py-0.5 rounded-full" style={{ backgroundColor: "var(--paper)", color: "var(--ink-soft)" }}>
-                    {item.badge}
-                  </span>
+                  {/* Title */}
+                  <h3 className="font-display font-semibold text-base sm:text-lg text-ink-deep italic group-hover:text-amber-700 transition-colors duration-300 leading-snug">
+                    {item.title}
+                  </h3>
                 </div>
-                <h3 className="font-display font-bold text-lg" style={{ fontStyle: "italic", color: "var(--ink-deep)" }}>
-                  {item.title}
-                </h3>
-                <p className="font-body text-xs leading-relaxed" style={{ color: "var(--ink-mid)" }}>
-                  {item.desc}
-                </p>
-              </div>
+                {/* Arrow */}
+                <ArrowRight 
+                  size={16} 
+                  className="text-zinc-300 group-hover:text-amber-600 group-hover:translate-x-1 transition-all duration-300 flex-shrink-0 ml-4" 
+                />
+              </Link>
             </Reveal>
           ))}
         </div>

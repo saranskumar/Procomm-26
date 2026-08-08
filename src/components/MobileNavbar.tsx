@@ -158,10 +158,11 @@ export default function MobileNavbar() {
                 {/* Register CTA Button */}
                 <div className="pt-4 mt-2 border-t border-white/10">
                   <Link
-                    href="/register"
+                    href="/problem"
+                    onClick={() => setMenuOpen(false)}
                     className="btn-ochre w-full text-center py-3.5 rounded-xl flex justify-center text-xs font-semibold tracking-wider uppercase shadow-lg"
                   >
-                    Opening Soon
+                    Problem Statements
                   </Link>
                 </div>
               </nav>

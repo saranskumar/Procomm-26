@@ -340,7 +340,7 @@ export default function Hero() {
 
       {/* ── Main content ── */}
       <motion.div
-        className="relative z-10 max-w-7xl mx-auto w-full px-6 pb-36 pt-36"
+        className="relative z-10 max-w-7xl mx-auto w-full px-6 pb-48 pt-36 text-left"
         style={{ y: textY }}
       >
         {/* Presenter Text (no capsule wrapper) */}
@@ -386,13 +386,8 @@ export default function Hero() {
           className="mt-10 flex flex-wrap gap-3 items-center"
         >
           <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-            <Link href="/register" className="btn-ochre" id="hero-register-btn">
-              Opening Soon
-            </Link>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-            <Link href="/problem" className="btn-secondary" id="hero-competition-btn">
-              Competition Rules
+            <Link href="/problem" className="btn-ochre" id="hero-problem-btn">
+              Problem Statements
             </Link>
           </motion.div>
         </motion.div>

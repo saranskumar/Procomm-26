@@ -90,7 +90,7 @@ export default function AboutSection() {
 
           <Reveal delay={0.4}>
             <Link href="/about" className="btn-outline-dark">
-              Organizing Committee &amp; History <ArrowRight size={12} />
+              Read Our Story <ArrowRight size={12} />
             </Link>
           </Reveal>
         </div>
