@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { BookOpen } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import IllustrationLayer from "@/components/IllustrationLayer";
 
@@ -44,31 +43,13 @@ export default function FinalCTA() {
         </Reveal>
 
         <Reveal delay={0.2}>
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="mt-10 flex items-center justify-center">
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
-              <Link href="/register" className="btn-ochre" id="cta-register-btn">
-                Opening Soon
+              <Link href="/problem" className="btn-ochre" id="cta-problem-btn">
+                Problem Statements
               </Link>
             </motion.div>
-            <motion.button
-              className="btn-secondary"
-              onClick={() => alert("Downloading PROCOMM '26 Official Rulebook PDF...")}
-              id="cta-rulebook-btn"
-              whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
-            >
-              <BookOpen size={14} />
-              Download Rulebook
-            </motion.button>
           </div>
-        </Reveal>
-
-        <Reveal delay={0.35}>
-          <p
-            className="font-mono-editorial mt-8 tracking-widest uppercase"
-            style={{ fontSize: "0.55rem", color: "var(--ink-soft)" }}
-          >
-            IEEE ComSoc Kerala Chapter · comsoc.ieeekerala.org
-          </p>
         </Reveal>
       </div>
     </section>
