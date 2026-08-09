@@ -367,16 +367,27 @@ export default function Hero() {
           PROCOMM <span style={{ color: "var(--ochre)" }}>&apos;26</span>
         </motion.h1>
 
-        {/* Subtitle */}
-        <motion.p
+        {/* Subtitles */}
+        <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7, delay: 0.65 }}
-          className="font-mono-editorial tracking-[0.22em] uppercase mt-6"
-          style={{ fontSize: "0.65rem", color: "rgba(250,247,230,0.4)", letterSpacing: "0.28em" }}
+          className="mt-6 flex flex-col gap-2 select-text"
         >
-          Flagship 24-Hour Communications Project Competition
-        </motion.p>
+          <p
+            className="font-mono-editorial tracking-[0.22em] uppercase"
+            style={{ fontSize: "0.78rem", color: "rgba(250,247,230,0.75)", letterSpacing: "0.22em" }}
+          >
+            IEEE Communications Project Competition
+          </p>
+
+          <p
+            className="font-mono-editorial tracking-[0.25em] uppercase font-bold text-[#e5c97a]"
+            style={{ fontSize: "0.68rem", letterSpacing: "0.25em" }}
+          >
+            24 HOURS &bull; REAL PROBLEMS &bull; REAL PROTOTYPES
+          </p>
+        </motion.div>
 
         {/* ── CTA Actions ── */}
         <motion.div
