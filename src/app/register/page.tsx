@@ -674,9 +674,14 @@ export default function RegisterPage() {
                     </h3>
 
                     <div className="flex flex-col gap-3">
-                      <label className="font-body text-xs font-semibold text-ink-deep">
-                        Upload Project Proposal Abstract (PDF format) <span className="text-red-500">*</span>
-                      </label>
+                      <div className="flex flex-col gap-1">
+                        <label className="font-body text-xs font-semibold text-ink-deep">
+                          Upload Project Proposal Abstract (PDF format) <span className="text-red-500">*</span>
+                        </label>
+                        <p className="font-mono-editorial text-[0.68rem] text-amber-800 font-medium">
+                          &bull; Please name your PDF file using your Team Name before uploading (e.g., <span className="font-bold underline">{teamName ? `${teamName.replace(/\s+/g, '_')}_Proposal.pdf` : 'YourTeamName_Proposal.pdf'}</span>).
+                        </p>
+                      </div>
                       <label className="border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all hover:border-amber-600 bg-[#faf7e6]/60 flex flex-col items-center justify-center gap-2" style={{ borderColor: pdfFile ? "var(--ochre)" : "var(--paper-dark)" }}>
                         {pdfFile ? (
                           <>
@@ -692,8 +697,8 @@ export default function RegisterPage() {
                             <span className="font-body text-xs font-semibold text-ink-deep">
                               Click here to choose or drag &amp; drop your project PDF
                             </span>
-                            <span className="font-mono-editorial text-[0.65rem] text-zinc-400">
-                              Supported format: PDF document (Max 10MB)
+                            <span className="font-mono-editorial text-[0.65rem] text-zinc-500 font-medium">
+                              File naming format: <strong className="text-amber-800">{teamName ? `${teamName.replace(/\s+/g, '_')}_Proposal.pdf` : 'TeamName_Proposal.pdf'}</strong> (Max 10MB)
                             </span>
                           </>
                         )}
