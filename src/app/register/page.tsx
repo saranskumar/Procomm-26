@@ -190,7 +190,9 @@ export default function RegisterPage() {
         declared,
       };
 
-      const scriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
+      const scriptUrl =
+        process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL ||
+        "https://script.google.com/macros/s/AKfycbyJWi3FXLayqKGT_nW6tdnBd3bRmHz6A_DkHkE-soozzoUq-LuNVMWyoD3McMU-2dEo/exec";
 
       if (scriptUrl) {
         await fetch(scriptUrl, {
