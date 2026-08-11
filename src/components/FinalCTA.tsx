@@ -50,7 +50,7 @@ export default function FinalCTA() {
               </Link>
             </motion.div>
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
-              <Link href="/problem" className="btn-secondary" id="cta-problem-btn">
+              <Link href="/problem" className="btn-secondary-dark" id="cta-problem-btn">
                 Problem Statements
               </Link>
             </motion.div>
