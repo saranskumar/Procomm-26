@@ -200,7 +200,7 @@ export default function RegisterPage() {
 
       const scriptUrl =
         process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL ||
-        "https://script.google.com/macros/s/AKfycbzG1qq94VuzhoSdqa7Z2D8GQfM2njy7fz52MzbXvdzqg3E0ZdmVQZsrwE1W7cXRM9Y-/exec";
+        "https://script.google.com/macros/s/AKfycbxkpzQMX_ubAd7UTBQE-HeGuMDM9IR3Qbkr0ryKyez8AnMaFJDMAr_IajR9hTV55znn/exec";
 
       setUploadProgress(85);
       setUploadStep("Saving registration submission...");
