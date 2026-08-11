@@ -8,7 +8,7 @@ import RegisterBanner from "@/components/RegisterBanner";
 import IllustrationLayer from "@/components/IllustrationLayer";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  CheckCircle2, ShieldCheck, User, Users, FileText, Send, Sparkles, UploadCloud, FileCheck, RefreshCw
+  CheckCircle2, ShieldCheck, User, Users, FileText, Send, Sparkles, UploadCloud, FileCheck, RefreshCw, Loader2
 } from "lucide-react";
 
 const PROBLEM_STATEMENTS = [
@@ -60,6 +60,9 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [restoredDraft, setRestoredDraft] = useState(false);
+
+  const [uploadStep, setUploadStep] = useState("Encoding proposal PDF...");
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   // Restore draft from localStorage on mount
   useEffect(() => {
@@ -171,12 +174,17 @@ export default function RegisterPage() {
     }
 
     setLoading(true);
+    setUploadProgress(15);
+    setUploadStep("Encoding project proposal PDF...");
 
     try {
       let fileBase64 = "";
       if (pdfFile) {
         fileBase64 = await fileToBase64(pdfFile);
       }
+
+      setUploadProgress(45);
+      setUploadStep("Transmitting team registration data...");
 
       const payload = {
         teamName,
@@ -194,6 +202,9 @@ export default function RegisterPage() {
         process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL ||
         "https://script.google.com/macros/s/AKfycbyJWi3FXLayqKGT_nW6tdnBd3bRmHz6A_DkHkE-soozzoUq-LuNVMWyoD3McMU-2dEo/exec";
 
+      setUploadProgress(85);
+      setUploadStep("Saving to Google Drive & Google Sheet...");
+
       if (scriptUrl) {
         await fetch(scriptUrl, {
           method: "POST",
@@ -204,6 +215,9 @@ export default function RegisterPage() {
       } else {
         await new Promise((res) => setTimeout(res, 1400));
       }
+
+      setUploadProgress(100);
+      await new Promise((res) => setTimeout(res, 400));
 
       setLoading(false);
       setSubmitted(true);
@@ -359,7 +373,7 @@ export default function RegisterPage() {
                       Official Announcement Group
                     </span>
                     <a
-                      href="https://chat.whatsapp.com"
+                      href="https://chat.whatsapp.com/FKiUc3a1AKf36IS29BLqow?s=cl&p=i&mlu=4"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-full py-3.5 px-6 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-body text-sm font-semibold flex items-center justify-center gap-2.5 shadow-lg transition-all hover-lift cursor-pointer"
@@ -760,6 +774,65 @@ export default function RegisterPage() {
             </AnimatePresence>
           </div>
         </section>
+
+        {/* Uploading Animation Modal Overlay */}
+        <AnimatePresence>
+          {loading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-6 select-none"
+            >
+              <motion.div
+                initial={{ scale: 0.85, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.85, opacity: 0 }}
+                transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                className="organic-card max-w-md w-full p-8 sm:p-10 text-center flex flex-col items-center gap-6 shadow-2xl relative overflow-hidden"
+                style={{
+                  backgroundColor: "var(--ink-deep)",
+                  border: "1.5px solid rgba(245, 240, 232, 0.2)",
+                  borderRadius: "2rem",
+                }}
+              >
+                {/* Glowing Animated Icon Container */}
+                <div className="relative w-20 h-20 rounded-full bg-[#e5c97a]/10 border border-[#e5c97a]/30 flex items-center justify-center">
+                  <Loader2 className="w-10 h-10 text-[#e5c97a] animate-spin" />
+                  <UploadCloud className="w-6 h-6 text-[#e5c97a] absolute inset-0 m-auto" />
+                </div>
+
+                <div>
+                  <span className="font-mono-editorial text-xs font-bold uppercase tracking-widest text-[#e5c97a] block mb-1">
+                    Uploading Proposal
+                  </span>
+                  <h3 className="font-display font-bold text-2xl text-ivory italic">
+                    Submitting Registration
+                  </h3>
+                </div>
+
+                {/* Progress Bar & Status Text */}
+                <div className="w-full flex flex-col gap-2">
+                  <div className="flex justify-between items-center text-xs font-mono-editorial text-ivory/80">
+                    <span className="truncate pr-2">{uploadStep}</span>
+                    <span className="font-bold text-[#e5c97a]">{uploadProgress}%</span>
+                  </div>
+                  <div className="w-full h-3 rounded-full bg-white/10 overflow-hidden p-0.5 border border-white/10">
+                    <motion.div
+                      className="h-full rounded-full bg-gradient-to-r from-amber-600 via-amber-500 to-[#e5c97a]"
+                      animate={{ width: `${uploadProgress}%` }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
+                    />
+                  </div>
+                </div>
+
+                <p className="font-body text-xs text-ivory/60 leading-relaxed">
+                  Please wait while we record your team details and upload your proposal PDF directly to Google Drive &amp; Google Sheets.
+                </p>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
       <Footer />
     </div>
