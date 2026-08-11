@@ -36,7 +36,7 @@ const emptyMember = (): MemberData => ({
   name: "",
   college: "",
   semester: SEMESTERS[4],
-  isIeeeMember: false,
+  isIeeeMember: true,
   isComsocMember: false,
   membershipId: "",
   email: "",
