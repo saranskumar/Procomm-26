@@ -67,7 +67,7 @@ export default function RegisterPage() {
   // Restore draft from localStorage on mount
   useEffect(() => {
     try {
-      const saved = localStorage.getItem("procomm26_registration_draft");
+      const saved = localStorage.getItem("procomm26_registration_draft_v2");
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed.teamName !== undefined) setTeamName(parsed.teamName);
@@ -95,7 +95,7 @@ export default function RegisterPage() {
         members,
         declared,
       };
-      localStorage.setItem("procomm26_registration_draft", JSON.stringify(draft));
+      localStorage.setItem("procomm26_registration_draft_v2", JSON.stringify(draft));
     } catch {
       /* ignore storage errors */
     }
@@ -103,7 +103,7 @@ export default function RegisterPage() {
 
   const clearDraft = () => {
     try {
-      localStorage.removeItem("procomm26_registration_draft");
+      localStorage.removeItem("procomm26_registration_draft_v2");
     } catch {
       /* ignore */
     }
@@ -230,7 +230,7 @@ export default function RegisterPage() {
         }, 150);
       }
       try {
-        localStorage.removeItem("procomm26_registration_draft");
+        localStorage.removeItem("procomm26_registration_draft_v2");
       } catch {
         /* ignore */
       }
