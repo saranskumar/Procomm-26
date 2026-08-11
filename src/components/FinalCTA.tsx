@@ -35,17 +35,22 @@ export default function FinalCTA() {
               fontSize: "1rem",
               color: "var(--ink-mid)",
               lineHeight: 1.75,
-              maxWidth: "36ch",
+              maxWidth: "38ch",
             }}
           >
-            Registration will open soon. Sign up to get notified and prepare your team for the flagship 24-hour IEEE Communications Project Competition.
+            Registrations are officially open! Submit your team details and project proposal for the flagship 24-hour IEEE Communications Project Competition.
           </p>
         </Reveal>
 
         <Reveal delay={0.2}>
-          <div className="mt-10 flex items-center justify-center">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
-              <Link href="/problem" className="btn-ochre" id="cta-problem-btn">
+              <Link href="/register" className="btn-ochre" id="cta-register-btn">
+                Register Now
+              </Link>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+              <Link href="/problem" className="btn-secondary" id="cta-problem-btn">
                 Problem Statements
               </Link>
             </motion.div>
