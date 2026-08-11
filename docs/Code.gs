@@ -4,7 +4,7 @@
  * Features:
  * 1. Appends team registrations to a Google Sheet with headers.
  * 2. Saves uploaded project proposal PDF files to a dedicated Google Drive folder.
- * 3. Returns a CORS-compliant JSON response to the Next.js frontend.
+ * 3. Formats proposal files in Google Sheet as clickable `=HYPERLINK(fileUrl, fileName)` links.
  * 
  * Authorization Step (CRITICAL):
  * Select 'testDriveAndSheet' from the function dropdown at the top and click 'Run' once.
@@ -81,13 +81,12 @@ function doPost(e) {
         "Member 4 IEEE Member?",
         "Member 4 IEEE ID",
         "Member 4 ComSoc Member?",
-        // Proposal File
-        "Proposal File Name",
-        "Proposal Drive URL"
+        // Proposal File Link
+        "Proposal PDF File (Clickable Link)"
       ]);
 
       // Format header row bold with background color
-      var headerRange = sheet.getRange(1, 1, 1, 35);
+      var headerRange = sheet.getRange(1, 1, 1, 34);
       headerRange.setFontWeight("bold");
       headerRange.setBackground("#0B1A30");
       headerRange.setFontColor("#FAF7E6");
@@ -126,6 +125,14 @@ function doPost(e) {
       } catch (fileErr) {
         fileUrl = "Upload error: " + fileErr.toString();
       }
+    }
+
+    // Construct Clickable Hyperlink Cell Formula
+    var proposalCell = fileName;
+    if (fileUrl && fileUrl.indexOf("http") === 0) {
+      proposalCell = '=HYPERLINK("' + fileUrl + '", "' + fileName + '")';
+    } else if (fileUrl.indexOf("Upload error") === 0) {
+      proposalCell = fileName + " [" + fileUrl + "]";
     }
 
     // Extract Leader Details
@@ -176,9 +183,8 @@ function doPost(e) {
       data.teamSize >= 4 ? (m4.isIeeeMember ? "Yes" : "No") : "N/A",
       data.teamSize >= 4 ? (m4.membershipId || "") : "N/A",
       data.teamSize >= 4 ? (m4.isComsocMember ? "Yes" : "No") : "N/A",
-      // Proposal File
-      fileName,
-      (fileUrl && fileUrl.indexOf("http") === 0) ? '=HYPERLINK("' + fileUrl + '", "Open Proposal PDF")' : fileUrl
+      // Single Clickable Hyperlink Column
+      proposalCell
     ];
 
     sheet.appendRow(rowData);
