@@ -221,6 +221,9 @@ export default function RegisterPage() {
 
       setLoading(false);
       setSubmitted(true);
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
       try {
         localStorage.removeItem("procomm26_registration_draft");
       } catch {
