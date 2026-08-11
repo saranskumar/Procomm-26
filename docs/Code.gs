@@ -6,20 +6,21 @@
  * 2. Saves uploaded project proposal PDF files to a dedicated Google Drive folder.
  * 3. Returns a CORS-compliant JSON response to the Next.js frontend.
  * 
- * Setup Instructions:
- * 1. Create a new Google Sheet (e.g., "PROCOMM '26 Registrations").
- * 2. Go to Extensions > Apps Script.
- * 3. Replace all code in Code.gs with this script.
- * 4. (Optional) Set FOLDER_ID below if you want PDFs saved in a specific Google Drive folder.
- * 5. Click "Deploy" > "New deployment".
- * 6. Select Type: "Web app".
- * 7. Set "Execute as": "Me".
- * 8. Set "Who has access": "Anyone" (CRITICAL for CORS).
- * 9. Copy the Web App URL and paste it into your Next.js environment configuration.
+ * Authorization Step (CRITICAL):
+ * Select 'testDriveAndSheet' from the function dropdown at the top and click 'Run' once.
+ * Google will ask you to authorize Google Drive permissions. Click Allow.
  */
 
 // Google Drive Folder ID for uploaded proposal PDFs
 var DRIVE_FOLDER_ID = "1rOGTZyk2pZ6H7vvvMDGPQ6DWkCSEAcVR";
+
+// Run this once inside Apps Script Editor to grant Google Drive & Sheet permissions
+function testDriveAndSheet() {
+  var folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
+  Logger.log("Successfully connected to Drive Folder: " + folder.getName());
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  Logger.log("Successfully connected to Sheet: " + sheet.getName());
+}
 
 function doPost(e) {
   var lock = LockService.getScriptLock();
@@ -27,9 +28,14 @@ function doPost(e) {
 
   try {
     var data = {};
-    if (e.postData && e.postData.contents) {
-      data = JSON.parse(e.postData.contents);
-    } else if (e.parameter) {
+
+    if (e && e.postData && e.postData.contents) {
+      try {
+        data = JSON.parse(e.postData.contents);
+      } catch (err) {
+        data = e.parameter || {};
+      }
+    } else if (e && e.parameter) {
       data = e.parameter;
     }
 
@@ -92,24 +98,34 @@ function doPost(e) {
     var fileName = "N/A";
 
     if (data.fileBase64 && data.fileName) {
-      var cleanTeamName = (data.teamName || "Team").replace(/[^a-zA-Z0-9_\-]/g, "");
-      fileName = "(" + cleanTeamName + ")" + data.fileName;
-      var fileBlob = Utilities.newBlob(
-        Utilities.base64Decode(data.fileBase64),
-        data.fileMimeType || "application/pdf",
-        fileName
-      );
+      try {
+        var cleanTeamName = (data.teamName || "Team").replace(/[^a-zA-Z0-9_\-]/g, "");
+        fileName = "(" + cleanTeamName + ")" + data.fileName;
 
-      var folder;
-      if (DRIVE_FOLDER_ID && DRIVE_FOLDER_ID !== "") {
-        folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
-      } else {
-        folder = DriveApp.getRootFolder();
+        var base64Clean = data.fileBase64;
+        if (base64Clean.indexOf(",") !== -1) {
+          base64Clean = base64Clean.split(",")[1];
+        }
+
+        var fileBlob = Utilities.newBlob(
+          Utilities.base64Decode(base64Clean),
+          data.fileMimeType || "application/pdf",
+          fileName
+        );
+
+        var folder;
+        if (DRIVE_FOLDER_ID && DRIVE_FOLDER_ID !== "") {
+          folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
+        } else {
+          folder = DriveApp.getRootFolder();
+        }
+
+        var file = folder.createFile(fileBlob);
+        file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+        fileUrl = file.getUrl();
+      } catch (fileErr) {
+        fileUrl = "Upload error: " + fileErr.toString();
       }
-
-      var file = folder.createFile(fileBlob);
-      file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-      fileUrl = file.getUrl();
     }
 
     // Extract Leader Details
@@ -162,7 +178,7 @@ function doPost(e) {
       data.teamSize >= 4 ? (m4.isComsocMember ? "Yes" : "No") : "N/A",
       // Proposal File
       fileName,
-      fileUrl
+      (fileUrl && fileUrl.indexOf("http") === 0) ? '=HYPERLINK("' + fileUrl + '", "Open Proposal PDF")' : fileUrl
     ];
 
     sheet.appendRow(rowData);

@@ -200,10 +200,10 @@ export default function RegisterPage() {
 
       const scriptUrl =
         process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL ||
-        "https://script.google.com/macros/s/AKfycbyJWi3FXLayqKGT_nW6tdnBd3bRmHz6A_DkHkE-soozzoUq-LuNVMWyoD3McMU-2dEo/exec";
+        "https://script.google.com/macros/s/AKfycbzrGePr_gWeCauNymVvksjCBQIxQ-hULQjxgUNxY4I9HnKF9gNZ7zd4bBqPB4DvQ1Vw/exec";
 
       setUploadProgress(85);
-      setUploadStep("Saving to Google Drive & Google Sheet...");
+      setUploadStep("Saving registration submission...");
 
       if (scriptUrl) {
         await fetch(scriptUrl, {
@@ -827,7 +827,7 @@ export default function RegisterPage() {
                 </div>
 
                 <p className="font-body text-xs text-ivory/60 leading-relaxed">
-                  Please wait while we record your team details and upload your proposal PDF directly to Google Drive &amp; Google Sheets.
+                  Please wait while we record your team details and upload your project proposal PDF.
                 </p>
               </motion.div>
             </motion.div>
