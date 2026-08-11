@@ -679,7 +679,7 @@ export default function RegisterPage() {
                           Upload Project Proposal Abstract (PDF format) <span className="text-red-500">*</span>
                         </label>
                         <p className="font-mono-editorial text-[0.68rem] text-amber-800 font-medium">
-                          &bull; Please name your PDF file using your Team Name before uploading (e.g., <span className="font-bold underline">{teamName ? `${teamName.replace(/\s+/g, '')}.pdf` : 'teamname.pdf'}</span>). Our Drive folder automatically saves it as <span className="font-bold font-mono">({teamName ? teamName.replace(/\s+/g, '') : 'TeamName'}){teamName ? `${teamName.replace(/\s+/g, '')}.pdf` : 'teamname.pdf'}</span>.
+                          &bull; Please name your PDF file using your Team Name before uploading (e.g., <span className="font-bold underline">{teamName ? `${teamName.replace(/\s+/g, '')}.pdf` : 'teamname.pdf'}</span>).
                         </p>
                       </div>
                       <label className="border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all hover:border-amber-600 bg-[#faf7e6]/60 flex flex-col items-center justify-center gap-2" style={{ borderColor: pdfFile ? "var(--ochre)" : "var(--paper-dark)" }}>
