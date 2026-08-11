@@ -6,9 +6,12 @@
  * 2. Saves uploaded project proposal PDF files to a dedicated Google Drive folder.
  * 3. Appends the direct Google Drive URL link into the Google Sheet.
  * 
- * Authorization Step (CRITICAL):
- * Select 'testDriveAndSheet' from the function dropdown at the top and click 'Run' once.
- * Google will ask you to authorize Google Drive permissions. Click Allow.
+ * Authorization Step (CRITICAL - PERMISSION REQUIRED FOR DRIVE):
+ * In Apps Script Editor:
+ * 1. Select 'testDriveAndSheet' from the function dropdown at the top.
+ * 2. Click 'Run' ▶️ once.
+ * 3. Google will show 'Authorization Required' -> Click 'Review Permissions' -> Select your Account -> Click 'Advanced' -> Click 'Go to PROCOMM Backend (unsafe)' -> Click 'Allow'.
+ * 4. Click 'Deploy' > 'Manage deployments' > Click 'Edit' (Pencil) > Version: 'New version' > Click 'Deploy'.
  */
 
 // Google Drive Folder ID for uploaded proposal PDFs
@@ -18,7 +21,7 @@ var DRIVE_FOLDER_ID = "1rOGTZyk2pZ6H7vvvMDGPQ6DWkCSEAcVR";
 function testDriveAndSheet() {
   var folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
   Logger.log("Successfully connected to Drive Folder: " + folder.getName());
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
   Logger.log("Successfully connected to Sheet: " + sheet.getName());
 }
 
@@ -39,7 +42,8 @@ function doPost(e) {
       data = e.parameter;
     }
 
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    // Always get the first sheet tab reliably
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
 
     // Ensure Headers Exist on Row 1
     if (sheet.getLastRow() === 0) {
@@ -96,12 +100,15 @@ function doPost(e) {
     var fileUrl = "No file uploaded";
     var fileName = "N/A";
 
-    if (data.fileBase64 && data.fileName) {
+    var rawBase64 = data.fileBase64 || data.pdfFileBase64 || "";
+    var rawFileName = data.fileName || data.pdfFileName || "";
+
+    if (rawBase64 && rawFileName) {
       try {
         var cleanTeamName = (data.teamName || "Team").replace(/[^a-zA-Z0-9_\-]/g, "");
-        fileName = "(" + cleanTeamName + ")" + data.fileName;
+        fileName = "(" + cleanTeamName + ")" + rawFileName;
 
-        var base64Clean = data.fileBase64;
+        var base64Clean = rawBase64;
         if (base64Clean.indexOf(",") !== -1) {
           base64Clean = base64Clean.split(",")[1];
         }
@@ -114,21 +121,36 @@ function doPost(e) {
 
         var folder;
         if (DRIVE_FOLDER_ID && DRIVE_FOLDER_ID !== "") {
-          folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
+          try {
+            folder = DriveApp.getFolderById(DRIVE_FOLDER_ID);
+          } catch (fErr) {
+            folder = DriveApp.getRootFolder();
+          }
         } else {
           folder = DriveApp.getRootFolder();
         }
 
         var file = folder.createFile(fileBlob);
-        file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+        
+        // Safely set sharing permissions without breaking getUrl if domain restricts setSharing
+        try {
+          file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+        } catch (shareErr) {
+          // Proceed even if domain policies limit sharing
+        }
+
         fileUrl = file.getUrl();
       } catch (fileErr) {
         fileUrl = "Upload error: " + fileErr.toString();
       }
     }
 
-    // Extract Leader Details
+    // Extract Leader Details safely & format phone string to prevent Google Sheets formula #ERROR!
     var leader = data.leader || {};
+    var leaderPhone = leader.phone || "";
+    if (leaderPhone && leaderPhone.indexOf("+") === 0) {
+      leaderPhone = "'" + leaderPhone;
+    }
 
     // Extract Member Details safely
     var members = data.members || [];
@@ -146,7 +168,7 @@ function doPost(e) {
       leader.name || "",
       leader.college || "",
       leader.semester || "",
-      leader.phone || "",
+      leaderPhone,
       leader.email || "",
       leader.isIeeeMember ? "Yes" : "No",
       leader.membershipId || "",
