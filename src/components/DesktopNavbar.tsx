@@ -105,7 +105,7 @@ export default function DesktopNavbar() {
             {/* Desktop CTA Button */}
             <div className="flex items-center flex-shrink-0">
               <Link
-                href="/problem"
+                href="/register"
                 className="btn-ochre hover-lift rounded-full text-[0.68rem] tracking-widest uppercase font-semibold transition-all duration-300"
                 style={{
                   padding: "0.6rem 1.5rem",
@@ -113,7 +113,7 @@ export default function DesktopNavbar() {
                   borderRadius: "9999px"
                 }}
               >
-                Problem Statements
+                Register Now
               </Link>
             </div>
           </div>

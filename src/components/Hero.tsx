@@ -397,7 +397,12 @@ export default function Hero() {
           className="mt-10 flex flex-wrap gap-3 items-center"
         >
           <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-            <Link href="/problem" className="btn-ochre" id="hero-problem-btn">
+            <Link href="/register" className="btn-ochre" id="hero-register-btn">
+              Register Now
+            </Link>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+            <Link href="/problem" className="btn-secondary" id="hero-problem-btn">
               Problem Statements
             </Link>
           </motion.div>
