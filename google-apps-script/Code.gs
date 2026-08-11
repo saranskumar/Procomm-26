@@ -92,11 +92,12 @@ function doPost(e) {
     var fileName = "N/A";
 
     if (data.fileBase64 && data.fileName) {
-      fileName = data.fileName;
+      var cleanTeamName = (data.teamName || "Team").replace(/[^a-zA-Z0-9_\-]/g, "");
+      fileName = "(" + cleanTeamName + ")" + data.fileName;
       var fileBlob = Utilities.newBlob(
         Utilities.base64Decode(data.fileBase64),
         data.fileMimeType || "application/pdf",
-        data.teamName + "_" + data.fileName
+        fileName
       );
 
       var folder;
