@@ -222,7 +222,12 @@ export default function RegisterPage() {
       setLoading(false);
       setSubmitted(true);
       if (typeof window !== "undefined") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        setTimeout(() => {
+          const card = document.getElementById("whatsapp-group-card");
+          if (card) {
+            card.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        }, 150);
       }
       try {
         localStorage.removeItem("procomm26_registration_draft");
@@ -371,7 +376,10 @@ export default function RegisterPage() {
                   </p>
 
                   {/* WhatsApp Group Join Card */}
-                  <div className="w-full max-w-md p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex flex-col items-center gap-3">
+                  <div
+                    id="whatsapp-group-card"
+                    className="w-full max-w-md p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex flex-col items-center gap-3"
+                  >
                     <span className="font-mono-editorial text-[0.68rem] tracking-wider uppercase text-emerald-800 font-bold">
                       Official Announcement Group
                     </span>
