@@ -46,7 +46,7 @@ const emptyMember = (): MemberData => ({
 export default function RegisterPage() {
   const [teamName, setTeamName] = useState("");
   const [problemStatement, setProblemStatement] = useState(PROBLEM_STATEMENTS[0]);
-  const [teamSize, setTeamSize] = useState<number>(4);
+  const [teamSize, setTeamSize] = useState<number>(1);
 
   const [leader, setLeader] = useState<MemberData>(emptyMember());
   const [members, setMembers] = useState<MemberData[]>([
@@ -109,7 +109,7 @@ export default function RegisterPage() {
     }
     setTeamName("");
     setProblemStatement(PROBLEM_STATEMENTS[0]);
-    setTeamSize(4);
+    setTeamSize(1);
     setLeader(emptyMember());
     setMembers([emptyMember(), emptyMember(), emptyMember()]);
     setPdfFile(null);
@@ -200,7 +200,7 @@ export default function RegisterPage() {
 
       const scriptUrl =
         process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL ||
-        "https://script.google.com/macros/s/AKfycbzrGePr_gWeCauNymVvksjCBQIxQ-hULQjxgUNxY4I9HnKF9gNZ7zd4bBqPB4DvQ1Vw/exec";
+        "https://script.google.com/macros/s/AKfycbzG1qq94VuzhoSdqa7Z2D8GQfM2njy7fz52MzbXvdzqg3E0ZdmVQZsrwE1W7cXRM9Y-/exec";
 
       setUploadProgress(85);
       setUploadStep("Saving registration submission...");
