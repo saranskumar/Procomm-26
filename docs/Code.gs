@@ -4,7 +4,7 @@
  * Features:
  * 1. Appends team registrations to a Google Sheet with headers.
  * 2. Saves uploaded project proposal PDF files to a dedicated Google Drive folder.
- * 3. Formats proposal files in Google Sheet as clickable `=HYPERLINK(fileUrl, fileName)` links.
+ * 3. Appends the direct Google Drive URL link into the Google Sheet.
  * 
  * Authorization Step (CRITICAL):
  * Select 'testDriveAndSheet' from the function dropdown at the top and click 'Run' once.
@@ -82,7 +82,7 @@ function doPost(e) {
         "Member 4 IEEE ID",
         "Member 4 ComSoc Member?",
         // Proposal File Link
-        "Proposal PDF File (Clickable Link)"
+        "Proposal Google Drive Link"
       ]);
 
       // Format header row bold with background color
@@ -127,14 +127,6 @@ function doPost(e) {
       }
     }
 
-    // Construct Clickable Hyperlink Cell Formula
-    var proposalCell = fileName;
-    if (fileUrl && fileUrl.indexOf("http") === 0) {
-      proposalCell = '=HYPERLINK("' + fileUrl + '", "' + fileName + '")';
-    } else if (fileUrl.indexOf("Upload error") === 0) {
-      proposalCell = fileName + " [" + fileUrl + "]";
-    }
-
     // Extract Leader Details
     var leader = data.leader || {};
 
@@ -144,7 +136,7 @@ function doPost(e) {
     var m3 = members[1] || {};
     var m4 = members[2] || {};
 
-    // Construct Sheet Row Data
+    // Construct Sheet Row Data with raw Google Drive URL link
     var rowData = [
       new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
       data.teamName || "",
@@ -183,8 +175,8 @@ function doPost(e) {
       data.teamSize >= 4 ? (m4.isIeeeMember ? "Yes" : "No") : "N/A",
       data.teamSize >= 4 ? (m4.membershipId || "") : "N/A",
       data.teamSize >= 4 ? (m4.isComsocMember ? "Yes" : "No") : "N/A",
-      // Single Clickable Hyperlink Column
-      proposalCell
+      // Direct Google Drive Link
+      fileUrl
     ];
 
     sheet.appendRow(rowData);
