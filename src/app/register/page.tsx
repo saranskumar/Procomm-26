@@ -1,217 +1,709 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RegisterBanner from "@/components/RegisterBanner";
-import WaveDivider from "@/components/WaveDivider";
 import IllustrationLayer from "@/components/IllustrationLayer";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Calendar, FileText, ChevronRight, Laptop, UserCheck, Shield 
+  CheckCircle2, ShieldCheck, User, Users, FileText, Send, Sparkles, UploadCloud, FileCheck, RefreshCw
 } from "lucide-react";
 
+const PROBLEM_STATEMENTS = [
+  "Smart Safety Helmet for Industrial Workers",
+  "Smart Water Tank Health Monitoring System",
+  "Smart Rubber Plantation Worker Safety System",
+  "Machine Health Monitoring System Using Standard Industrial Protocols",
+  "Smart Bridge Structural Health Monitoring System",
+];
+
+const SEMESTERS = ["S1 (1st Year)", "S2 (1st Year)", "S3 (2nd Year)", "S4 (2nd Year)", "S5 (3rd Year)", "S6 (3rd Year)", "S7 (4th Year)", "S8 (4th Year)"];
+
+interface MemberData {
+  name: string;
+  college: string;
+  semester: string;
+  isIeeeMember: boolean;
+  isComsocMember: boolean;
+  membershipId: string;
+  email: string;
+  phone: string;
+}
+
+const emptyMember = (): MemberData => ({
+  name: "",
+  college: "",
+  semester: SEMESTERS[4],
+  isIeeeMember: false,
+  isComsocMember: false,
+  membershipId: "",
+  email: "",
+  phone: "",
+});
+
 export default function RegisterPage() {
-  const steps = [
-    { title: "Form Submission", desc: "Fill out your student details and official contacts." },
-    { title: "Jury Screening", desc: "The expert panel evaluates team details and projects." },
-    { title: "24-Hour Hack", desc: "Compete in the flagship 24-hour design and code sprint." },
-    { title: "Grand Finale", desc: "Present final working prototypes physically at Saintgits." },
-  ];
+  const [teamName, setTeamName] = useState("");
+  const [problemStatement, setProblemStatement] = useState(PROBLEM_STATEMENTS[0]);
+  const [teamSize, setTeamSize] = useState<number>(4);
+
+  const [leader, setLeader] = useState<MemberData>(emptyMember());
+  const [members, setMembers] = useState<MemberData[]>([
+    emptyMember(),
+    emptyMember(),
+    emptyMember(),
+  ]);
+
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [declared, setDeclared] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [restoredDraft, setRestoredDraft] = useState(false);
+
+  // Restore draft from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("procomm26_registration_draft");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.teamName !== undefined) setTeamName(parsed.teamName);
+        if (parsed.problemStatement !== undefined) setProblemStatement(parsed.problemStatement);
+        if (parsed.teamSize !== undefined) setTeamSize(parsed.teamSize);
+        if (parsed.leader) setLeader(parsed.leader);
+        if (parsed.members) setMembers(parsed.members);
+        if (parsed.declared !== undefined) setDeclared(parsed.declared);
+        setRestoredDraft(true);
+      }
+    } catch {
+      /* ignore storage errors */
+    }
+  }, []);
+
+  // Auto-save draft on form input changes if not submitted
+  useEffect(() => {
+    if (submitted) return;
+    try {
+      const draft = {
+        teamName,
+        problemStatement,
+        teamSize,
+        leader,
+        members,
+        declared,
+      };
+      localStorage.setItem("procomm26_registration_draft", JSON.stringify(draft));
+    } catch {
+      /* ignore storage errors */
+    }
+  }, [teamName, problemStatement, teamSize, leader, members, declared, submitted]);
+
+  const clearDraft = () => {
+    try {
+      localStorage.removeItem("procomm26_registration_draft");
+    } catch {
+      /* ignore */
+    }
+    setTeamName("");
+    setProblemStatement(PROBLEM_STATEMENTS[0]);
+    setTeamSize(4);
+    setLeader(emptyMember());
+    setMembers([emptyMember(), emptyMember(), emptyMember()]);
+    setPdfFile(null);
+    setDeclared(false);
+    setRestoredDraft(false);
+  };
+
+  const handleTeamSizeChange = (newSize: number) => {
+    setTeamSize(newSize);
+    const requiredExtraMembers = newSize - 1;
+    if (members.length < requiredExtraMembers) {
+      const added = Array.from({ length: requiredExtraMembers - members.length }, emptyMember);
+      setMembers([...members, ...added]);
+    } else {
+      setMembers(members.slice(0, requiredExtraMembers));
+    }
+  };
+
+  const updateLeader = (field: keyof MemberData, value: any) => {
+    setLeader((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const updateMember = (index: number, field: keyof MemberData, value: any) => {
+    const updated = [...members];
+    updated[index] = { ...updated[index], [field]: value };
+    setMembers(updated);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      if (file.type !== "application/pdf") {
+        alert("Please upload a valid PDF document.");
+        return;
+      }
+      setPdfFile(file);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!declared) {
+      alert("Please accept the Policy Declaration before submitting.");
+      return;
+    }
+    if (!pdfFile) {
+      alert("Please upload your project proposal PDF.");
+      return;
+    }
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setSubmitted(true);
+      try {
+        localStorage.removeItem("procomm26_registration_draft");
+      } catch {
+        /* ignore */
+      }
+    }, 1400);
+  };
+
+  const renderMembershipQuestions = (
+    data: MemberData,
+    onChange: (field: keyof MemberData, value: any) => void,
+    groupName: string
+  ) => (
+    <div className="flex flex-col gap-4 pt-3 border-t border-zinc-200/60 select-text">
+      {/* Question 1: IEEE Member */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <span className="font-body text-xs font-semibold text-ink-deep">
+          Are you an IEEE member? <span className="text-red-500">*</span>
+        </span>
+        <div className="flex items-center gap-6">
+          <label className="flex items-center gap-2 cursor-pointer text-xs font-body text-ink-deep select-none">
+            <input
+              type="radio"
+              name={`ieee-${groupName}`}
+              value="yes"
+              checked={data.isIeeeMember === true}
+              onChange={() => onChange("isIeeeMember", true)}
+              className="w-4 h-4 text-amber-600 focus:ring-amber-500 cursor-pointer"
+            />
+            Yes
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer text-xs font-body text-ink-deep select-none">
+            <input
+              type="radio"
+              name={`ieee-${groupName}`}
+              value="no"
+              checked={data.isIeeeMember === false}
+              onChange={() => {
+                onChange("isIeeeMember", false);
+                onChange("membershipId", "");
+              }}
+              className="w-4 h-4 text-amber-600 focus:ring-amber-500 cursor-pointer"
+            />
+            No
+          </label>
+        </div>
+      </div>
+
+      {/* If IEEE Member Yes -> Ask for ID */}
+      {data.isIeeeMember && (
+        <div className="flex flex-col gap-1.5 pl-3 border-l-2 border-amber-600">
+          <label className="font-body text-xs font-semibold text-ink-deep">
+            IEEE Membership ID <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            required
+            placeholder="e.g. 98765432"
+            value={data.membershipId}
+            onChange={(e) => onChange("membershipId", e.target.value)}
+            className="w-full sm:w-64 px-3.5 py-2 rounded-lg border text-xs font-mono-editorial text-ink-deep bg-[#faf7e6] focus:outline-none focus:border-amber-600"
+            style={{ borderColor: "var(--paper-dark)" }}
+          />
+        </div>
+      )}
+
+      {/* Question 2: ComSoc Member */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-zinc-100">
+        <span className="font-body text-xs font-semibold text-ink-deep">
+          Are you a ComSoc member? <span className="text-red-500">*</span>
+        </span>
+        <div className="flex items-center gap-6">
+          <label className="flex items-center gap-2 cursor-pointer text-xs font-body text-ink-deep select-none">
+            <input
+              type="radio"
+              name={`comsoc-${groupName}`}
+              value="yes"
+              checked={data.isComsocMember === true}
+              onChange={() => onChange("isComsocMember", true)}
+              className="w-4 h-4 text-amber-600 focus:ring-amber-500 cursor-pointer"
+            />
+            Yes
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer text-xs font-body text-ink-deep select-none">
+            <input
+              type="radio"
+              name={`comsoc-${groupName}`}
+              value="no"
+              checked={data.isComsocMember === false}
+              onChange={() => onChange("isComsocMember", false)}
+              className="w-4 h-4 text-amber-600 focus:ring-amber-500 cursor-pointer"
+            />
+            No
+          </label>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="flex flex-col min-h-screen" style={{ backgroundColor: "var(--ivory)" }}>
       <Header />
       <main className="flex-grow">
-        
         {/* Banner Section */}
         <RegisterBanner />
 
-        {/* 1. Registration Process Stepper */}
-        <section className="py-20 px-6 select-text" style={{ backgroundColor: "var(--ivory)" }}>
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <span className="chapter-label">Roadmap</span>
-              <h2 className="editorial-headline mt-3">
-                Registration Process
-              </h2>
-            </div>
+        {/* Form Section */}
+        <section className="py-20 px-6 relative" style={{ backgroundColor: "var(--paper)" }}>
+          <IllustrationLayer scene="brushwork" color="var(--ink-soft)" opacity={0.1} />
 
-            <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 select-text">
-              {steps.map((step, idx) => (
-                <motion.div 
-                  key={idx} 
-                  className="organic-card hover-lift flex flex-col justify-between"
-                  whileHover={{ scale: 1.02, y: -4 }}
+          <div className="max-w-4xl mx-auto relative z-10">
+            <AnimatePresence mode="wait">
+              {submitted ? (
+                <motion.div
+                  key="success"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  className="organic-card p-10 sm:p-16 text-center flex flex-col items-center gap-6 select-text"
                   style={{
-                    borderRadius: `${1.5 + (idx % 3) * 0.4}rem ${1 + (idx % 2) * 0.5}rem ${2 - (idx % 4) * 0.2}rem ${0.8 + (idx % 3) * 0.4}rem`
+                    backgroundColor: "var(--moon)",
+                    border: "1.5px solid var(--paper-dark)",
+                    borderRadius: "2.5rem",
                   }}
                 >
+                  <div className="w-16 h-16 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-600">
+                    <CheckCircle2 size={36} />
+                  </div>
+
                   <div>
-                    <span className="w-7 h-7 rounded-full flex items-center justify-center font-mono-editorial text-xs font-bold mb-4" style={{ backgroundColor: "var(--moon)", border: "1.5px solid var(--paper-dark)", color: "var(--ochre)" }}>
-                      {idx + 1}
+                    <span className="font-mono-editorial text-xs font-bold uppercase tracking-widest text-emerald-600 block mb-2">
+                      Registration Submitted
                     </span>
-                    <h3 className="font-display font-bold text-sm sm:text-base" style={{ fontStyle: "italic", color: "var(--ink-deep)" }}>{step.title}</h3>
-                    <p className="font-body text-xs mt-1.5 leading-relaxed" style={{ color: "var(--ink-mid)" }}>{step.desc}</p>
+                    <h2 className="font-display font-bold text-3xl sm:text-4xl text-ink-deep italic">
+                      Welcome to PROCOMM &apos;26!
+                    </h2>
                   </div>
-                  
-                  {idx < 3 && (
-                    <ChevronRight className="hidden sm:block absolute right-[-15px] top-[40%] w-6 h-6 text-retro-brown/40 z-10" style={{ color: "var(--paper-dark)" }} />
-                  )}
+
+                  <p className="font-body text-sm text-ink-mid max-w-md leading-relaxed">
+                    Thank you for registering team <strong className="text-ink-deep font-semibold">&ldquo;{teamName}&rdquo;</strong> ({teamSize} {teamSize === 1 ? "Member" : "Members"}). Please join our official WhatsApp group for important announcements, evaluation schedules, and coordinator updates.
+                  </p>
+
+                  {/* WhatsApp Group Join Card */}
+                  <div className="w-full max-w-md p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex flex-col items-center gap-3">
+                    <span className="font-mono-editorial text-[0.68rem] tracking-wider uppercase text-emerald-800 font-bold">
+                      Official Announcement Group
+                    </span>
+                    <a
+                      href="https://chat.whatsapp.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-3.5 px-6 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-body text-sm font-semibold flex items-center justify-center gap-2.5 shadow-lg transition-all hover-lift cursor-pointer"
+                    >
+                      <Image
+                        src="/whatsapp-icon-white.png"
+                        alt="WhatsApp"
+                        width={20}
+                        height={20}
+                        className="w-5 h-5 object-contain"
+                      />
+                      Join WhatsApp Group
+                    </a>
+                  </div>
+
+                  <div className="pt-4 border-t border-zinc-200/60 w-full max-w-md flex flex-col gap-2 font-mono-editorial text-xs text-ink-soft text-left">
+                    <div>Selected Track: <span className="text-ink-deep font-semibold">{problemStatement}</span></div>
+                    <div>Leader Name: <span className="text-ink-deep font-semibold">{leader.name}</span> ({leader.college})</div>
+                    <div>PDF Uploaded: <span className="text-emerald-700 font-semibold">{pdfFile ? pdfFile.name : "Attached"}</span></div>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      setSubmitted(false);
+                      setTeamName("");
+                      setLeader(emptyMember());
+                      setMembers([emptyMember(), emptyMember(), emptyMember()]);
+                      setTeamSize(4);
+                      setPdfFile(null);
+                      setDeclared(false);
+                    }}
+                    className="btn-outline-dark mt-2 text-xs cursor-pointer"
+                  >
+                    Submit Another Registration
+                  </button>
                 </motion.div>
-              ))}
-            </div>
+              ) : (
+                <motion.form
+                  key="form"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  onSubmit={handleSubmit}
+                  className="organic-card p-6 sm:p-12 flex flex-col gap-10 select-text"
+                  style={{
+                    backgroundColor: "var(--moon)",
+                    border: "1.5px solid var(--paper-dark)",
+                    borderRadius: "2.5rem",
+                  }}
+                >
+                  {/* Draft Restored Banner */}
+                  {restoredDraft && (
+                    <div className="p-3.5 px-4 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between text-xs font-mono-editorial text-amber-900">
+                      <span className="flex items-center gap-2">
+                        <RefreshCw className="w-3.5 h-3.5 text-amber-700 animate-spin" style={{ animationDuration: "6s" }} />
+                        Restored your last saved progress!
+                      </span>
+                      <button
+                        type="button"
+                        onClick={clearDraft}
+                        className="underline hover:text-amber-950 cursor-pointer font-bold"
+                      >
+                        Clear Draft
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Header */}
+                  <div className="border-b pb-6" style={{ borderColor: "var(--paper-dark)" }}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Sparkles className="w-4 h-4 text-ochre" />
+                      <span className="chapter-label">Official Registration</span>
+                    </div>
+                    <h2 className="font-display font-bold text-3xl sm:text-4xl text-ink-deep italic">
+                      Team &amp; Member Registration
+                    </h2>
+                    <p className="font-body text-xs sm:text-sm text-ink-mid mt-2 leading-relaxed">
+                      Configure your team size (1 to 4 members) and fill in member details, IEEE membership info, and your project proposal PDF.
+                    </p>
+                  </div>
+
+                  {/* Section 1: Team Config & Problem Statement */}
+                  <div className="flex flex-col gap-6">
+                    <h3 className="font-display font-bold text-lg text-ink-deep italic flex items-center gap-2 border-b pb-2" style={{ borderColor: "rgba(11,26,48,0.08)" }}>
+                      <Users className="w-5 h-5 text-ochre" />
+                      1. Team Configuration &amp; Problem Statement
+                    </h3>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div className="flex flex-col gap-2">
+                        <label className="font-body text-xs font-semibold text-ink-deep">
+                          Team Name <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. ComSoc Innovators"
+                          value={teamName}
+                          onChange={(e) => setTeamName(e.target.value)}
+                          className="w-full px-4 py-3 rounded-xl border text-sm font-body text-ink-deep bg-[#faf7e6] focus:outline-none focus:ring-1 focus:ring-amber-600 focus:border-amber-600 transition-all"
+                          style={{ borderColor: "var(--paper-dark)" }}
+                        />
+                      </div>
+
+                      <div className="flex flex-col gap-2">
+                        <label className="font-body text-xs font-semibold text-ink-deep">
+                          Number of Team Members (1 to 4) <span className="text-red-500">*</span>
+                        </label>
+                        <select
+                          value={teamSize}
+                          onChange={(e) => handleTeamSizeChange(Number(e.target.value))}
+                          className="w-full px-4 py-3 rounded-xl border text-sm font-body text-ink-deep bg-[#faf7e6] focus:outline-none focus:ring-1 focus:ring-amber-600 focus:border-amber-600 transition-all cursor-pointer"
+                          style={{ borderColor: "var(--paper-dark)" }}
+                        >
+                          <option value={1}>1 Member (Individual)</option>
+                          <option value={2}>2 Members</option>
+                          <option value={3}>3 Members</option>
+                          <option value={4}>4 Members</option>
+                        </select>
+                      </div>
+
+                      <div className="flex flex-col gap-2 sm:col-span-2">
+                        <label className="font-body text-xs font-semibold text-ink-deep">
+                          Select Problem Statement <span className="text-red-500">*</span>
+                        </label>
+                        <select
+                          value={problemStatement}
+                          onChange={(e) => setProblemStatement(e.target.value)}
+                          className="w-full px-4 py-3 rounded-xl border text-sm font-body text-ink-deep bg-[#faf7e6] focus:outline-none focus:ring-1 focus:ring-amber-600 focus:border-amber-600 transition-all cursor-pointer"
+                          style={{ borderColor: "var(--paper-dark)" }}
+                        >
+                          {PROBLEM_STATEMENTS.map((statement, idx) => (
+                            <option key={idx} value={statement}>
+                              0{idx + 1}. {statement}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Section 2: Team Leader */}
+                  <div className="flex flex-col gap-6">
+                    <h3 className="font-display font-bold text-lg text-ink-deep italic flex items-center gap-2 border-b pb-2" style={{ borderColor: "rgba(11,26,48,0.08)" }}>
+                      <User className="w-5 h-5 text-ochre" />
+                      2. Team Leader Details (Member 01)
+                    </h3>
+
+                    <div className="p-6 rounded-2xl border bg-white/70 flex flex-col gap-5" style={{ borderColor: "var(--paper-dark)" }}>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="flex flex-col gap-1.5">
+                          <label className="font-body text-xs font-semibold text-ink-deep">Full Name *</label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="Full Name"
+                            value={leader.name}
+                            onChange={(e) => updateLeader("name", e.target.value)}
+                            className="px-3.5 py-2.5 rounded-lg border text-xs font-body text-ink-deep bg-[#faf7e6] focus:outline-none focus:border-amber-600"
+                            style={{ borderColor: "var(--paper-dark)" }}
+                          />
+                        </div>
+
+                        <div className="flex flex-col gap-1.5">
+                          <label className="font-body text-xs font-semibold text-ink-deep">College / Institution *</label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="College Name"
+                            value={leader.college}
+                            onChange={(e) => updateLeader("college", e.target.value)}
+                            className="px-3.5 py-2.5 rounded-lg border text-xs font-body text-ink-deep bg-[#faf7e6] focus:outline-none focus:border-amber-600"
+                            style={{ borderColor: "var(--paper-dark)" }}
+                          />
+                        </div>
+
+                        <div className="flex flex-col gap-1.5">
+                          <label className="font-body text-xs font-semibold text-ink-deep">Semester / Year *</label>
+                          <select
+                            value={leader.semester}
+                            onChange={(e) => updateLeader("semester", e.target.value)}
+                            className="px-3.5 py-2.5 rounded-lg border text-xs font-body text-ink-deep bg-[#faf7e6] focus:outline-none focus:border-amber-600 cursor-pointer"
+                            style={{ borderColor: "var(--paper-dark)" }}
+                          >
+                            {SEMESTERS.map((sem, i) => (
+                              <option key={i} value={sem}>{sem}</option>
+                            ))}
+                          </select>
+                        </div>
+
+                        <div className="flex flex-col gap-1.5">
+                          <label className="font-body text-xs font-semibold text-ink-deep">WhatsApp Phone Number *</label>
+                          <input
+                            type="tel"
+                            required
+                            placeholder="+91 98765 43210"
+                            value={leader.phone}
+                            onChange={(e) => updateLeader("phone", e.target.value)}
+                            className="px-3.5 py-2.5 rounded-lg border text-xs font-body text-ink-deep bg-[#faf7e6] focus:outline-none focus:border-amber-600"
+                            style={{ borderColor: "var(--paper-dark)" }}
+                          />
+                        </div>
+
+                        <div className="flex flex-col gap-1.5 sm:col-span-2">
+                          <label className="font-body text-xs font-semibold text-ink-deep">Email Address *</label>
+                          <input
+                            type="email"
+                            required
+                            placeholder="leader@college.edu"
+                            value={leader.email}
+                            onChange={(e) => updateLeader("email", e.target.value)}
+                            className="px-3.5 py-2.5 rounded-lg border text-xs font-body text-ink-deep bg-[#faf7e6] focus:outline-none focus:border-amber-600"
+                            style={{ borderColor: "var(--paper-dark)" }}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Radio Membership Questions for Leader */}
+                      {renderMembershipQuestions(leader, updateLeader, "leader")}
+                    </div>
+                  </div>
+
+                  {/* Section 3: Additional Team Members */}
+                  {teamSize > 1 && (
+                    <div className="flex flex-col gap-6">
+                      <h3 className="font-display font-bold text-lg text-ink-deep italic flex items-center gap-2 border-b pb-2" style={{ borderColor: "rgba(11,26,48,0.08)" }}>
+                        <Users className="w-5 h-5 text-ochre" />
+                        3. Additional Team Members ({teamSize - 1} {teamSize - 1 === 1 ? "Member" : "Members"})
+                      </h3>
+
+                      <div className="flex flex-col gap-5">
+                        {members.map((member, idx) => (
+                          <div key={idx} className="p-6 rounded-2xl border bg-white/70 flex flex-col gap-5" style={{ borderColor: "var(--paper-dark)" }}>
+                            <div className="flex items-center justify-between border-b pb-2">
+                              <span className="font-display font-bold text-sm text-ink-deep italic">
+                                Team Member 0{idx + 2}
+                              </span>
+                              <span className="font-mono-editorial text-[0.65rem] font-bold text-amber-700 uppercase">
+                                MEMBER 0{idx + 2}
+                              </span>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                              <div className="flex flex-col gap-1.5">
+                                <label className="font-body text-xs font-semibold text-ink-deep">Full Name *</label>
+                                <input
+                                  type="text"
+                                  required
+                                  placeholder="Full Name"
+                                  value={member.name}
+                                  onChange={(e) => updateMember(idx, "name", e.target.value)}
+                                  className="px-3.5 py-2.5 rounded-lg border text-xs font-body text-ink-deep bg-[#faf7e6] focus:outline-none focus:border-amber-600"
+                                  style={{ borderColor: "var(--paper-dark)" }}
+                                />
+                              </div>
+
+                              <div className="flex flex-col gap-1.5">
+                                <label className="font-body text-xs font-semibold text-ink-deep">College / Institution *</label>
+                                <input
+                                  type="text"
+                                  required
+                                  placeholder="College Name"
+                                  value={member.college}
+                                  onChange={(e) => updateMember(idx, "college", e.target.value)}
+                                  className="px-3.5 py-2.5 rounded-lg border text-xs font-body text-ink-deep bg-[#faf7e6] focus:outline-none focus:border-amber-600"
+                                  style={{ borderColor: "var(--paper-dark)" }}
+                                />
+                              </div>
+
+                              <div className="flex flex-col gap-1.5">
+                                <label className="font-body text-xs font-semibold text-ink-deep">Semester / Year *</label>
+                                <select
+                                  value={member.semester}
+                                  onChange={(e) => updateMember(idx, "semester", e.target.value)}
+                                  className="px-3.5 py-2.5 rounded-lg border text-xs font-body text-ink-deep bg-[#faf7e6] focus:outline-none focus:border-amber-600 cursor-pointer"
+                                  style={{ borderColor: "var(--paper-dark)" }}
+                                >
+                                  {SEMESTERS.map((sem, i) => (
+                                    <option key={i} value={sem}>{sem}</option>
+                                  ))}
+                                </select>
+                              </div>
+
+                              <div className="flex flex-col gap-1.5">
+                                <label className="font-body text-xs font-semibold text-ink-deep">Email Address *</label>
+                                <input
+                                  type="email"
+                                  required
+                                  placeholder="member@college.edu"
+                                  value={member.email}
+                                  onChange={(e) => updateMember(idx, "email", e.target.value)}
+                                  className="px-3.5 py-2.5 rounded-lg border text-xs font-body text-ink-deep bg-[#faf7e6] focus:outline-none focus:border-amber-600"
+                                  style={{ borderColor: "var(--paper-dark)" }}
+                                />
+                              </div>
+                            </div>
+
+                            {/* Radio Membership Questions for Member */}
+                            {renderMembershipQuestions(
+                              member,
+                              (field, val) => updateMember(idx, field, val),
+                              `member-${idx + 2}`
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Section 4: PDF Proposal Upload */}
+                  <div className="flex flex-col gap-6">
+                    <h3 className="font-display font-bold text-lg text-ink-deep italic flex items-center gap-2 border-b pb-2" style={{ borderColor: "rgba(11,26,48,0.08)" }}>
+                      <FileText className="w-5 h-5 text-ochre" />
+                      4. Project Proposal PDF Submission
+                    </h3>
+
+                    <div className="flex flex-col gap-3">
+                      <label className="font-body text-xs font-semibold text-ink-deep">
+                        Upload Project Proposal Abstract (PDF format) <span className="text-red-500">*</span>
+                      </label>
+                      <label className="border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all hover:border-amber-600 bg-[#faf7e6]/60 flex flex-col items-center justify-center gap-2" style={{ borderColor: pdfFile ? "var(--ochre)" : "var(--paper-dark)" }}>
+                        {pdfFile ? (
+                          <>
+                            <FileCheck className="w-10 h-10 text-emerald-600 mb-1" />
+                            <span className="font-display font-bold text-sm text-ink-deep italic">{pdfFile.name}</span>
+                            <span className="font-mono-editorial text-xs text-emerald-700 font-semibold">
+                              {(pdfFile.size / 1024 / 1024).toFixed(2)} MB &bull; PDF File Attached
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <UploadCloud className="w-10 h-10 text-amber-600 mb-1" />
+                            <span className="font-body text-xs font-semibold text-ink-deep">
+                              Click here to choose or drag &amp; drop your project PDF
+                            </span>
+                            <span className="font-mono-editorial text-[0.65rem] text-zinc-400">
+                              Supported format: PDF document (Max 10MB)
+                            </span>
+                          </>
+                        )}
+                        <input
+                          type="file"
+                          accept=".pdf"
+                          required
+                          onChange={handleFileChange}
+                          className="hidden"
+                        />
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Section 5: Policy Declaration */}
+                  <div className="flex flex-col gap-4 p-6 rounded-2xl border" style={{ backgroundColor: "rgba(200, 146, 58, 0.06)", borderColor: "rgba(200, 146, 58, 0.25)" }}>
+                    <div className="flex items-center gap-2 text-ink-deep font-display font-bold text-base italic">
+                      <ShieldCheck className="w-5 h-5 text-amber-600" />
+                      Policy Declaration &amp; Honor Code
+                    </div>
+                    <p className="font-body text-xs text-ink-mid leading-relaxed">
+                      By submitting this registration, our team declares that all information provided for the team leader and members is authentic. We agree to abide by the official PROCOMM &apos;26 competition guidelines, IEEE non-plagiarism rules, academic honor codes, and decisions made by the organizing jury.
+                    </p>
+                    <label className="flex items-start gap-3 mt-2 cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        required
+                        checked={declared}
+                        onChange={(e) => setDeclared(e.target.checked)}
+                        className="mt-0.5 w-4 h-4 text-amber-600 rounded border-zinc-300 focus:ring-amber-500 cursor-pointer"
+                      />
+                      <span className="font-body text-xs font-semibold text-ink-deep">
+                        I agree to the Policy Declaration &amp; Honor Code <span className="text-red-500">*</span>
+                      </span>
+                    </label>
+                  </div>
+
+                  {/* Submit Button */}
+                  <div className="flex justify-end pt-2">
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="btn-ochre text-sm px-10 py-4 flex items-center gap-3 shadow-xl hover-lift cursor-pointer disabled:opacity-50"
+                    >
+                      {loading ? (
+                        <>Submitting Registration...</>
+                      ) : (
+                        <>
+                          Complete Registration
+                          <Send size={16} />
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </motion.form>
+              )}
+            </AnimatePresence>
           </div>
         </section>
-
-        {/* Wave Divider */}
-        <WaveDivider fromColor="var(--ivory)" toColor="var(--paper)" />
-
-        {/* Form & Sidebar Grid */}
-        <section className="py-20 px-6" style={{ backgroundColor: "var(--paper)" }}>
-          <IllustrationLayer scene="brushwork" color="var(--ink-soft)" opacity={0.1} />
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-10">
-            
-            {/* Registration Coming Soon Status (Left side) */}
-            <div 
-              className="lg:col-span-8 organic-card hover-lift p-6 sm:p-12 relative select-text flex flex-col justify-center items-center text-center min-h-[350px]"
-              style={{
-                borderRadius: "2.5rem 1.8rem 2.2rem 1.5rem",
-                backgroundColor: "var(--moon)",
-                border: "1.5px solid var(--paper-dark)"
-              }}
-            >
-              
-              <div className="absolute top-3 left-3 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--paper-dark)" }} />
-              <div className="absolute top-3 right-3 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--paper-dark)" }} />
-              <div className="absolute bottom-3 left-3 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--paper-dark)" }} />
-              <div className="absolute bottom-3 right-3 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--paper-dark)" }} />
-
-              <div className="flex flex-col items-center gap-4 max-w-lg select-text">
-                <span className="font-mono-editorial text-xs font-bold uppercase tracking-wider text-amber-600 px-3 py-1 bg-amber-500/10 rounded-full select-none">
-                  Portal Status
-                </span>
-                <h3 className="font-display font-bold text-3xl md:text-4xl mt-2 text-ink-deep italic">
-                  Coming Soon
-                </h3>
-                <div className="w-12 h-[2px] bg-ochre my-2 select-none" />
-                <p className="font-body text-sm text-ink-mid leading-relaxed">
-                  We are finalizing the guidelines and portal setup. Online registrations for PROCOMM &apos;26 will open shortly. Please check back soon or consult the rulebook to prepare your project submission.
-                </p>
-              </div>
-            </div>
-
-            {/* Sidebar (Right side) */}
-            <div className="lg:col-span-4 flex flex-col gap-8">
-              
-              {/* Important Dates */}
-              <div 
-                className="organic-card hover-lift p-6"
-                style={{
-                  borderRadius: "1.8rem 1.2rem 1.5rem 1rem",
-                  backgroundColor: "var(--moon)",
-                  border: "1.5px solid var(--paper-dark)"
-                }}
-              >
-                <h3 className="font-display font-bold text-sm uppercase tracking-wider border-b pb-2 mb-4 flex items-center gap-2" style={{ fontStyle: "italic", borderColor: "var(--paper-dark)", color: "var(--ink-deep)" }}>
-                  <Calendar className="w-4 h-4" style={{ color: "var(--ochre)" }} />
-                  Important Dates
-                </h3>
-                <div className="flex flex-col gap-3 font-body text-xs select-text" style={{ color: "var(--ink-mid)" }}>
-                  <div className="flex justify-between border-b pb-1" style={{ borderColor: "rgba(11,26,48,0.06)" }}>
-                    <span className="font-semibold">Reg Closes:</span>
-                    <span className="font-mono-editorial font-bold">Aug 21, 2026</span>
-                  </div>
-                  <div className="flex justify-between border-b pb-1" style={{ borderColor: "rgba(11,26,48,0.06)" }}>
-                    <span className="font-semibold">Abstract Review:</span>
-                    <span className="font-mono-editorial font-bold">Aug 23, 2026</span>
-                  </div>
-                  <div className="flex justify-between border-b pb-1" style={{ borderColor: "rgba(11,26,48,0.06)" }}>
-                    <span className="font-semibold">Jury Presentations:</span>
-                    <span className="font-mono-editorial font-bold">Sept 5-6, 2026</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Required Documents */}
-              <div 
-                className="organic-card hover-lift p-6 select-text"
-                style={{
-                  borderRadius: "1.2rem 1.8rem 1rem 1.5rem",
-                  backgroundColor: "var(--moon)",
-                  border: "1.5px solid var(--paper-dark)"
-                }}
-              >
-                <h3 className="font-display font-bold text-sm uppercase tracking-wider border-b pb-2 mb-4 flex items-center gap-2" style={{ fontStyle: "italic", borderColor: "var(--paper-dark)", color: "var(--ink-deep)" }}>
-                  <FileText className="w-4 h-4" style={{ color: "var(--moss)" }} />
-                  Required Files
-                </h3>
-                <ul className="list-disc pl-4 font-body text-xs leading-relaxed flex flex-col gap-2" style={{ color: "var(--ink-mid)" }}>
-                  <li>Valid Student ID card scans of all members.</li>
-                  <li>IEEE/ComSoc membership card PDF (if applicable, for verification).</li>
-                  <li>2-page project proposal in standard format.</li>
-                </ul>
-              </div>
-
-              {/* Portal Info */}
-              <div 
-                className="organic-card hover-lift p-6 select-text"
-                style={{
-                  borderRadius: "1.5rem 1rem 1.8rem 1.2rem",
-                  backgroundColor: "var(--moon)",
-                  border: "1.5px solid var(--paper-dark)"
-                }}
-              >
-                <h3 className="font-display font-bold text-sm uppercase tracking-wider border-b pb-2 mb-4 flex items-center gap-2" style={{ fontStyle: "italic", borderColor: "var(--paper-dark)", color: "var(--ink-deep)" }}>
-                  <Laptop className="w-4 h-4" style={{ color: "var(--teal-soft)" }} />
-                  Submission Portal
-                </h3>
-                <p className="font-body text-xs leading-relaxed" style={{ color: "var(--ink-mid)" }}>
-                  Upon registration, leaders will receive dashboard credentials to track evaluation reports, feedback channels, and final presentation scheduling.
-                </p>
-              </div>
-
-              {/* Contact Support */}
-              <div 
-                className="organic-card hover-lift p-6 select-text"
-                style={{
-                  borderRadius: "1.2rem 1.5rem 1.1rem 1.8rem",
-                  backgroundColor: "var(--moon)",
-                  border: "1.5px solid var(--paper-dark)"
-                }}
-              >
-                <h3 className="font-display font-bold text-sm uppercase tracking-wider border-b pb-2 mb-4 flex items-center gap-2" style={{ fontStyle: "italic", borderColor: "var(--paper-dark)", color: "var(--ink-deep)" }}>
-                  <UserCheck className="w-4 h-4" style={{ color: "var(--lavender)" }} />
-                  Registration Support
-                </h3>
-                <div className="font-mono-editorial text-xs flex flex-col gap-1" style={{ color: "var(--ink-mid)" }}>
-                  <span>S Harijith Viswanath: +91 79942 74376</span>
-                  <span>Nayana Raj: +91 90372 99063</span>
-                </div>
-              </div>
-
-              {/* Declaration policies */}
-              <div 
-                className="organic-card hover-lift p-6 select-text"
-                style={{
-                  borderRadius: "1.8rem 1.4rem 1.6rem 1.2rem",
-                  backgroundColor: "var(--moon)",
-                  border: "1.5px solid var(--paper-dark)"
-                }}
-              >
-                <h3 className="font-display font-bold text-sm uppercase tracking-wider border-b pb-2 mb-4 flex items-center gap-2" style={{ fontStyle: "italic", borderColor: "var(--paper-dark)", color: "var(--ink-deep)" }}>
-                  <Shield className="w-4 h-4" style={{ color: "var(--rust)" }} />
-                  Policy Declaration
-                </h3>
-                <p className="font-body text-[10px] sm:text-xs leading-relaxed" style={{ color: "var(--ink-mid)" }}>
-                  By registering, teams agree to the non-plagiarism rules, academic honor codes, and publication/licensing conditions of the parent society.
-                </p>
-              </div>
-
-            </div>
-
-          </div>
-        </section>
-
       </main>
       <Footer />
     </div>
