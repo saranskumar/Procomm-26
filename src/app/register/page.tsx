@@ -146,7 +146,20 @@ export default function RegisterPage() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const result = reader.result as string;
+        const base64 = result.split(",")[1];
+        resolve(base64);
+      };
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!declared) {
       alert("Please accept the Policy Declaration before submitting.");
@@ -156,8 +169,40 @@ export default function RegisterPage() {
       alert("Please upload your project proposal PDF.");
       return;
     }
+
     setLoading(true);
-    setTimeout(() => {
+
+    try {
+      let fileBase64 = "";
+      if (pdfFile) {
+        fileBase64 = await fileToBase64(pdfFile);
+      }
+
+      const payload = {
+        teamName,
+        problemStatement,
+        teamSize,
+        leader,
+        members: members.slice(0, teamSize - 1),
+        fileName: pdfFile?.name || "",
+        fileMimeType: pdfFile?.type || "application/pdf",
+        fileBase64,
+        declared,
+      };
+
+      const scriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
+
+      if (scriptUrl) {
+        await fetch(scriptUrl, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload),
+        });
+      } else {
+        await new Promise((res) => setTimeout(res, 1400));
+      }
+
       setLoading(false);
       setSubmitted(true);
       try {
@@ -165,7 +210,11 @@ export default function RegisterPage() {
       } catch {
         /* ignore */
       }
-    }, 1400);
+    } catch (err) {
+      console.error("Submission error:", err);
+      alert("An error occurred during submission. Please try again.");
+      setLoading(false);
+    }
   };
 
   const renderMembershipQuestions = (
