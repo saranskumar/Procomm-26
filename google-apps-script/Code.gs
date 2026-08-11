@@ -18,8 +18,8 @@
  * 9. Copy the Web App URL and paste it into your Next.js environment configuration.
  */
 
-// Replace with your Google Drive Folder ID (optional, otherwise saves in root Drive)
-var DRIVE_FOLDER_ID = "";
+// Google Drive Folder ID for uploaded proposal PDFs
+var DRIVE_FOLDER_ID = "1rOGTZyk2pZ6H7vvvMDGPQ6DWkCSEAcVR";
 
 function doPost(e) {
   var lock = LockService.getScriptLock();
