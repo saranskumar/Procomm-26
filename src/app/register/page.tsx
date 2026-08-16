@@ -129,13 +129,25 @@ export default function RegisterPage() {
   };
 
   const updateLeader = (field: keyof MemberData, value: any) => {
-    setLeader((prev) => ({ ...prev, [field]: value }));
+    setLeader((prev) => {
+      const updated = { ...prev, [field]: value };
+      if (field === "isIeeeMember" && value === false) {
+        updated.membershipId = "";
+      }
+      return updated;
+    });
   };
 
   const updateMember = (index: number, field: keyof MemberData, value: any) => {
-    const updated = [...members];
-    updated[index] = { ...updated[index], [field]: value };
-    setMembers(updated);
+    setMembers((prev) => {
+      const updated = [...prev];
+      const updatedMember = { ...updated[index], [field]: value };
+      if (field === "isIeeeMember" && value === false) {
+        updatedMember.membershipId = "";
+      }
+      updated[index] = updatedMember;
+      return updated;
+    });
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -270,10 +282,7 @@ export default function RegisterPage() {
               name={`ieee-${groupName}`}
               value="no"
               checked={data.isIeeeMember === false}
-              onChange={() => {
-                onChange("isIeeeMember", false);
-                onChange("membershipId", "");
-              }}
+              onChange={() => onChange("isIeeeMember", false)}
               className="w-4 h-4 text-amber-600 focus:ring-amber-500 cursor-pointer"
             />
             No
